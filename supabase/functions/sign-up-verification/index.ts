@@ -2,14 +2,18 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
-import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
-
-console.log("Hello from Functions!")
+import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
 
 serve(async (req) => {
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
+  const { name , email} = await req.json()
+
+  const data = {message : "", error : false}
+  if(email && email.endsWith(".elte.hu")){
+    data.message = `Hello ${name}!`;
+    data.error = false;
+  } else {
+    data.message = `${name}, failed attempt!`;
+    data.error = true;
   }
 
   return new Response(
