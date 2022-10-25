@@ -12,96 +12,76 @@ export interface Database {
       note: {
         Row: {
           id: string
-          user_id: string | null
-          created_at: string | null
-          title: string | null
+          user_id: string
+          created_at: string
+          title: string
           data: string | null
-          last_modify: string | null
+          last_modify: string
+          note_group_id: string | null
         }
         Insert: {
           id?: string
-          user_id?: string | null
-          created_at?: string | null
-          title?: string | null
+          user_id: string
+          created_at?: string
+          title: string
           data?: string | null
-          last_modify?: string | null
+          last_modify?: string
+          note_group_id?: string | null
         }
         Update: {
           id?: string
-          user_id?: string | null
-          created_at?: string | null
-          title?: string | null
+          user_id?: string
+          created_at?: string
+          title?: string
           data?: string | null
-          last_modify?: string | null
+          last_modify?: string
+          note_group_id?: string | null
         }
       }
       note_group: {
         Row: {
           id: string
-          note_id: string | null
-          created_at: string | null
-          title: string | null
-          notes_name: string | null
+          created_at: string
+          title: string
         }
         Insert: {
           id?: string
-          note_id?: string | null
-          created_at?: string | null
-          title?: string | null
-          notes_name?: string | null
+          created_at?: string
+          title: string
         }
         Update: {
           id?: string
-          note_id?: string | null
-          created_at?: string | null
-          title?: string | null
-          notes_name?: string | null
+          created_at?: string
+          title?: string
         }
       }
       note_perm: {
         Row: {
           id: string
-          created_at: string | null
-          user_id: string | null
-          notegroup_id: string | null
-          note_id: string | null
-          view_perm: boolean | null
-          edit_perm: boolean | null
+          created_at: string
+          user_id: string
+          note_group_id: string | null
+          note_id: string
+          view_perm: boolean
+          edit_perm: boolean
         }
         Insert: {
           id?: string
-          created_at?: string | null
-          user_id?: string | null
-          notegroup_id?: string | null
-          note_id?: string | null
-          view_perm?: boolean | null
-          edit_perm?: boolean | null
+          created_at?: string
+          user_id: string
+          note_group_id?: string | null
+          note_id: string
+          view_perm?: boolean
+          edit_perm?: boolean
         }
         Update: {
           id?: string
-          created_at?: string | null
-          user_id?: string | null
-          notegroup_id?: string | null
-          note_id?: string | null
-          view_perm?: boolean | null
-          edit_perm?: boolean | null
-        }
-      }
-      users: {
-        Row: {
-          id: string
-          first_name: string | null
-          last_name: string | null
-        }
-        Insert: {
-          id: string
-          first_name?: string | null
-          last_name?: string | null
-        }
-        Update: {
-          id?: string
-          first_name?: string | null
-          last_name?: string | null
+          created_at?: string
+          user_id?: string
+          note_group_id?: string | null
+          note_id?: string
+          view_perm?: boolean
+          edit_perm?: boolean
         }
       }
     }
