@@ -1,10 +1,10 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import { corsHeaders } from "../_shared/cors.ts"
-import { Database } from "../../../lib/database.types.ts"
+import { Database } from "../_shared/database.types.ts"
 
 interface GetNoteGroupRequest extends Request {
-    note_group?: string
+    note_group_id?: string
 }
 
 serve(async (req: Request) => {
@@ -26,7 +26,7 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { data, note_group, title } : UploadNoteRequest = await req.json()
+        const { note_group } : GetNoteGroupRequest = await req.json()
 
         if (data === undefined || title === undefined) {
             return new Response(JSON.stringify({ error: "Note or title is undefined." }), {
