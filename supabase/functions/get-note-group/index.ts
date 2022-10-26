@@ -7,6 +7,25 @@ interface GetNoteGroupRequest extends Request {
     note_group_id?: string
 }
 
+interface Note {
+    id: string;
+    title: string;
+}
+
+interface NoteWrapper {
+    note: Note
+}
+
+interface NoteGroup {
+    id: string;
+    title: string;
+    base_note_group_id: string;
+}
+
+interface NoteGroupWrapper {
+    note_group: NoteGroup
+}
+
 serve(async (req: Request) => {
     // This is needed if you're planning to invoke your function from a browser.
     if (req.method === 'OPTIONS') {
@@ -23,24 +42,31 @@ serve(async (req: Request) => {
             // This way your row-level-security (RLS) policies are applied.
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
-
+        
         const { data: { user } } = await supabaseClient.auth.getUser()
         const { note_group_id } : GetNoteGroupRequest = await req.json()
-                                           
-        const notes  = (await supabaseClient.from("note_perm")
-                                           .select('note ( id, title )')
-                                           .match({ note_group_id: note_group_id, user_id: user?.id })
-                                           .eq('view_perm', true)
-                                           .select("id:note(id), title:note(title)"))
-                                           .data
+
+        if (note_group_id === undefined) {
+            return new Response(JSON.stringify({ error: 'No note_group_id was given.'}), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+              }) 
+        }
+       
+        const notes  = ((await supabaseClient.from("note_perm")
+                                            .select('note ( id, title )')
+                                            .match({ note_group_id: note_group_id, user_id: user?.id })
+                                            .eq('view_perm', true))
+                                            .data as NoteWrapper[]).flatMap(elem => elem.note)
         
-        const noteGroups = (await supabaseClient.from("note_perm")
-                                                .select("note_group (id, base_note_group_id, title )")
-                                                .eq('note_group.base_note_group_id', note_group_id)
-                                                .eq('view_perm', true)
-                                                .select("id:note_group(id), title:note_group(title)"))
-                                                .data
-                                                      
+        const q_noteGroups = ((await supabaseClient.from("note_perm")
+                                                 .select("note_group (id, base_note_group_id, title )")
+                                                 .eq('note_group.base_note_group_id', note_group_id)
+                                                 .eq('view_perm', true))
+                                                 .data as NoteGroupWrapper[]).flatMap(elem => elem.note_group).filter(elem => elem !== null && elem !== undefined)
+        const noteGroupUnique = new Set();
+        const noteGroups = q_noteGroups.filter(el => !noteGroupUnique.has(el.id) && noteGroupUnique.add(el.id));
+
         return new Response(JSON.stringify({ notes, noteGroups }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
