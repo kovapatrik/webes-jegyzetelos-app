@@ -8,7 +8,6 @@ interface GetNoteGroupRequest extends Request {
 }
 
 serve(async (req: Request) => {
-
     // This is needed if you're planning to invoke your function from a browser.
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
@@ -26,41 +25,23 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { note_group } : GetNoteGroupRequest = await req.json()
-
-        if (data === undefined || title === undefined) {
-            return new Response(JSON.stringify({ error: "Note or title is undefined." }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-                status: 400,
-              })
-        }
-
-        const note_group_id = note_group === undefined ? null : (await supabaseClient.from('note_group').select().match({ user_id: user!.id, title: note_group }).single()).data?.id
-
-        const noteExistsQuery = await supabaseClient.from('note').select().match({ user_id: user!.id, note_group_id: note_group_id, title: title})
-        if (noteExistsQuery.count! > 0) {
-            return new Response(JSON.stringify({ error: "Note already exists in this note group." }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-                status: 400,
-              })
-        }
-
-        const newNote = await supabaseClient.from("note").insert({
-            user_id: user!.id,
-            note_group_id: note_group_id,
-            title: title,
-            data: data
-        }).select().single()
-
-        await supabaseClient.from("note_perm").insert({
-            user_id: user!.id,
-            note_id: newNote.data!.id,
-            note_group_id: note_group_id,
-            view_perm: true,
-            edit_perm: true
-        })
-
-        return new Response(JSON.stringify({ note_id: newNote.data?.id }), {
+        const { note_group_id } : GetNoteGroupRequest = await req.json()
+                                           
+        const notes  = (await supabaseClient.from("note_perm")
+                                           .select('note ( id, title )')
+                                           .match({ note_group_id: note_group_id, user_id: user?.id })
+                                           .eq('view_perm', true)
+                                           .select("id:note(id), title:note(title)"))
+                                           .data
+        
+        const noteGroups = (await supabaseClient.from("note_perm")
+                                                .select("note_group (id, base_note_group_id, title )")
+                                                .eq('note_group.base_note_group_id', note_group_id)
+                                                .eq('view_perm', true)
+                                                .select("id:note_group(id), title:note_group(title)"))
+                                                .data
+                                                      
+        return new Response(JSON.stringify({ notes, noteGroups }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })
