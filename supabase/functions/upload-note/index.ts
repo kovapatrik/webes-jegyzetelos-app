@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import { corsHeaders } from "../_shared/cors.ts"
-import { Database } from "../../../lib/database.types.ts"
+import { Database } from "../_shared/database.types.ts"
 
 interface UploadNoteRequest extends Request {
     title: string;
