@@ -33,10 +33,10 @@ serve(async (req: Request) => {
                 status: 400,
               }) 
         }
-       
+
         const data  = (await supabaseClient.from("note")
                                            .select('id, title, data, created_at, last_modify')
-                                           .match({ note_id: note_id, user_id: user?.id }))
+                                           .match({ id: note_id, user_id: user?.id }).single())
                                            .data
 
         return new Response(JSON.stringify({ data }), {
