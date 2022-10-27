@@ -3,7 +3,11 @@ import {createTheme} from "@mui/material";
 import typography from "./typography";
 
 const defaultTheme = createTheme({
-    typography,
+    typography: {
+        button: {
+            textTransform: 'none'
+        }
+    },
     palette: {
         text: {
             primary: colors.dark.main.m20,
