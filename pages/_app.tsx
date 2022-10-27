@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {CacheProvider, EmotionCache} from '@emotion/react';
 import theme from '../design/theme/theme';
 import createEmotionCache from '../design/theme/createEmotionCache';
-
+import '@fontsource/lexend-deca';
 
 const clientSideEmotionCache = createEmotionCache();
 
