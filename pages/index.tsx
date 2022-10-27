@@ -36,8 +36,8 @@ const Home: NextPage = () => {
             </Grid>
             </Grid>
             <Grid item>
-                <Button size='small' style={{width: '300px', height: '50px', borderRadius: '10px'}}>
-                    <Typography variant='h3'>Bejelentkezés</Typography>
+                <Button style={{width: '300px', height: '50px', borderRadius: '10px'}}>
+                    <Typography>Bejelentkezés</Typography>
                 </Button>
             </Grid>
         </Grid>
