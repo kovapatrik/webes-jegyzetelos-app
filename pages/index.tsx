@@ -3,7 +3,7 @@ import Head from 'next/head'
 import {Button} from '@mui/material';
 import styles from '../styles/Home.module.css'
 import {Typography} from '@mui/material';
-import {colors} from "../config/themeColors";
+import { colors } from '../design/theme/themeColors';
 
 const Home: NextPage = () => {
     return (
