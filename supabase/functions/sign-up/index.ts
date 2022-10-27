@@ -5,7 +5,7 @@
 import {serve} from "https://deno.land/std@0.131.0/http/server.ts"
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import {corsHeaders} from "../_shared/cors.ts"
-import {Database} from "../../../lib/database.types.ts"
+import {Database} from "../_shared./database.types.ts"
 
 
 interface SignUpRequest{
@@ -32,7 +32,6 @@ try {
       { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
     )
 
-  const { data: { user } } = await supabaseClient.auth.getUser()
   const { password , email} : SignUpRequest = await req.json();
 
   if(password===undefined || email===undefined){
@@ -57,12 +56,13 @@ try {
   
   const res = await supabaseClient.auth.signUp({
     email: email,
-    password: password
+    password: password,
   })
 
   return new Response(
     JSON.stringify({
-      email: res.data.user?.email
+      email: res.data.user?.email,
+      id: res.data.user?.id
     }),
     { headers: { "Content-Type": "application/json" } },
   )
