@@ -1,10 +1,11 @@
 import type {NextPage} from 'next'
-import {Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from '@mui/material';
+import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from '@mui/material';
 import { colors } from '../design/theme/themeColors';
 
 const Home: NextPage = () => {
+
     return (
-        <Grid container direction='column' alignItems='center' spacing={4}>
+        <Grid container direction='column' alignItems='center' justifyContent='center' spacing={4}>
             <Grid item>
                 <Typography variant='h1'>Bejelentkezés</Typography>
             </Grid>
@@ -14,10 +15,10 @@ const Home: NextPage = () => {
             <Grid item>
             <Grid container alignItems='center' direction='column' spacing={4}>   
                 <Grid item>
-                    <TextField fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField style={{ backgroundColor: '#224957' }} fullWidth id="outlined-basic" label="Felhasználónév" variant="outlined" />
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField style={{ backgroundColor: '#224957' }} fullWidth id="outlined-basic" label="Jelszó" variant="outlined" />
                 </Grid>
                 <Grid item>
                     <Grid container alignItems="center">
