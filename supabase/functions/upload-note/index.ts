@@ -6,7 +6,7 @@ import { Database } from "../_shared/database.types.ts"
 interface UploadNoteRequest extends Request {
     title: string;
     data: string;
-    note_group?: string;
+    note_group_id: string;
 }
 
 serve(async (req: Request) => {
@@ -28,18 +28,16 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { data, note_group, title } : UploadNoteRequest = await req.json()
+        const { data, note_group_id, title } : UploadNoteRequest = await req.json()
 
-        if (data === undefined || title === undefined) {
+        if (data === undefined || title === undefined || note_group_id === undefined) {
             return new Response(JSON.stringify({ error: "Note or title is undefined." }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 400,
               })
         }
 
-        const note_group_id = note_group === undefined ? null : (await supabaseClient.from('note_group').select().match({ user_id: user!.id, title: note_group }).single()).data?.id
-
-        const noteExistsQuery = await supabaseClient.from('note').select().match({ user_id: user!.id, note_group_id: note_group_id, title: title})
+        const noteExistsQuery = await supabaseClient.from('note').select().match({ user_id: user?.id, note_group_id: note_group_id, title: title})
         if (noteExistsQuery.count! > 0) {
             return new Response(JSON.stringify({ error: "Note already exists in this note group." }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -53,14 +51,6 @@ serve(async (req: Request) => {
             title: title,
             data: data
         }).select().single()
-
-        await supabaseClient.from("note_perm").insert({
-            user_id: user!.id,
-            note_id: newNote.data!.id,
-            note_group_id: note_group_id,
-            view_perm: true,
-            edit_perm: true
-        })
 
         return new Response(JSON.stringify({ note_id: newNote.data?.id }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
