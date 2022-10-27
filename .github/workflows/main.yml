@@ -17,5 +17,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: supabase/setup-cli@v1.1.1
       - run: supabase functions deploy get-note --project-ref $PROJECT_ID
+      - run: supabase functions deploy upload-note --project-ref $PROJECT_ID
       - run: supabase functions deploy get-note-group --project-ref $PROJECT_ID
       - run: supabase functions deploy sign-up --project-ref $PROJECT_ID
