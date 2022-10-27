@@ -7,9 +7,9 @@ export default {
     fontFamily: [PRIMARY_FONT].join(','),
     h1: {
         fontFamily: PRIMARY_FONT,
-        fontSize: 22,
-        fontWeight: 500,
-        lineHeight: '33px',
+        fontSize: 64,
+        fontWeight: 400,
+        lineHeight: '80px',
     },
     h2: {
         fontFamily: PRIMARY_FONT,
