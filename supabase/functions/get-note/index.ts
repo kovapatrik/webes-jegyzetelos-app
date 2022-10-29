@@ -24,7 +24,6 @@ serve(async (req: Request) => {
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
         
-        const { data: { user } } = await supabaseClient.auth.getUser()
         const { note_id } : GetNoteRequest = await req.json()
 
         if (note_id === undefined) {
@@ -36,7 +35,7 @@ serve(async (req: Request) => {
 
         const data  = (await supabaseClient.from("note")
                                            .select('id, title, data, created_at, last_modify')
-                                           .match({ id: note_id, user_id: user?.id }).single())
+                                           .match({ id: note_id }).single())
                                            .data
 
         return new Response(JSON.stringify({ data }), {
