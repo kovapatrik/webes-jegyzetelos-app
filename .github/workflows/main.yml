@@ -21,5 +21,9 @@ jobs:
       - run: supabase functions deploy get-note --project-ref $PROJECT_ID
       - run: supabase functions deploy update-note --project-ref $PROJECT_ID
       - run: supabase functions deploy remove-note --project-ref $PROJECT_ID
+      # note_group CRUD
+      - run: supabase functions deploy create-note-group --project-ref $PROJECT_ID
       - run: supabase functions deploy get-note-group --project-ref $PROJECT_ID
+      - run: supabase functions deploy update-note-group --project-ref $PROJECT_ID
+      - run: supabase functions deploy remove-note-group --project-ref $PROJECT_ID
       - run: supabase functions deploy sign-up --project-ref $PROJECT_ID
