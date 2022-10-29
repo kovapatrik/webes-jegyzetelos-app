@@ -3,12 +3,6 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import { corsHeaders } from "../_shared/cors.ts"
 import { Database } from "../_shared/database.types.ts"
 
-interface UploadNoteRequest extends Request {
-    title: string;
-    data: string;
-    note_group_id: string;
-}
-
 serve(async (req: Request) => {
 
     // This is needed if you're planning to invoke your function from a browser.
@@ -28,31 +22,19 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { data, note_group_id, title } : UploadNoteRequest = await req.json()
+        const { id, note_group_id, title, data } : Database["public"]["Tables"]["note"]["Update"] = await req.json()
 
-        if (data === undefined || title === undefined || note_group_id === undefined) {
-            return new Response(JSON.stringify({ error: "Note or title is undefined." }), {
+        const { count } = await supabaseClient.from('note').select('*', { count: "exact", head: true }).match({ user_id: user?.id, note_group_id: note_group_id, title: title})
+        if (count! > 0) {
+            return new Response(JSON.stringify({ error: "A note with the same title already exists in this note group." }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 400,
               })
         }
 
-        const noteExistsQuery = await supabaseClient.from('note').select().match({ user_id: user?.id, note_group_id: note_group_id, title: title})
-        if (noteExistsQuery.count! > 0) {
-            return new Response(JSON.stringify({ error: "Note already exists in this note group." }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-                status: 400,
-              })
-        }
+        await supabaseClient.from("note").update({ id: id, note_group_id: note_group_id, title: title, data: data })
 
-        const newNote = await supabaseClient.from("note").insert({
-            user_id: user!.id,
-            note_group_id: note_group_id,
-            title: title,
-            data: data
-        }).select().single()
-
-        return new Response(JSON.stringify({ note_id: newNote.data?.id }), {
+        return new Response(JSON.stringify({ note_id: id, note_group_id: note_group_id }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })
