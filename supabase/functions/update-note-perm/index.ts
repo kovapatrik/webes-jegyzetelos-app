@@ -21,20 +21,13 @@ serve(async (req: Request) => {
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
 
-        const { id, note_id, view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Update"] = await req.json()
-
-        const { count } = await supabaseClient.from('note_perm').select('*', { count: "exact", head: true }).match({ note_id: note_id, view: view_perm, edit: edit_perm})
-        if (count! > 0) {
-            return new Response(JSON.stringify({ error: "A note group with the same title already exists in this note group." }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-                status: 400,
-              })
-        }
+        const { user_id, note_id, view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Update"] = await req.json()
 
         await supabaseClient.from("note_perm")
-                            .update({ id: id, view: view_perm, edit: edit_perm })
+                            .update({view_perm: view_perm, edit_perm: edit_perm })
+                            .match({user_id: user_id, note_id: note_id})
 
-        return new Response(JSON.stringify({ note_group_id: id }), {
+        return new Response(JSON.stringify({ }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })
