@@ -22,20 +22,14 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Insert"] = await req.json()
-
-        const { count } = await supabaseClient.from('note_perm').select('*', { count: "exact", head: true }).match({ user_id: user?.id, view: view_perm, edit: edit_perm})
-        if (count! > 0) {
-            return new Response(JSON.stringify({ error: "The permissiom already exist." }), {
-                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-                status: 400,
-              })
-        }
+        const { note_group_id, note_id, view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Insert"] = await req.json()
 
         const newNotePerm = await supabaseClient.from("note_perm").insert({
             user_id: user!.id,
-            view: view_perm,
-            edit: edit_perm
+            note_group_id: note_group_id,
+            note_id: note_id,
+            view_perm: view_perm,
+            edit_perm: edit_perm
         }).select().single()
 
         return new Response(JSON.stringify({ note_id: newNotePerm.data?.id }), {
