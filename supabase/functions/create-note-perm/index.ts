@@ -22,17 +22,18 @@ serve(async (req: Request) => {
           )
 
         const { data: { user } } = await supabaseClient.auth.getUser()
-        const { note_group_id, note_id, view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Insert"] = await req.json()
+        const { note_group_id, note_id, user_id, view_perm, edit_perm } : Database["public"]["Tables"]["note_perm"]["Insert"] = await req.json()
 
-        const newNotePerm = await supabaseClient.from("note_perm").insert({
-            user_id: user!.id,
+        await supabaseClient.from("note_perm").insert({
+            owner_user_id: user!.id,
+            user_id: user_id,
             note_group_id: note_group_id,
             note_id: note_id,
             view_perm: view_perm,
             edit_perm: edit_perm
-        }).select().single()
+        })
 
-        return new Response(JSON.stringify({ note_id: newNotePerm.data?.id }), {
+        return new Response(JSON.stringify({ }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })
