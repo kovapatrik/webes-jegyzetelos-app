@@ -4,8 +4,8 @@ import { corsHeaders } from "../_shared/cors.ts"
 import { Database } from "../_shared/database.types.ts"
 
 interface RemoveNotePermRequest extends Request {
-    view_perm: boolean
-    edit_perm: boolean
+    note_id: string
+    user_id: string
 }
 
 serve(async (req: Request) => {
@@ -25,14 +25,11 @@ serve(async (req: Request) => {
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
 
-        const { view_perm, edit_perm } : RemoveNotePermRequest = await req.json()
+        const { note_id, user_id } : RemoveNotePermRequest = await req.json()
 
         await supabaseClient.from("note_perm")
                             .delete()
-                            .eq('edit', edit_perm)
-        await supabaseClient.from("note_perm")
-                            .delete()
-                            .eq('view', view_perm)
+                            .match({ note_id: note_id, user_id: user_id })
 
         return new Response(JSON.stringify({ message: "Successfuly removed" }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
