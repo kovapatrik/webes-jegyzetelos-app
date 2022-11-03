@@ -9,6 +9,7 @@ import createEmotionCache from '../design/theme/createEmotionCache';
 import '@fontsource/lexend-deca';
 import { createBrowserSupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -26,13 +27,15 @@ export default function MyApp(props: MyAppProps) {
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width"/>
             </Head>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                <SessionContextProvider supabaseClient={supabaseClient} 
-                        initialSession={initialSession}>
-                    <Component {...pageProps} />
-                </SessionContextProvider>
-            </ThemeProvider>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <SessionContextProvider supabaseClient={supabaseClient} 
+                            initialSession={initialSession}>
+                        <Component {...pageProps} />
+                    </SessionContextProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
         </CacheProvider>
     );
 }
