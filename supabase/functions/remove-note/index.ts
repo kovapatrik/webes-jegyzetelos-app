@@ -33,12 +33,13 @@ serve(async (req: Request) => {
               }) 
         }
         
-        await supabaseClient.from("note")
-                            .delete()
-                            .eq('id', note_id)
         await supabaseClient.from("note_perm")
                             .delete()
                             .eq('note_id', note_id)
+
+        await supabaseClient.from("note")
+                            .delete()
+                            .eq('id', note_id)
 
         return new Response(JSON.stringify({ message: "Successfuly removed" }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
