@@ -3,11 +3,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import { corsHeaders } from "../_shared/cors.ts"
 import { Database } from "../_shared/database.types.ts"
 
-interface GetNoteGroupRequest extends Request {
-    note_group_id?: string
-}
-
 serve(async (req: Request) => {
+
     // This is needed if you're planning to invoke your function from a browser.
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
@@ -23,20 +20,33 @@ serve(async (req: Request) => {
             // This way your row-level-security (RLS) policies are applied.
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
-        
-        const { note_group_id } : GetNoteGroupRequest = await req.json()
-       
-        const notes  = (await supabaseClient.from("note")
-                                            .select('id, title')
-                                            .match({ note_group_id: note_group_id || null }))
-                                            .data
-        
-        const noteGroups = (await supabaseClient.from("note_group")
-                                                .select("id, title")
-                                                .eq("base_note_group_id", note_group_id || null))
-                                                .data
 
-        return new Response(JSON.stringify({ notes, noteGroups }), {
+        const { data: { user } } = await supabaseClient.auth.getUser()
+        const { data, note_group_id, title } : Database["public"]["Tables"]["note"]["Insert"] = await req.json()
+
+        if (data === undefined || title === undefined || note_group_id === undefined) {
+            return new Response(JSON.stringify({ error: "Note or title is undefined." }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+              })
+        }
+
+        const noteExistsQuery = await supabaseClient.from('note').select().match({ user_id: user?.id, note_group_id: note_group_id, title: title})
+        if (noteExistsQuery.count! > 0) {
+            return new Response(JSON.stringify({ error: "Note already exists in this note group." }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+              })
+        }
+
+        const newNote = await supabaseClient.from("note").insert({
+            user_id: user!.id,
+            note_group_id: note_group_id,
+            title: title,
+            data: data
+        }).select().single()
+
+        return new Response(JSON.stringify({ note_id: newNote.data?.id }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })

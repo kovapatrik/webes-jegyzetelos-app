@@ -3,8 +3,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.0.0'
 import { corsHeaders } from "../_shared/cors.ts"
 import { Database } from "../_shared/database.types.ts"
 
-interface GetNoteGroupRequest extends Request {
-    note_group_id?: string
+interface RemoveNoteRequest extends Request {
+    note_id: string
 }
 
 serve(async (req: Request) => {
@@ -24,19 +24,23 @@ serve(async (req: Request) => {
             { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
           )
         
-        const { note_group_id } : GetNoteGroupRequest = await req.json()
-       
-        const notes  = (await supabaseClient.from("note")
-                                            .select('id, title')
-                                            .match({ note_group_id: note_group_id || null }))
-                                            .data
-        
-        const noteGroups = (await supabaseClient.from("note_group")
-                                                .select("id, title")
-                                                .eq("base_note_group_id", note_group_id || null))
-                                                .data
+        const { note_id } : RemoveNoteRequest = await req.json()
 
-        return new Response(JSON.stringify({ notes, noteGroups }), {
+        if (note_id === undefined) {
+            return new Response(JSON.stringify({ error: 'No note_id was given.'}), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 400,
+              }) 
+        }
+        
+        await supabaseClient.from("note")
+                            .delete()
+                            .eq('id', note_id)
+        await supabaseClient.from("note_perm")
+                            .delete()
+                            .eq('note_id', note_id)
+
+        return new Response(JSON.stringify({ message: "Successfuly removed" }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
             })
