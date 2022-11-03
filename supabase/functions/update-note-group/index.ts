@@ -32,7 +32,8 @@ serve(async (req: Request) => {
         }
 
         await supabaseClient.from("note_group")
-                            .update({ id: id, base_note_group_id: base_note_group_id, title: title })
+                            .update({ base_note_group_id: base_note_group_id, title: title })
+                            .eq('id', id);
 
         return new Response(JSON.stringify({ note_group_id: id, base_note_group_id: base_note_group_id }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
