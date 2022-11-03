@@ -1,6 +1,5 @@
 import {colors} from "./themeColors";
 import {createTheme} from "@mui/material";
-import typography from "./typography";
 
 const defaultTheme = createTheme({
     typography: {

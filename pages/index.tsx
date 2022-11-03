@@ -1,11 +1,27 @@
 import type {NextPage} from 'next'
-import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from '@mui/material';
+import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Theme, SxProps, Typography} from '@mui/material';
 import { colors } from '../design/theme/themeColors';
+
+const homeStyles: Record<string, SxProps<Theme> | undefined> = {
+    container: {
+        minHeight: '100vh'
+    },
+    textField: {
+        borderRadius: '10px',
+        backgroundColor: '#224957',
+        width: '300px',
+    },
+    loginButton: {
+        width: '300px', 
+        height: '50px', 
+        borderRadius: '10px'
+    }
+}
 
 const Home: NextPage = () => {
 
     return (
-        <Grid container direction='column' alignItems='center' justifyContent='center' spacing={4}>
+        <Grid container direction='column' sx={homeStyles.container} alignItems='center' justifyContent='center' spacing={4}>
             <Grid item>
                 <Typography variant='h1'>Bejelentkezés</Typography>
             </Grid>
@@ -15,10 +31,21 @@ const Home: NextPage = () => {
             <Grid item>
             <Grid container alignItems='center' direction='column' spacing={4}>   
                 <Grid item>
-                    <TextField style={{ backgroundColor: '#224957' }} fullWidth id="outlined-basic" label="Felhasználónév" variant="outlined" />
+                    <TextField type='text'
+                        InputProps={{sx: homeStyles.textField}}
+                            fullWidth 
+                            id="username" 
+                            label="Felhasználónév" 
+                            variant="outlined"
+                    />
                 </Grid>
                 <Grid item>
-                    <TextField style={{ backgroundColor: '#224957' }} fullWidth id="outlined-basic" label="Jelszó" variant="outlined" />
+                    <TextField type='password' InputProps={{sx: homeStyles.textField}}
+                        fullWidth 
+                        id="password" 
+                        label="Jelszó" 
+                        variant="outlined" 
+                    />
                 </Grid>
                 <Grid item>
                     <Grid container alignItems="center">
@@ -37,7 +64,7 @@ const Home: NextPage = () => {
             </Grid>
             </Grid>
             <Grid item>
-                <Button style={{width: '300px', height: '50px', borderRadius: '10px'}}>
+                <Button sx={homeStyles.loginButton}>
                     <Typography>Bejelentkezés</Typography>
                 </Button>
             </Grid>
