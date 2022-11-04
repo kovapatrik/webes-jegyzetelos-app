@@ -1,4 +1,4 @@
-import { Grid, SxProps, Theme, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { MouseEventHandler } from 'react';
 import * as React from 'react';
 import BackgroundLetterAvatars from '../backgroundLetterAvatar';
@@ -9,13 +9,8 @@ import MenuList from '@mui/material/MenuList';
 import Divider from '@mui/material/Divider';
 import { Close, Folder, Groups2, Logout, Note, Settings } from '@mui/icons-material';
 import { CustomMenuItem } from '../customMenuItem';
-
-const sidebarStyles: Record<string, SxProps<Theme> | undefined> = {
-	container: {
-		backgroundColor: `${colors.dark.primary.p100}`,
-		minHeight: '100vh',
-	},
-};
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/system';
 
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;
@@ -24,8 +19,20 @@ type SidebarProps = {
 
 export const Sidebar = (props: SidebarProps) => {
 	const { onToggle } = props;
+
+	const theme = useTheme();
+	const small = useMediaQuery(theme.breakpoints.down('md'));
+
 	return (
-		<Grid container sx={sidebarStyles.container} flexDirection={'column'} justifyContent={'space-between'}>
+		<Grid
+			container
+			sx={{
+				backgroundColor: `${colors.dark.primary.p100}`,
+				minHeight: small ? '20vh' : '100vh',
+			}}
+			flexDirection={'column'}
+			justifyContent={'space-between'}
+		>
 			<Grid item>
 				<Grid container flexDirection={'column'} alignItems={'center'} spacing={4}>
 					<Grid item sx={{ width: '100%' }}>
@@ -33,18 +40,20 @@ export const Sidebar = (props: SidebarProps) => {
 							<CustomMenuItem onClick={onToggle} Icon={<Close fontSize='medium' />} position={'right'} label={'Close'} />
 						</MenuList>
 					</Grid>
-					<Grid item>
-						<Grid container flexDirection={'column'} alignItems={'center'} spacing={2}>
-							<Grid item>
-								<BackgroundLetterAvatars username={'John Doe'} />
-							</Grid>
-							<Grid item>
-								<Typography color={colors.dark.main.m100} variant={'h4'}>
-									John Doe
-								</Typography>
+					{!small && (
+						<Grid item>
+							<Grid container flexDirection={'column'} alignItems={'center'} spacing={2}>
+								<Grid item>
+									<BackgroundLetterAvatars username={'John Doe'} />
+								</Grid>
+								<Grid item>
+									<Typography color={colors.dark.main.m100} variant={'h4'}>
+										John Doe
+									</Typography>
+								</Grid>
 							</Grid>
 						</Grid>
-					</Grid>
+					)}
 				</Grid>
 			</Grid>
 			<Grid item>

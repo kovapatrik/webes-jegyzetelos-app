@@ -14,7 +14,7 @@ type NavbarProps = {
 const navbarStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
 		backgroundColor: `${colors.dark.main.m100}`,
-		minHeight: '100vh',
+		height: '50px',
 	},
 };
 

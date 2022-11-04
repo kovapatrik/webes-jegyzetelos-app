@@ -16,16 +16,24 @@ const Home: NextPage = () => {
 	console.log(toggle);
 	return (
 		<Box sx={{ backgroundColor: colors.dark.main.m20 }}>
-			<Grid container>
+			<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
 				{toggle && (
-					<Grid item xs={3} md={2}>
+					<Grid item md={3} xl={2} display={{ xs: 'none', md: 'block' }}>
 						<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
 				)}
-
-				<Grid item xs={toggle ? 9 : 12} md={toggle ? 10 : 12}>
-					<Navbar onToggle={toggleSidebar} toggle={toggle} />
-					<Layout />
+				<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
+					<Grid item>
+						<Navbar onToggle={toggleSidebar} toggle={toggle} />
+					</Grid>
+					{toggle && (
+						<Grid item xs={12} md={2} display={{ xs: 'block', md: 'none' }}>
+							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
+						</Grid>
+					)}
+					<Grid item>
+						<Layout />
+					</Grid>
 				</Grid>
 			</Grid>
 		</Box>
