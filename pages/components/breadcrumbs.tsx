@@ -17,7 +17,7 @@ export default function CustomBreadCrumbs() {
 		<Link underline='hover' key='2' color='inherit' href='/material-ui/getting-started/installation/' onClick={handleClick}>
 			Core
 		</Link>,
-		<Typography key='3' color='text.primary'>
+		<Typography key='3' color='inherit'>
 			Breadcrumb
 		</Typography>,
 	];

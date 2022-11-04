@@ -1,6 +1,7 @@
 export const colors = {
 	dark: {
 		white: '#ffffff',
+		darkGray: '#1e1e1e',
 		main: {
 			m20: '#e9fcf2',
 			m40: '#9DAEB5',
