@@ -16,7 +16,7 @@ const defaultTheme = createTheme({
 			main: colors.dark.primary.p100,
 		},
 		background: {
-			default: colors.dark.main.m100,
+			default: colors.dark.main.m20,
 		},
 	},
 	components: {
