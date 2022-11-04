@@ -1,8 +1,18 @@
 {
   "semi": true,
+  "printWidth": 140,
   "tabWidth": 2,
-  "printWidth": 100,
   "singleQuote": true,
-  "trailingComma": "none",
-  "jsxBracketSameLine": true
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "useTabs": true,
+  "arrowParens": "avoid",
+  "jsxSingleQuote": true,
+  "trailingComma": "all",
+  "endOfLine": "auto",
+  "importOrder": [
+    "^@src/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true
 }
