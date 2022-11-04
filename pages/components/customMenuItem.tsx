@@ -8,18 +8,21 @@ import Typography from '@mui/material/Typography';
 type CustomMenuItemProps = {
 	Icon: JSX.Element;
 	label: string;
+	position: 'left' | 'right';
+	onClick?: React.MouseEventHandler;
 };
 
 export const CustomMenuItem = (props: CustomMenuItemProps) => {
-	const { Icon, label } = props;
+	const { Icon, label, position, onClick } = props;
 	return (
-		<MenuItem>
-			<ListItemIcon>{Icon}</ListItemIcon>
+		<MenuItem onClick={onClick}>
+			{position === 'left' && <ListItemIcon>{Icon}</ListItemIcon>}
 			<ListItemText color='text.secondary'>
 				<Typography variant='body1' color='text.secondary'>
 					{label}
 				</Typography>
 			</ListItemText>
+			{position === 'right' && <ListItemIcon>{Icon}</ListItemIcon>}
 		</MenuItem>
 	);
 };

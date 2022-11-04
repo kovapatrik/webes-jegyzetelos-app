@@ -1,3 +1,15 @@
+import CustomBreadCrumbs from './breadcrumbs';
+import {Grid, Box} from '@mui/material';
+
 export default function Layout() {
-	return <div>asd</div>;
+	return (
+		<Box p={4}>
+			<Grid container>
+				<Grid item>
+					<CustomBreadCrumbs/>
+				</Grid>
+			</Grid>
+
+		</Box>
+	);
 }
