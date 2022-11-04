@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { colors } from '../../design/theme/themeColors';
+import { colors } from '../../../design/theme/themeColors';
 
 function stringToColor(string: string) {
 	let hash = 0;

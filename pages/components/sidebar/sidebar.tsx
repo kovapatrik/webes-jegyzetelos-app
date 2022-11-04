@@ -1,16 +1,17 @@
 import { Grid, Typography } from '@mui/material';
 import { MouseEventHandler } from 'react';
 import * as React from 'react';
-import BackgroundLetterAvatars from '../backgroundLetterAvatar';
 import { colors } from '../../../design/theme/themeColors';
 
 import MenuList from '@mui/material/MenuList';
 
 import Divider from '@mui/material/Divider';
 import { Close, Folder, Groups2, Logout, Note, Settings } from '@mui/icons-material';
-import { CustomMenuItem } from '../customMenuItem';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
+import { CustomMenuItem } from './customMenuItem';
+import BackgroundLetterAvatars from './backgroundLetterAvatar';
 
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;
