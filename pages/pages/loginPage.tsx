@@ -57,7 +57,7 @@ const LoginPage: NextPage = () => {
 								</FormGroup>
 							</Grid>
 							<Grid item>
-								<a style={{ color: colors.dark.primary.p100, textDecoration: 'none' }} href='#'>
+								<a style={{ color: colors.light.primary.p100, textDecoration: 'none' }} href='#'>
 									<Typography>Elfelejtette a jelszavát?</Typography>
 								</a>
 							</Grid>

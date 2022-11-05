@@ -29,7 +29,7 @@ export const Sidebar = (props: SidebarProps) => {
 		<Grid
 			container
 			sx={{
-				backgroundColor: themes.primary.p100,
+				backgroundColor: themes.themeColor.primary.p100,
 				minHeight: small ? '20vh' : '100vh',
 				width: '100%',
 			}}

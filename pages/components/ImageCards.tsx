@@ -17,13 +17,13 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 };
 
 export default function TitlebarBelowImageList() {
-	const themes = useContext(ThemeContext);
+	const { themeColor, setThemeColor } = useContext(ThemeContext);
 	return (
 		<Box
 			sx={{
-				backgroundColor: themes.main.m100,
+				backgroundColor: themeColor.main.m100,
 				width: '180px',
-				border: `0.5px solid ${themes.main.m60}`,
+				border: `0.5px solid ${themeColor.main.m60}`,
 			}}
 			p={1}
 		>
@@ -41,7 +41,7 @@ export default function TitlebarBelowImageList() {
 									<PictureAsPdfIcon sx={{ color: '#de5246' }} />
 								</Grid>
 								<Grid item>
-									<Typography sx={{ color: themes.main.white }}>Image title</Typography>
+									<Typography sx={{ color: themeColor.main.white }}>Image title</Typography>
 								</Grid>
 							</Grid>
 						</Grid>
@@ -49,7 +49,7 @@ export default function TitlebarBelowImageList() {
 							<Grid container>
 								<Grid item>
 									<IconButton>
-										<MoreVert sx={{ color: themes.main.white }} />
+										<MoreVert sx={{ color: themeColor.main.white }} />
 									</IconButton>
 								</Grid>
 							</Grid>

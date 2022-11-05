@@ -26,8 +26,9 @@ export default function CustomBreadCrumbs() {
 	];
 
 	return (
-		<Breadcrumbs color={themes.main.white} separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-			{breadcrumbs}
-		</Breadcrumbs>
+		<div></div>
+		// <Breadcrumbs color={themes.dark.main.white} separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
+		// 	{breadcrumbs}
+		// </Breadcrumbs>
 	);
 }

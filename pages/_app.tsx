@@ -9,7 +9,8 @@ import '@fontsource/lexend-deca';
 import { createBrowserSupabaseClient, Session } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { StyledEngineProvider } from '@mui/material/styles';
-import { colors } from '../design/theme/themeColors';
+import { AllColors, colors } from '../design/theme/themeColors';
+import { useContext, useState } from 'react';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -21,11 +22,13 @@ interface MyAppProps extends AppProps {
 export default function MyApp(props: MyAppProps) {
 	const { Component, emotionCache = clientSideEmotionCache, initialSession, pageProps } = props;
 	const [supabaseClient] = React.useState(() => createBrowserSupabaseClient());
+	const [themeColor, setThemeColor] = useState<AllColors>(colors.dark);
+	const value = { themeColor, setThemeColor };
 
 	return (
 		<CacheProvider value={emotionCache}>
 			<StyledEngineProvider injectFirst>
-				<ThemeContext.Provider value={colors.dark}>
+				<ThemeContext.Provider value={value}>
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
 						<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>

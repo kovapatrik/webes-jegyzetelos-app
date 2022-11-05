@@ -4,7 +4,7 @@ import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { ViewSidebarOutlined } from '@mui/icons-material';
 import { Grid } from '@mui/material';
-import ThemeContext from '../../../design/theme/themeColors';
+import ThemeContext, { colors } from '../../../design/theme/themeColors';
 import { useContext } from 'react';
 import NavButton from './navButton';
 import Box from '@mui/material/Box';
@@ -16,18 +16,31 @@ type NavbarProps = {
 
 export const Navbar = (props: NavbarProps) => {
 	const { onToggle, toggle } = props;
-	const themes = useContext(ThemeContext);
+	const { themeColor, setThemeColor } = useContext(ThemeContext);
+
+	console.log(themeColor);
+
+	function toggleTheme() {
+		console.log('toggle');
+		themeColor === colors.dark ? setThemeColor(colors.light) : setThemeColor(colors.dark);
+		console.log(themeColor === colors.dark);
+	}
 
 	return (
-		<Toolbar sx={{ backgroundColor: themes.main.m100, borderBottom: `0.5px solid ${themes.main.m60}` }}>
+		<Toolbar
+			sx={{
+				backgroundColor: themeColor.main.m100,
+				borderBottom: `0.5px solid ${themeColor.main.m60}`,
+			}}
+		>
 			<Grid container justifyContent={'space-between'}>
 				<Grid item>
 					{!toggle && (
 						<NavButton
 							Icon={<ViewSidebarOutlined />}
-							hoverColor={themes.primary.p120}
-							bgColor={themes.primary.p100}
-							color={themes.main.white}
+							hoverColor={themeColor.primary.p120}
+							bgColor={themeColor.primary.p100}
+							color={themeColor.main.white}
 							onClick={onToggle}
 						/>
 					)}
@@ -35,10 +48,22 @@ export const Navbar = (props: NavbarProps) => {
 				<Grid item>
 					<Grid container>
 						<Box px={1}>
-							<NavButton Icon={<SearchIcon />} hoverColor={themes.primary.p120} bgColor={themes.primary.p100} color={themes.main.white} />
+							<NavButton
+								Icon={<SearchIcon />}
+								hoverColor={themeColor.primary.p120}
+								bgColor={themeColor.primary.p100}
+								color={themeColor.main.white}
+							/>
 						</Box>
+
 						<Box px={1}>
-							<NavButton Icon={<ContrastIcon />} hoverColor={themes.primary.p120} bgColor={themes.primary.p100} color={themes.main.white} />
+							<NavButton
+								onClick={toggleTheme}
+								Icon={<ContrastIcon />}
+								hoverColor={themeColor.primary.p120}
+								bgColor={themeColor.primary.p100}
+								color={themeColor.main.white}
+							/>
 						</Box>
 					</Grid>
 				</Grid>

@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 	};
 	console.log(toggle);
 	return (
-		<Box sx={{ backgroundColor: themes.main.m100, height: '100vh' }}>
+		<Box sx={{ backgroundColor: colors.dark.main.m100, height: '100vh' }}>
 			<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
 				{toggle && (
 					<Grid item md={3} xl={2} display={{ xs: 'none', md: 'block' }}>

@@ -1,4 +1,11 @@
-import React from 'react';
+import { createContext } from 'react';
+
+export type Colors = Record<string, string>;
+
+export type AllColors = {
+	main: Colors;
+	primary: Colors;
+};
 
 export const colors = {
 	white: '#ffffff',
@@ -36,6 +43,12 @@ export const colors = {
 	},
 };
 
-const ThemeContext = React.createContext(colors.dark);
+const ThemeContext = createContext({
+	themeColor: colors.dark,
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	setThemeColor: (val: AllColors) => {
+		console.log(val);
+	},
+});
 
 export default ThemeContext;
