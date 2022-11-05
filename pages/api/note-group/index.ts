@@ -25,18 +25,19 @@ export default async function BaseNoteGroup(req: NextApiRequest, res: NextApiRes
         if (req.method === "GET") {
 
             const baseNoteGroup = (await supabaseServerClient.from("note_group")
-                                                            .select("id")
-                                                            .is("base_note_group_id", null))
+                                                            .select("id, note_perm!inner ( owner_user_id )")
+                                                            .is("base_note_group_id", null)
+                                                            .eq('note_perm.owner_user_id', user?.id) // not showing shared files yet
+                                                            .single())
                                                             .data
             const notes  = (await supabaseServerClient.from("note")
                                                     .select('id, title')
-                                                    .in('note_group_id', baseNoteGroup?.map(ng => ng.id)))
+                                                    .eq('note_group_id', baseNoteGroup!.id))
                                                     .data
             const noteGroups  = (await supabaseServerClient.from("note_group")
                                                         .select('id, title')
-                                                        .in('base_note_group_id', baseNoteGroup?.map(ng => ng.id)))
+                                                        .eq('base_note_group_id', baseNoteGroup!.id))
                                                         .data
-            console.log(baseNoteGroup)
             res.status(200).json({ notes, noteGroups })
         } else {
             res.status(405).json({ error: "Not a GET request"})
