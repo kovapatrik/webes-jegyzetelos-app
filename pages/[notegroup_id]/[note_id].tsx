@@ -17,13 +17,14 @@ const Note: NextPage = () => {
     const session = useSession()
     const supabase = useSupabaseClient()
 
-    // const { data, error } = useSwr<Database['public']['Tables']['note']['Row']>('/api/note', fetcher)
-
+    const { data, error } = useSwr<Database['public']['Tables']['note']['Row']>(`/api/note/${note_id}`, fetcher)
+    console.log(data)
     return (
         session?.user ?
             <Grid>
                 {session.user.email}
-                {/* <p>{data?.data}</p> */}
+                <p>{data?.title}</p> 
+                <p>{data?.data}</p> 
             </Grid>
         :
             <Auth

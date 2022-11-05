@@ -3,7 +3,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Database } from '../../../lib/database.types'
 
-export default async function NoteGroup(req: NextApiRequest, res: NextApiResponse) {
+export default async function Note(req: NextApiRequest, res: NextApiResponse) {
     try {
         const supabaseServerClient = createServerSupabaseClient<Database>({
             req,
@@ -25,80 +25,84 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         // Read
         if (req.method === "GET") {
             
-            const { id }  = req.query as Database['public']['Tables']['note_group']['Row']
+            const { id }  = req.query as Database['public']['Tables']['note']['Row']
        
-            const notes  = (await supabaseServerClient.from("note")
-                                                    .select('id, title')
-                                                    .match({ note_group_id: id}))
-                                                    .data
-            
-            const noteGroups = (await supabaseServerClient.from("note_group")
-                                                        .select("id, title")
-                                                        .eq("base_note_group_id", id))
-                                                        .data
+            const note  = (await supabaseServerClient.from("note")
+                                                     .select('title, data, created_at, last_modify')
+                                                     .eq('id', id)
+                                                     .single())
+                                                     .data
+            const perms = (await supabaseServerClient.from("note_perm")
+                                                     .select('user_id, view_perm, edit_perm')
+                                                     .eq('note_id', id)
+                                                     .neq('user_id', user?.id))
+                                                     .data
+            console.log(note, perms)
 
-            res.status(200).json({ notes, noteGroups })
+            res.status(200).json(note)
         // Create
         } else if (req.method === "POST") {
 
-            const { title, base_note_group_id } = req.query as Database['public']['Tables']['note_group']['Insert']
+            const { title, data, note_group_id } = req.query as Database['public']['Tables']['note']['Insert']
 
-            if (title === undefined) {
+            if (title === undefined || note_group_id === undefined) {
                 return res.status(400).json({
                     error: 'invalid_input',
-                    description: 'Title is undefined.',
+                    description: 'Title or note_group_id is undefined.',
                   })
             }
     
-            const { count } = await supabaseServerClient.from('note_group')
+            const { count } = await supabaseServerClient.from('note')
                                                         .select('*', { count: "exact", head: true })
                                                         .match({ 
-                                                            base_note_group_id: base_note_group_id || null, 
+                                                            note_group_id: note_group_id, 
                                                             title: title
                                                         })
             if (count! > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
-                    description: 'A note group with the same title already exists in this note group.',
+                    description: 'A note with the same title already exists in this note group.',
                   })
             }
     
-           await supabaseServerClient.from("note_group")
+           await supabaseServerClient.from("note")
                                      .insert({
                                              user_id: user!.id,
                                              title: title,
-                                             base_note_group_id: base_note_group_id || null
+                                             note_group_id: note_group_id,
+                                             data: data
                                          })
             res.status(201)
         // Update                                                             
         } else if (req.method === 'PATCH') {
 
-            const { id, title, base_note_group_id } = req.query as Database['public']['Tables']['note_group']['Update']
+            const { id, title, note_group_id, data } = req.query as Database['public']['Tables']['note']['Update']
 
-            if (title === undefined) {
+            if (title === undefined || note_group_id === undefined) {
                 return res.status(400).json({
                     error: 'invalid_input',
-                    description: 'Title is undefined.',
+                    description: 'Title or note_group_id is undefined.',
                   })
             }
     
-            const { count } = await supabaseServerClient.from('note_group')
+            const { count } = await supabaseServerClient.from('note')
                                                         .select('*', { count: "exact", head: true })
                                                         .match({ 
                                                             title: title,
-                                                            base_note_group_id: base_note_group_id || null, 
-                                                            })
+                                                            note_group_id: note_group_id, 
+                                                        })
             if (count! > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
-                    description: 'A note group with the same title already exists in this note group.',
+                    description: 'A note with the same title already exists in this note group.',
                   })
             }
 
-            await supabaseServerClient.from("note_group")
+            await supabaseServerClient.from("note")
                                       .update({
                                           title: title,
-                                          base_note_group_id: base_note_group_id || null
+                                          note_group_id: note_group_id,
+                                          data: data
                                       })
                                       .eq('id', id)
 
@@ -117,13 +121,9 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
 
             await supabaseServerClient.from("note_perm")
                                       .delete()
-                                      .eq('note_group_id', id)
+                                      .eq('note_id', id)
 
             await supabaseServerClient.from("note")
-                                      .delete()
-                                      .eq('note_group_id', id)                            
-            
-            await supabaseServerClient.from("note_group")
                                       .delete()
                                       .eq('id', id)
 

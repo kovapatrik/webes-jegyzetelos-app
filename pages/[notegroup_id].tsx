@@ -30,13 +30,17 @@ const NoteGroup: NextPage = () => {
                 {session.user.email}
                 {data?.noteGroups?.map(n => {
                     return (
-                        <Link key={n.id} href="[notegroup_id]" as={`/${n.id}`}>
+                        <Link key={n.id} href="/[notegroup_id]" as={`/${n.id}`}>
                             {n.title}
                         </Link>
                     )
                 })}
                 {data?.notes?.map(n => {
-                    return <p key={n.id}>{n.title}</p>
+                    return (
+                        <Link key={n.id} href="/[notegroup_id]/[note_id]" as={`/${notegroup_id}/${n.id}`}>
+                            {n.title}
+                        </Link>
+                    )
                 })}
             </Grid>
         :

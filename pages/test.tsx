@@ -43,7 +43,7 @@ const Test: NextPage = () => {
                 {session.user.email}
                 {data?.noteGroups?.map(n => {
                     return (
-                        <Link key={n.id} href="[notegroup_id]" as={`/${n.id}`}>
+                        <Link key={n.id} href="/[notegroup_id]" as={`/${n.id}`}>
                             {n.title}
                         </Link>
                     )

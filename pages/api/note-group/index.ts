@@ -26,18 +26,17 @@ export default async function BaseNoteGroup(req: NextApiRequest, res: NextApiRes
 
             const baseNoteGroup = (await supabaseServerClient.from("note_group")
                                                             .select("id")
-                                                            .is("base_note_group_id", null)
-                                                            .single())
+                                                            .is("base_note_group_id", null))
                                                             .data
             const notes  = (await supabaseServerClient.from("note")
                                                     .select('id, title')
-                                                    .eq('note_group_id', baseNoteGroup?.id))
+                                                    .in('note_group_id', baseNoteGroup?.map(ng => ng.id)))
                                                     .data
             const noteGroups  = (await supabaseServerClient.from("note_group")
                                                         .select('id, title')
-                                                        .eq('base_note_group_id', baseNoteGroup?.id))
+                                                        .in('base_note_group_id', baseNoteGroup?.map(ng => ng.id)))
                                                         .data
-
+            console.log(baseNoteGroup)
             res.status(200).json({ notes, noteGroups })
         } else {
             res.status(405).json({ error: "Not a GET request"})
