@@ -1,9 +1,10 @@
 import * as React from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
-import { colors } from '../../design/theme/themeColors';
+import ThemeContext, { colors } from '../../design/theme/themeColors';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { MoreVert } from '@mui/icons-material';
+import { useContext } from 'react';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
@@ -16,8 +17,16 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 };
 
 export default function TitlebarBelowImageList() {
+	const themes = useContext(ThemeContext);
 	return (
-		<Box sx={imageStyles.container} p={1}>
+		<Box
+			sx={{
+				backgroundColor: themes.main.m100,
+				width: '180px',
+				border: `0.5px solid ${themes.main.m60}`,
+			}}
+			p={1}
+		>
 			<Grid container flexDirection={'column'} spacing={1}>
 				<Grid item>
 					<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
@@ -32,7 +41,7 @@ export default function TitlebarBelowImageList() {
 									<PictureAsPdfIcon sx={{ color: '#de5246' }} />
 								</Grid>
 								<Grid item>
-									<Typography sx={{ color: `${colors.dark.darkGray}` }}>Image title</Typography>
+									<Typography sx={{ color: themes.main.white }}>Image title</Typography>
 								</Grid>
 							</Grid>
 						</Grid>
@@ -40,7 +49,7 @@ export default function TitlebarBelowImageList() {
 							<Grid container>
 								<Grid item>
 									<IconButton>
-										<MoreVert />
+										<MoreVert sx={{ color: themes.main.white }} />
 									</IconButton>
 								</Grid>
 							</Grid>

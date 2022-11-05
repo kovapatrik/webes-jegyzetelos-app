@@ -2,19 +2,27 @@ import CustomBreadCrumbs from './breadcrumbs';
 import { Grid, Box, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import TitlebarBelowImageList from './ImageCards';
+import { MouseEventHandler, useContext } from 'react';
+import ThemeContext from '../../design/theme/themeColors';
 
-export default function Layout() {
+type LayoutProps = {
+	toggle?: boolean;
+};
+
+export default function Layout(props: LayoutProps) {
+	const { toggle } = props;
+	const themes = useContext(ThemeContext);
 	return (
 		<Box p={4}>
-			<Grid container>
+			<Grid container flexDirection={'column'}>
 				<Grid item>
 					<CustomBreadCrumbs />
 				</Grid>
 				<Grid item>
 					<Box pt={3}>
-						<Grid container spacing={{ xs: 4, md: 6 }} justifyContent={'center'}>
+						<Grid container spacing={3}>
 							{Array.from(Array(8)).map((_, index) => (
-								<Grid item xs={8} sm={6} md={5} lg={4} xl={3} key={index}>
+								<Grid item xs={6} sm={4} md={toggle ? 4 : 3} lg={toggle ? 3 : 2} xl={2} key={index}>
 									<TitlebarBelowImageList />
 								</Grid>
 							))}

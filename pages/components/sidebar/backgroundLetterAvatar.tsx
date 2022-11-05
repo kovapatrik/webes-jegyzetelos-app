@@ -29,7 +29,7 @@ function stringAvatar(name: string) {
 			width: '120px',
 			height: '120px',
 			fontSize: '48px',
-			border: `2px solid ${colors.dark.main.m20}`,
+			border: `2px solid ${colors.light.main.m20}`,
 		},
 		children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
 	};

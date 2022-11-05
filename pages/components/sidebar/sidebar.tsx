@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useContext } from 'react';
 import * as React from 'react';
-import { colors } from '../../../design/theme/themeColors';
+import ThemeContext, { colors } from '../../../design/theme/themeColors';
 
 import MenuList from '@mui/material/MenuList';
 
@@ -19,17 +19,19 @@ type SidebarProps = {
 };
 
 export const Sidebar = (props: SidebarProps) => {
-	const { onToggle } = props;
+	const { onToggle, toggle } = props;
 
 	const theme = useTheme();
+	const themes = useContext(ThemeContext);
 	const small = useMediaQuery(theme.breakpoints.down('md'));
 
 	return (
 		<Grid
 			container
 			sx={{
-				backgroundColor: `${colors.dark.primary.p100}`,
+				backgroundColor: themes.primary.p100,
 				minHeight: small ? '20vh' : '100vh',
+				width: '100%',
 			}}
 			flexDirection={'column'}
 			justifyContent={'space-between'}
@@ -48,7 +50,7 @@ export const Sidebar = (props: SidebarProps) => {
 									<BackgroundLetterAvatars username={'John Doe'} />
 								</Grid>
 								<Grid item>
-									<Typography color={colors.dark.main.m100} variant={'h4'}>
+									<Typography color={colors.light.main.m100} variant={'h4'}>
 										John Doe
 									</Typography>
 								</Grid>

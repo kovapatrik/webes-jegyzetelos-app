@@ -2,20 +2,21 @@ import type { NextPage } from 'next';
 import { Navbar } from './components/navbar/navbar';
 import { Grid } from '@mui/material';
 import Layout from './components/layout';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
-import { colors } from '../design/theme/themeColors';
+import ThemeContext, { colors } from '../design/theme/themeColors';
 import { Sidebar } from './components/sidebar/sidebar';
 
 const Home: NextPage = () => {
 	const [toggle, setToggle] = useState<boolean>();
+	const themes = useContext(ThemeContext);
 
 	const toggleSidebar = () => {
 		setToggle(!toggle);
 	};
 	console.log(toggle);
 	return (
-		<Box sx={{ backgroundColor: colors.dark.main.m20 }}>
+		<Box sx={{ backgroundColor: themes.main.m100, height: '100vh' }}>
 			<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
 				{toggle && (
 					<Grid item md={3} xl={2} display={{ xs: 'none', md: 'block' }}>
@@ -27,12 +28,12 @@ const Home: NextPage = () => {
 						<Navbar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
 					{toggle && (
-						<Grid item xs={12} md={2} display={{ xs: 'block', md: 'none' }}>
+						<Grid item xs={12} md={2} lg={1} display={{ xs: 'block', md: 'none' }}>
 							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 						</Grid>
 					)}
 					<Grid item>
-						<Layout />
+						<Layout toggle={toggle} />
 					</Grid>
 				</Grid>
 			</Grid>
