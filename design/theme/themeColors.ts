@@ -1,6 +1,7 @@
 export const colors = {
 	dark: {
 		white: '#ffffff',
+		darkGray: '#1e1e1e',
 		main: {
 			m20: '#e9fcf2',
 			m40: '#9DAEB5',
@@ -16,6 +17,7 @@ export const colors = {
 			p80: '#50d568',
 			p100: '#20DF7F',
 			p120: '#50d465',
+			p150: '#1C5E2E',
 		},
 	},
 };

@@ -10,13 +10,16 @@ const defaultTheme = createTheme({
 	palette: {
 		text: {
 			primary: colors.dark.main.m20,
-			secondary: colors.dark.primary.p100,
+			secondary: colors.dark.primary.p150,
 		},
 		primary: {
 			main: colors.dark.primary.p100,
 		},
+		secondary: {
+			main: colors.dark.main.m100,
+		},
 		background: {
-			default: colors.dark.main.m100,
+			default: colors.dark.main.m20,
 		},
 	},
 	components: {
