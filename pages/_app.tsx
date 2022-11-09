@@ -21,6 +21,9 @@ export default function MyApp(props: MyAppProps) {
 	const { Component, emotionCache = clientSideEmotionCache, initialSession, pageProps } = props;
 	const [supabaseClient] = React.useState(() => createBrowserSupabaseClient());
 
+	console.log(supabaseClient.storage);
+	
+
 	return (
 		<CacheProvider value={emotionCache}>
 			<StyledEngineProvider injectFirst>
