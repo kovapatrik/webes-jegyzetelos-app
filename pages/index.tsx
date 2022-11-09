@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
-import { Navbar } from './components/navbar/navbar';
+import { Navbar } from '../components/navbar/navbar';
 import { Grid } from '@mui/material';
-import Layout from './components/layout';
+import Layout from './../components/layout';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import { colors } from '../design/theme/themeColors';
-import { Sidebar } from './components/sidebar/sidebar';
+import { Sidebar } from '../components/sidebar/sidebar';
 
 const Home: NextPage = () => {
 	const [toggle, setToggle] = useState<boolean>();

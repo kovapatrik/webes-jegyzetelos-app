@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
-import { colors } from '../../design/theme/themeColors';
+import { colors } from '../design/theme/themeColors';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { MoreVert } from '@mui/icons-material';
 

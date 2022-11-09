@@ -4,7 +4,7 @@ import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { ViewSidebarOutlined } from '@mui/icons-material';
 import { SxProps, Theme } from '@mui/material';
-import { colors } from '../../../design/theme/themeColors';
+import { colors } from '../../design/theme/themeColors';
 
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;

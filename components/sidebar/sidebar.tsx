@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import { MouseEventHandler } from 'react';
 import * as React from 'react';
-import { colors } from '../../../design/theme/themeColors';
+import { colors } from '../../design/theme/themeColors';
 
 import MenuList from '@mui/material/MenuList';
 

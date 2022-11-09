@@ -1,6 +1,5 @@
 import CustomBreadCrumbs from './breadcrumbs';
-import { Grid, Box, Paper } from '@mui/material';
-import { styled } from '@mui/system';
+import { Grid, Box } from '@mui/material';
 import TitlebarBelowImageList from './ImageCards';
 
 export default function Layout() {
