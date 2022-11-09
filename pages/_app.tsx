@@ -23,12 +23,11 @@ export default function MyApp(props: MyAppProps) {
 	const { Component, emotionCache = clientSideEmotionCache, initialSession, pageProps } = props;
 	const [supabaseClient] = React.useState(() => createBrowserSupabaseClient());
 	const [themeColor, setThemeColor] = useState<AllColors>(colors.dark);
-	const value = { themeColor, setThemeColor };
 
 	return (
 		<CacheProvider value={emotionCache}>
 			<StyledEngineProvider injectFirst>
-				<ThemeContext.Provider value={value}>
+				<ThemeContext.Provider value={{ themeColor, setThemeColor }}>
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
 						<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>

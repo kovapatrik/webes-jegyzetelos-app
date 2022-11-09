@@ -16,14 +16,10 @@ type NavbarProps = {
 
 export const Navbar = (props: NavbarProps) => {
 	const { onToggle, toggle } = props;
-	const { themeColor, setThemeColor } = useContext(ThemeContext);
-
-	console.log(themeColor);
+	const themeColor = useContext(ThemeContext);
 
 	function toggleTheme() {
 		console.log('toggle');
-		themeColor === colors.dark ? setThemeColor(colors.light) : setThemeColor(colors.dark);
-		console.log(themeColor === colors.dark);
 	}
 
 	return (

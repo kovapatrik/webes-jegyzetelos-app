@@ -17,48 +17,7 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 };
 
 export default function TitlebarBelowImageList() {
-	const { themeColor, setThemeColor } = useContext(ThemeContext);
-	return (
-		<Box
-			sx={{
-				backgroundColor: themeColor.main.m100,
-				width: '180px',
-				border: `0.5px solid ${themeColor.main.m60}`,
-			}}
-			p={1}
-		>
-			<Grid container flexDirection={'column'} spacing={1}>
-				<Grid item>
-					<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
-						<img src={itemData[0].img} loading='lazy' />
-					</ImageListItem>
-				</Grid>
-				<Grid item>
-					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-						<Grid item>
-							<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-								<Grid item>
-									<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-								</Grid>
-								<Grid item>
-									<Typography sx={{ color: themeColor.main.white }}>Image title</Typography>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid item>
-							<Grid container>
-								<Grid item>
-									<IconButton>
-										<MoreVert sx={{ color: themeColor.main.white }} />
-									</IconButton>
-								</Grid>
-							</Grid>
-						</Grid>
-					</Grid>
-				</Grid>
-			</Grid>
-		</Box>
-	);
+	return <div></div>;
 }
 
 const itemData = [
