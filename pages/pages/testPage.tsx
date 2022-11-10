@@ -1,13 +1,14 @@
-import { useContext } from 'react';
-import ThemeContext, { colors } from '../../design/theme/themeColors';
+import { colors, useTheme } from '../../design/theme/themeColors';
 
 export default function TestPage() {
-	const { themeColor, setThemeColor } = useContext(ThemeContext);
+	const { theme, setCurrentTheme } = useTheme();
 
 	function toggleTheme() {
-		console.log('toggle');
-		themeColor === colors.dark ? setThemeColor(colors.light) : setThemeColor(colors.dark);
-		console.log(themeColor === colors.dark);
+		if (setCurrentTheme) {
+			console.log('toggle');
+			theme === colors.dark ? setCurrentTheme(colors.light) : setCurrentTheme(colors.dark);
+			console.log(theme === colors.dark);
+		}
 	}
 
 	return (

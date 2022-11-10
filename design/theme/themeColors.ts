@@ -1,6 +1,11 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
 export type Colors = Record<string, string>;
+
+export type ThemeContextProps = {
+	theme: AllColors;
+	setCurrentTheme: Dispatch<SetStateAction<AllColors>> | null;
+};
 
 export type AllColors = {
 	main: Colors;
@@ -43,12 +48,9 @@ export const colors = {
 	},
 };
 
-const ThemeContext = createContext({
-	themeColor: colors.dark,
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	setThemeColor: (val: AllColors) => {
-		console.log(val);
-	},
+export const ThemeContext = createContext<ThemeContextProps>({
+	theme: colors.dark,
+	setCurrentTheme: null,
 });
 
-export default ThemeContext;
+export const useTheme = () => useContext(ThemeContext);
