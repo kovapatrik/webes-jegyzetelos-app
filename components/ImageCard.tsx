@@ -14,7 +14,7 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	},
 };
 
-export default function TitlebarBelowImageList() {
+export default function ImageCard() {
 	return (
 		<Box
 			id='imageCard'
