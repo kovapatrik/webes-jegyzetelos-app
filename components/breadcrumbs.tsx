@@ -11,15 +11,13 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 
 export default function CustomBreadCrumbs() {
 	const breadcrumbs = [
-		<Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
+		<Link underline='hover' key='1' href='/' onClick={handleClick}>
 			MUI
 		</Link>,
-		<Link underline='hover' key='2' color='inherit' href='/material-ui/getting-started/installation/' onClick={handleClick}>
+		<Link underline='hover' key='2' href='/material-ui/getting-started/installation/' onClick={handleClick}>
 			Core
 		</Link>,
-		<Typography key='3' color='inherit'>
-			Breadcrumb
-		</Typography>,
+		<Typography key='3'>Breadcrumb</Typography>,
 	];
 
 	return (

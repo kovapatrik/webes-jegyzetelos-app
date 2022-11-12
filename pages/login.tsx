@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Grid, Typography } from '@mui/material';
-import { colors } from '../design/theme/themeColors';
 
 const Login: NextPage = () => {
 	const supaBaseClient = useSupabaseClient();
@@ -10,7 +9,7 @@ const Login: NextPage = () => {
 	return (
 		<Grid sx={{ minHeight: '100vh' }} container direction='column' alignItems='center' justifyContent='center' spacing={4}>
 			<Grid item>
-				<Typography variant='h3' sx={{ color: colors.dark.primary.p150 }}>
+				<Typography variant='h3' sx={{ color: '#1C5E2E' }}>
 					Bejelentkezés
 				</Typography>
 			</Grid>
@@ -20,7 +19,13 @@ const Login: NextPage = () => {
 					spacing={0}
 					boxShadow={8}
 					justifyContent='center'
-					sx={{ width: '500px', paddingBottom: '20px', paddingTop: '20px', backgroundColor: '#424242', borderRadius: '10px' }}
+					sx={{
+						width: '500px',
+						paddingBottom: '20px',
+						paddingTop: '20px',
+						backgroundColor: '#424242',
+						borderRadius: '10px',
+					}}
 				>
 					<Grid item sx={{ padding: '0px', width: '300px' }}>
 						<Auth
@@ -30,14 +35,14 @@ const Login: NextPage = () => {
 								style: {
 									input: {
 										borderRadius: '10px',
-										borderColor: colors.dark.primary.p120,
+										borderColor: '#50d465',
 									},
 									button: {
 										borderRadius: '10px',
 									},
-									anchor: { color: colors.dark.primary.p120, textDecoration: 'none' },
+									anchor: { color: '#052029', textDecoration: 'none' },
 									label: {
-										color: colors.dark.primary.p120,
+										color: '#052029',
 									},
 									message: {
 										color: 'red',

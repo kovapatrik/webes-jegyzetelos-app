@@ -1,7 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import { MouseEventHandler } from 'react';
 import * as React from 'react';
-import { colors } from '../../design/theme/themeColors';
 
 import MenuList from '@mui/material/MenuList';
 
@@ -28,11 +27,12 @@ export const Sidebar = (props: SidebarProps) => {
 		<Grid
 			container
 			sx={{
-				backgroundColor: `${colors.dark.primary.p100}`,
 				minHeight: small ? '20vh' : '100vh',
+				width: '100%',
 			}}
 			flexDirection={'column'}
 			justifyContent={'space-between'}
+			id='sidebar'
 		>
 			<Grid item>
 				<Grid container flexDirection={'column'} alignItems={'center'} spacing={4}>
@@ -48,7 +48,7 @@ export const Sidebar = (props: SidebarProps) => {
 									<BackgroundLetterAvatars username={'John Doe'} />
 								</Grid>
 								<Grid item>
-									<Typography color={colors.dark.main.m100} variant={'h4'}>
+									<Typography id='avatarName' variant={'h4'}>
 										John Doe
 									</Typography>
 								</Grid>
@@ -58,7 +58,7 @@ export const Sidebar = (props: SidebarProps) => {
 				</Grid>
 			</Grid>
 			<Grid item>
-				<MenuList sx={{ width: '100%' }}>
+				<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
 					<CustomMenuItem Icon={<Note fontSize='medium' />} label={'Notes'} position={'left'} />
 					<CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Files'} position={'left'} />
 					<CustomMenuItem Icon={<Groups2 fontSize='medium' />} label={'Groups'} position={'left'} />
@@ -66,7 +66,7 @@ export const Sidebar = (props: SidebarProps) => {
 			</Grid>
 			<Grid item>
 				<Grid container>
-					<MenuList sx={{ width: '100%' }}>
+					<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
 						<CustomMenuItem Icon={<Settings fontSize='medium' />} label={'Settings'} position={'left'} />
 						<Divider />
 						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} />

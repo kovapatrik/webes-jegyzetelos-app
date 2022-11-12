@@ -1,12 +1,11 @@
 import type {NextPage} from 'next'
-import {Button, Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from '@mui/material';
-import { colors } from '../design/theme/themeColors';
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
+import { Grid } from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect } from 'react';
 import useSwr from 'swr'
 import { Database } from '../lib/database.types';
 import Link from 'next/link';
+import Login from './login';
 
 
 interface GetNoteGroupRes {
@@ -53,10 +52,7 @@ const Test: NextPage = () => {
                 })}
             </Grid>
         :
-            <Auth
-                supabaseClient={supabase}
-                appearance={{theme: ThemeSupa}}
-            />
+            <Login />
     )
 }
 

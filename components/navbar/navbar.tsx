@@ -1,40 +1,36 @@
 import * as React from 'react';
-import { Button, Toolbar } from '@mui/material/';
+import { Toolbar } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { ViewSidebarOutlined } from '@mui/icons-material';
-import { SxProps, Theme } from '@mui/material';
-import { colors } from '../../design/theme/themeColors';
+import { Grid } from '@mui/material';
+import NavButton from './navButton';
+import Box from '@mui/material/Box';
 
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;
 	toggle?: boolean;
-};
-
-const navbarStyles: Record<string, SxProps<Theme> | undefined> = {
-	container: {
-		backgroundColor: `${colors.dark.main.m100}`,
-		height: '50px',
-	},
+	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const Navbar = (props: NavbarProps) => {
-	const { onToggle, toggle } = props;
+	const { onToggle, toggle, toggleTheme } = props;
 
 	return (
-		<Toolbar sx={navbarStyles.container}>
-			{!toggle && (
-				<Button id='fade-button' aria-haspopup='true' onClick={onToggle} color={'primary'}>
-					<ViewSidebarOutlined />
-				</Button>
-			)}
-
-			<Button sx={{ marginLeft: 'auto' }} variant='contained'>
-				<SearchIcon />
-			</Button>
-			<Button sx={{ marginLeft: '20px' }} variant='contained'>
-				<ContrastIcon />
-			</Button>
+		<Toolbar>
+			<Grid container justifyContent={'space-between'}>
+				<Grid item>{!toggle && <NavButton Icon={<ViewSidebarOutlined />} onClick={onToggle} />}</Grid>
+				<Grid item>
+					<Grid container>
+						<Box px={1}>
+							<NavButton Icon={<SearchIcon />} />
+						</Box>
+						<Box px={1}>
+							<NavButton Icon={<ContrastIcon />} onClick={toggleTheme} />
+						</Box>
+					</Grid>
+				</Grid>
+			</Grid>
 		</Toolbar>
 	);
 };
