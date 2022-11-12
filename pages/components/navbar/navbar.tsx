@@ -4,8 +4,6 @@ import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { ViewSidebarOutlined } from '@mui/icons-material';
 import { Grid } from '@mui/material';
-import ThemeContext, { colors } from '../../../design/theme/themeColors';
-import { useContext } from 'react';
 import NavButton from './navButton';
 import Box from '@mui/material/Box';
 
