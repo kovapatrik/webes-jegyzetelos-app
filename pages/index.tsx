@@ -1,9 +1,9 @@
-import { Navbar } from '../components/navbar/navbar';
+import { Navbar } from './components/navbar/navbar';
 import { Grid } from '@mui/material';
-import Layout from '../components/layout';
+import Layout from './components/layout';
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { Sidebar } from '../components/sidebar/sidebar';
+import { Sidebar } from './components/sidebar/sidebar';
 
 type HomeProps = {
 	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
