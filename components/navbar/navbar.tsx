@@ -3,8 +3,9 @@ import { Toolbar } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { ViewSidebarOutlined } from '@mui/icons-material';
-import { SxProps, Theme } from '@mui/material';
-import { colors } from '../../../design/theme/themeColors';
+import { Grid } from '@mui/material';
+import NavButton from './navButton';
+import Box from '@mui/material/Box';
 
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;
