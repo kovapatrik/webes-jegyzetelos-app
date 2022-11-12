@@ -34,6 +34,11 @@ export const darkTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #composition-button': {
+						color: '#2e2e2e',
+						backgroundColor: '#e9fcf2',
+					},
+
 					'& #sidebar': {
 						border: '0.5px solid #2e2e2e',
 						backgroundColor: '#3ab27b',
@@ -49,6 +54,7 @@ export const darkTheme = createTheme({
 							color: '#ffffff',
 						},
 					},
+
 					'& #mainContainer': {
 						backgroundColor: '#1b1b1b',
 						'& p': {
@@ -78,14 +84,15 @@ export const lightTheme = createTheme({
 			primary: '#e9fcf2',
 			secondary: '#1C5E2E',
 		},
-		primary: {
-			main: '#D2F9E5',
-		},
 	},
 	components: {
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #composition-button': {
+						color: '#20DF7F',
+						backgroundColor: '#1e1e1e',
+					},
 					'& #sidebar': {
 						backgroundColor: '#052029',
 						' ul li svg': {
