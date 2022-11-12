@@ -1,21 +1,148 @@
 import { createTheme } from '@mui/material';
 
-const defaultTheme = createTheme({
-	typography: {
-		button: {
-			textTransform: 'none',
+export const darkTheme = createTheme({
+	palette: {
+		mode: 'dark',
+	},
+	components: {
+		MuiToolbar: {
+			styleOverrides: {
+				// Name of the slot
+				root: {
+					// Some CSS
+					borderBottom: `0.5px solid #ffffff`,
+					backgroundColor: '#1b1b1b',
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				// Name of the slot
+				root: {
+					// Some CSS
+					backgroundColor: '#20DF7F',
+					color: '#1b1b1b',
+					'&:hover': {
+						backgroundColor: '#50d568',
+					},
+					'&:active': {
+						backgroundColor: '#50d568',
+					},
+				},
+			},
+		},
+		MuiGrid: {
+			styleOverrides: {
+				root: {
+					'& #sidebar': {
+						border: '0.5px solid #2e2e2e',
+						backgroundColor: '#3ab27b',
+						' ul li svg': {
+							color: '#2e2e2e',
+						},
+						' ul li p': {
+							color: '#2e2e2e',
+						},
+					},
+					'& #avatarName': {
+						'& p': {
+							color: '#ffffff',
+						},
+					},
+					'& #mainContainer': {
+						backgroundColor: '#1b1b1b',
+						'& p': {
+							color: '#e9fcf2',
+						},
+						'& li a': {
+							color: '#e9fcf2',
+						},
+						'& #imageCard': {
+							backgroundColor: '#1b1b1b',
+							border: '0.5px solid #707070',
+						},
+						'& #smallMenuItem': {
+							color: '#707070',
+						},
+					},
+				},
+			},
 		},
 	},
-	breakpoints: {
-		values: {
-			xs: 0,
-			sm: 600,
-			md: 900,
-			lg: 1400,
-			xl: 1636,
-		},
-	},
-	components: {},
 });
 
-export default defaultTheme;
+export const lightTheme = createTheme({
+	palette: {
+		mode: 'light',
+		text: {
+			primary: '#e9fcf2',
+			secondary: '#1C5E2E',
+		},
+		primary: {
+			main: '#D2F9E5',
+		},
+	},
+	components: {
+		MuiGrid: {
+			styleOverrides: {
+				root: {
+					'& #sidebar': {
+						backgroundColor: '#052029',
+						' ul li svg': {
+							color: '#ffffff',
+						},
+						' ul li p': {
+							color: '#ffffff',
+						},
+						'& #avatarName': {
+							'& p': {
+								color: '#1C5E2E',
+							},
+						},
+					},
+					'& #mainContainer': {
+						'& p': {
+							color: '#093545',
+						},
+						'& li a': {
+							color: '#093545',
+						},
+						'& #imageCard': {
+							backgroundColor: '#ffffff',
+							border: '0.5px solid #707070',
+						},
+						'& #smallMenuItem': {
+							color: '#707070',
+						},
+					},
+				},
+			},
+		},
+		MuiToolbar: {
+			styleOverrides: {
+				// Name of the slot
+				root: {
+					// Some CSS
+					borderBottom: `0.5px solid #2e2e2e`,
+					backgroundColor: '#3ab27b',
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				// Name of the slot
+				root: {
+					// Some CSS
+					backgroundColor: '#052029',
+					color: '#20DF7F',
+					'&:hover': {
+						backgroundColor: '#093545',
+					},
+					'&:active': {
+						backgroundColor: '#093545',
+					},
+				},
+			},
+		},
+	},
+});

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { colors } from '../../../design/theme/themeColors';
 
 function stringToColor(string: string) {
 	let hash = 0;
@@ -29,7 +28,8 @@ function stringAvatar(name: string) {
 			width: '120px',
 			height: '120px',
 			fontSize: '48px',
-			border: `2px solid ${colors.light.main.m20}`,
+			color: '#ffffff',
+			border: `2px solid #ffffff`,
 		},
 		children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
 	};

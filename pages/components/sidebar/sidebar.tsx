@@ -1,7 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import { MouseEventHandler, useContext } from 'react';
 import * as React from 'react';
-import ThemeContext, { colors } from '../../../design/theme/themeColors';
 
 import MenuList from '@mui/material/MenuList';
 
@@ -19,22 +18,21 @@ type SidebarProps = {
 };
 
 export const Sidebar = (props: SidebarProps) => {
-	const { onToggle, toggle } = props;
+	const { onToggle } = props;
 
 	const theme = useTheme();
-	const themes = useContext(ThemeContext);
 	const small = useMediaQuery(theme.breakpoints.down('md'));
 
 	return (
 		<Grid
 			container
 			sx={{
-				backgroundColor: themes.themeColor.primary.p100,
 				minHeight: small ? '20vh' : '100vh',
 				width: '100%',
 			}}
 			flexDirection={'column'}
 			justifyContent={'space-between'}
+			id='sidebar'
 		>
 			<Grid item>
 				<Grid container flexDirection={'column'} alignItems={'center'} spacing={4}>
@@ -50,7 +48,7 @@ export const Sidebar = (props: SidebarProps) => {
 									<BackgroundLetterAvatars username={'John Doe'} />
 								</Grid>
 								<Grid item>
-									<Typography color={colors.light.main.m100} variant={'h4'}>
+									<Typography id='avatarName' variant={'h4'}>
 										John Doe
 									</Typography>
 								</Grid>
@@ -60,7 +58,7 @@ export const Sidebar = (props: SidebarProps) => {
 				</Grid>
 			</Grid>
 			<Grid item>
-				<MenuList sx={{ width: '100%' }}>
+				<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
 					<CustomMenuItem Icon={<Note fontSize='medium' />} label={'Notes'} position={'left'} />
 					<CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Files'} position={'left'} />
 					<CustomMenuItem Icon={<Groups2 fontSize='medium' />} label={'Groups'} position={'left'} />
@@ -68,7 +66,7 @@ export const Sidebar = (props: SidebarProps) => {
 			</Grid>
 			<Grid item>
 				<Grid container>
-					<MenuList sx={{ width: '100%' }}>
+					<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
 						<CustomMenuItem Icon={<Settings fontSize='medium' />} label={'Settings'} position={'left'} />
 						<Divider />
 						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} />

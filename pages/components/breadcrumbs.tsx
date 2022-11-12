@@ -3,8 +3,6 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { useContext } from 'react';
-import ThemeContext from '../../design/theme/themeColors';
 
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 	event.preventDefault();
@@ -12,23 +10,19 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 }
 
 export default function CustomBreadCrumbs() {
-	const themes = useContext(ThemeContext);
 	const breadcrumbs = [
-		<Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
+		<Link underline='hover' key='1' href='/' onClick={handleClick}>
 			MUI
 		</Link>,
-		<Link underline='hover' key='2' color='inherit' href='/material-ui/getting-started/installation/' onClick={handleClick}>
+		<Link underline='hover' key='2' href='/material-ui/getting-started/installation/' onClick={handleClick}>
 			Core
 		</Link>,
-		<Typography key='3' color='inherit'>
-			Breadcrumb
-		</Typography>,
+		<Typography key='3'>Breadcrumb</Typography>,
 	];
 
 	return (
-		<div></div>
-		// <Breadcrumbs color={themes.dark.main.white} separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
-		// 	{breadcrumbs}
-		// </Breadcrumbs>
+		<Breadcrumbs separator={<NavigateNextIcon fontSize='small' />} aria-label='breadcrumb'>
+			{breadcrumbs}
+		</Breadcrumbs>
 	);
 }

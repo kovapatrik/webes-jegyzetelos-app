@@ -12,54 +12,23 @@ import Box from '@mui/material/Box';
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;
 	toggle?: boolean;
+	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const Navbar = (props: NavbarProps) => {
-	const { onToggle, toggle } = props;
-	const themeColor = useContext(ThemeContext);
-
-	function toggleTheme() {
-		console.log('toggle');
-	}
+	const { onToggle, toggle, toggleTheme } = props;
 
 	return (
-		<Toolbar
-			sx={{
-				backgroundColor: themeColor.main.m100,
-				borderBottom: `0.5px solid ${themeColor.main.m60}`,
-			}}
-		>
+		<Toolbar>
 			<Grid container justifyContent={'space-between'}>
-				<Grid item>
-					{!toggle && (
-						<NavButton
-							Icon={<ViewSidebarOutlined />}
-							hoverColor={themeColor.primary.p120}
-							bgColor={themeColor.primary.p100}
-							color={themeColor.main.white}
-							onClick={onToggle}
-						/>
-					)}
-				</Grid>
+				<Grid item>{!toggle && <NavButton Icon={<ViewSidebarOutlined />} onClick={onToggle} />}</Grid>
 				<Grid item>
 					<Grid container>
 						<Box px={1}>
-							<NavButton
-								Icon={<SearchIcon />}
-								hoverColor={themeColor.primary.p120}
-								bgColor={themeColor.primary.p100}
-								color={themeColor.main.white}
-							/>
+							<NavButton Icon={<SearchIcon />} />
 						</Box>
-
 						<Box px={1}>
-							<NavButton
-								onClick={toggleTheme}
-								Icon={<ContrastIcon />}
-								hoverColor={themeColor.primary.p120}
-								bgColor={themeColor.primary.p100}
-								color={themeColor.main.white}
-							/>
+							<NavButton Icon={<ContrastIcon />} onClick={toggleTheme} />
 						</Box>
 					</Grid>
 				</Grid>
