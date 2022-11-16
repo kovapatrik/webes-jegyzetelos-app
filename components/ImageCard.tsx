@@ -3,6 +3,8 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { MoreVert } from '@mui/icons-material';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
@@ -14,7 +16,16 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	},
 };
 
-export default function ImageCard() {
+interface ImageProps {
+	title: string;
+	href: string;
+	href_as: string;
+}
+
+export default function ImageCard({ title, href, href_as} : ImageProps) {
+
+	const router = useRouter();
+
 	return (
 		<Box
 			id='imageCard'
@@ -31,16 +42,18 @@ export default function ImageCard() {
 				</Grid>
 				<Grid item>
 					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-						<Grid item>
-							<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-								<Grid item>
-									<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-								</Grid>
-								<Grid item>
-									<Typography sx={{ color: '#ffffff' }}>Image title</Typography>
+						<Link href={href} as={href_as}>
+							<Grid item>
+								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+									<Grid item>
+										<PictureAsPdfIcon sx={{ color: '#de5246' }} />
+									</Grid>
+									<Grid item>
+										<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
+									</Grid>
 								</Grid>
 							</Grid>
-						</Grid>
+						</Link>
 						<Grid item>
 							<Grid container>
 								<Grid item>

@@ -2,6 +2,7 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Database } from '../../../lib/database.types'
+import { GetNote } from '../../../lib/note'
 
 export default async function Note(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -26,19 +27,9 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
         if (req.method === "GET") {
             
             const { id }  = req.query as Database['public']['Tables']['note']['Row']
-       
-            const note  = (await supabaseServerClient.from("note")
-                                                     .select('title, data, created_at, last_modify')
-                                                     .eq('id', id)
-                                                     .single())
-                                                     .data
-            const perms = (await supabaseServerClient.from("note_perm")
-                                                     .select('user_id, view_perm, edit_perm')
-                                                     .eq('note_id', id)
-                                                     .neq('user_id', user?.id))
-                                                     .data
-            console.log(note, perms)
-
+            
+            const {note, perms} = await GetNote({id, user, supabaseServerClient})
+            
             res.status(200).json(note)
         // Create
         } else if (req.method === "POST") {

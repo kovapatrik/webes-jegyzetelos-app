@@ -1,30 +1,42 @@
 import CustomBreadCrumbs from './breadcrumbs';
 import { Grid, Box } from '@mui/material';
 import ImageCard from './ImageCard';
+import { ReactNode, useState } from 'react';
+import { Sidebar } from './sidebar/sidebar';
+import { Navbar } from './navbar/navbar';
 
 type LayoutProps = {
-	toggle?: boolean;
+	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
+	children?: ReactNode,
+	toggleSidebar: React.MouseEventHandler<HTMLButtonElement>;
+	toggle: boolean;
 };
 
-export default function Layout(props: LayoutProps) {
-	const { toggle } = props;
+export default function Layout({ toggleTheme, children, toggleSidebar, toggle }: LayoutProps) {
+
 
 	return (
-		<Grid id='mainContainer' container flexDirection={'column'} p={4}>
-			<Grid item>
-				<CustomBreadCrumbs />
-			</Grid>
-			<Grid item>
-				<Box pt={3}>
-					<Grid container spacing={3}>
-						{Array.from(Array(30)).map((_, index) => (
-							<Grid item xs={6} sm={4} md={toggle ? 4 : 3} lg={toggle ? 3 : 2} xl={2} key={index}>
-								<ImageCard />
-							</Grid>
-						))}
+		<Box sx={{ height: '100vh' }}>
+			<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+				{toggle && (
+					<Grid item md={3} xl={2} display={{ xs: 'none', md: 'block' }}>
+						<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
-				</Box>
+				)}
+				<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
+					<Grid item>
+						<Navbar onToggle={toggleSidebar} toggle={toggle} toggleTheme={toggleTheme} />
+					</Grid>
+					{toggle && (
+						<Grid item xs={12} md={2} lg={1} display={{ xs: 'block', md: 'none' }}>
+							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
+						</Grid>
+					)}
+					<Grid item>
+						{children}
+					</Grid>
+				</Grid>
 			</Grid>
-		</Grid>
+		</Box>
 	);
 }

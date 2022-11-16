@@ -1,11 +1,12 @@
-import type { NextPage } from 'next';
-import { Grid } from '@mui/material';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import { useSession } from '@supabase/auth-helpers-react';
 import useSwr from 'swr';
 import { Database } from '../lib/database.types';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Login from './login';
+import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
+import Layout from '../components/layout';
+import { SharedAppProps } from '../lib/app.types';
+import ImageCard from '../components/ImageCard';
 
 interface GetNoteGroupRes {
 	notes: Database['public']['Tables']['note']['Row'][];
@@ -14,7 +15,12 @@ interface GetNoteGroupRes {
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-const NoteGroup: NextPage = () => {
+interface NoteGroupProps extends SharedAppProps {
+	user: User;
+	session: Session;
+}
+
+const NoteGroup: NextPage<NoteGroupProps> = ({ user, toggle, toggleSidebar, toggleTheme }) => {
 	const {
 		query: { notegroup_id },
 	} = useRouter();
@@ -22,27 +28,16 @@ const NoteGroup: NextPage = () => {
 
 	const { data } = useSwr<GetNoteGroupRes>(`/api/note-group/${notegroup_id}`, fetcher);
 
-	return session?.user ? (
-		<Grid>
-			{session.user.email}
-			{data?.noteGroups?.map(n => {
-				return (
-					<Link key={n.id} href='/[notegroup_id]' as={`/${n.id}`}>
-						{n.title}
-					</Link>
-				);
-			})}
-			{data?.notes?.map(n => {
-				return (
-					<Link key={n.id} href='/[notegroup_id]/[note_id]' as={`/${notegroup_id}/${n.id}`}>
-						{n.title}
-					</Link>
-				);
-			})}
-		</Grid>
-	) : (
-		<Login />
-	);
+	return (
+		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
+			{data?.noteGroups?.map(n => (
+					<ImageCard title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`}/>
+			))}
+			{data?.notes?.map(n => (
+				<ImageCard title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${notegroup_id}/${n.id}`}/>
+			))}
+		</Layout>
+	)
 };
 
 export default NoteGroup;

@@ -14,7 +14,7 @@
 		"@fontsource/lexend-deca": "^4.5.12",
 		"@mui/icons-material": "^5.10.9",
 		"@mui/material": "^5.10.11",
-		"@supabase/auth-helpers-nextjs": "^0.4.2",
+		"@supabase/auth-helpers-nextjs": "^0.5.2",
 		"@supabase/auth-helpers-react": "^0.3.1",
 		"@supabase/auth-ui-react": "^0.2.6",
 		"@supabase/supabase-js": "^2.0.5",

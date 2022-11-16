@@ -47,6 +47,12 @@ export default function MyApp(props: MyAppProps) {
 		setCookieTheme(PREFERENCE_COOKIE_NAME, desiredTheme);
 	};
 
+	const [toggle, setToggle] = useState<boolean>();
+
+	const toggleSidebar: React.MouseEventHandler<HTMLAnchorElement> = () => {
+		setToggle(!toggle);
+	};
+
 	useEffect(() => {
 		setActiveTheme(getActiveTheme(selectedTheme));
 	}, [selectedTheme]);
@@ -57,7 +63,7 @@ export default function MyApp(props: MyAppProps) {
 				<ThemeProvider theme={activeTheme}>
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
-						<Component {...pageProps} toggleTheme={toggleTheme} />
+						<Component {...pageProps} toggleTheme={toggleTheme} toggleSidebar={toggleSidebar} toggle={toggle}/>
 					</SessionContextProvider>
 				</ThemeProvider>
 			</StyledEngineProvider>
