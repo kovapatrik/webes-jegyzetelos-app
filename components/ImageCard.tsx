@@ -24,8 +24,6 @@ interface ImageProps {
 
 export default function ImageCard({ title, href, href_as} : ImageProps) {
 
-	const router = useRouter();
-
 	return (
 		<Box
 			id='imageCard'
@@ -34,38 +32,38 @@ export default function ImageCard({ title, href, href_as} : ImageProps) {
 			}}
 			p={1}
 		>
-			<Grid container flexDirection={'column'} spacing={1}>
-				<Grid item>
-					<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
-						<img src={itemData[0].img} loading='lazy' />
-					</ImageListItem>
-				</Grid>
-				<Grid item>
-					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-						<Link href={href} as={href_as}>
-							<Grid item>
-								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-									<Grid item>
-										<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-									</Grid>
-									<Grid item>
-										<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
+			<Link href={href} as={href_as}>
+				<Grid container flexDirection={'column'} spacing={1}>
+					<Grid item>
+						<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
+							<img src={itemData[0].img} loading='lazy' />
+						</ImageListItem>
+					</Grid>
+					<Grid item>
+						<Grid container flexDirection={'row'} justifyContent={'space-between'}>
+								<Grid item>
+									<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+										<Grid item>
+											<PictureAsPdfIcon sx={{ color: '#de5246' }} />
+										</Grid>
+										<Grid item>
+											<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
+										</Grid>
 									</Grid>
 								</Grid>
-							</Grid>
-						</Link>
-						<Grid item>
-							<Grid container>
-								<Grid item>
-									<IconButton>
-										<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
-									</IconButton>
+							<Grid item>
+								<Grid container>
+									<Grid item>
+										<IconButton>
+											<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
+										</IconButton>
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			</Link>
 		</Box>
 	);
 }

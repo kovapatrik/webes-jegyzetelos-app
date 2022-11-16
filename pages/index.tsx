@@ -2,12 +2,9 @@ import { Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
-import useSwr from 'swr'
-import { Database } from '../lib/database.types';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { createServerSupabaseClient, User } from '@supabase/auth-helpers-nextjs';
-import { GetBaseNoteGroup, GetNoteGroup } from '../lib/note_group';
+import { NextPage } from 'next';
+import { GetBaseNoteGroup } from '../lib/note_group';
 
 const Home: NextPage = () => {
 
@@ -15,7 +12,7 @@ const Home: NextPage = () => {
 	const user = useUser();
 	const router = useRouter();
 
-	const [baseId, setBaseId] = useState<string|null>(null)
+	const [baseId, setBaseId] = useState<string|null|undefined>(null)
 	if (baseId) {
 		router.push(`/${baseId}`)	
 	}
@@ -34,8 +31,7 @@ const Home: NextPage = () => {
 
 		async function getData() {
 			const data = await GetBaseNoteGroup({user, supabaseServerClient: supaBaseClient});
-			console.log(data)
-			setBaseId(data!.id);
+			setBaseId(data?.id);
 		}
 
 		if (user) getData();

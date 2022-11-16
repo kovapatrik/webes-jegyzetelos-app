@@ -4,7 +4,6 @@ import { useSession } from '@supabase/auth-helpers-react';
 import useSwr from 'swr';
 import { Database } from '../../lib/database.types';
 import { useRouter } from 'next/router';
-import Login from '../login';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -16,14 +15,12 @@ const Note: NextPage = () => {
 
 	const { data } = useSwr<Database['public']['Tables']['note']['Row']>(`/api/note/${note_id}`, fetcher);
 	console.log(data);
-	return session?.user ? (
+	return (
 		<Grid>
-			{session.user.email}
+			{session!.user.email}
 			<p>{data?.title}</p>
 			<p>{data?.data}</p>
 		</Grid>
-	) : (
-		<Login />
 	);
 };
 

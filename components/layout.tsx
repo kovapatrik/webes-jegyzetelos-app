@@ -1,7 +1,5 @@
-import CustomBreadCrumbs from './breadcrumbs';
 import { Grid, Box } from '@mui/material';
-import ImageCard from './ImageCard';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { Sidebar } from './sidebar/sidebar';
 import { Navbar } from './navbar/navbar';
 

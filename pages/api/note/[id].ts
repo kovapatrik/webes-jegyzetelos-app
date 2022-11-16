@@ -14,9 +14,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
         data: { user },
         } = await supabaseServerClient.auth.getUser()
 
-        const { data } = await supabaseServerClient.auth.getSession()
-
-        if (!data.session) {
+        if (!user) {
             return res.status(401).json({
               error: 'not_authenticated',
               description: 'The user does not have an active session or is not authenticated',
@@ -49,7 +47,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                                             note_group_id: note_group_id, 
                                                             title: title
                                                         })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note with the same title already exists in this note group.',
@@ -58,7 +56,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
     
            await supabaseServerClient.from("note")
                                      .insert({
-                                             user_id: user!.id,
+                                             user_id: user.id,
                                              title: title,
                                              note_group_id: note_group_id,
                                              data: data
@@ -82,7 +80,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                                             title: title,
                                                             note_group_id: note_group_id, 
                                                         })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note with the same title already exists in this note group.',

@@ -14,9 +14,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         data: { user },
         } = await supabaseServerClient.auth.getUser()
 
-        const { data } = await supabaseServerClient.auth.getSession()
-
-        if (!data.session) {
+        if (!user) {
             return res.status(401).json({
               error: 'not_authenticated',
               description: 'The user does not have an active session or is not authenticated',
@@ -26,8 +24,10 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         if (req.query.id === 'null') {
             
             const baseNoteGroup = await GetBaseNoteGroup({user, supabaseServerClient})
-
-            return res.status(200).json({ notegroup_id: baseNoteGroup!.id })
+            if (!baseNoteGroup) {
+                return res.status(400).json({error: 'Invalid request (getBaseNoteGroup).'})
+            }
+            return res.status(200).json({ notegroup_id: baseNoteGroup.id })
         }
         
         // Read
@@ -56,7 +56,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
                                                             base_note_group_id: base_note_group_id || null, 
                                                             title: title
                                                         })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note group with the same title already exists in this note group.',
@@ -65,7 +65,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
     
         await supabaseServerClient.from("note_group")
                                     .insert({
-                                            user_id: user!.id,
+                                            user_id: user.id,
                                             title: title,
                                             base_note_group_id: base_note_group_id || null
                                         })
@@ -88,7 +88,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
                                                             title: title,
                                                             base_note_group_id: base_note_group_id || null, 
                                                             })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note group with the same title already exists in this note group.',
