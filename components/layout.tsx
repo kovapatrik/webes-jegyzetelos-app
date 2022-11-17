@@ -1,5 +1,6 @@
 import CustomBreadCrumbs from './breadcrumbs';
 import { Grid, Box } from '@mui/material';
+import ShortcutMenuButton from './floatingMenuButton';
 import ImageCard from './ImageCard';
 
 type LayoutProps = {
@@ -22,6 +23,11 @@ export default function Layout(props: LayoutProps) {
 								<ImageCard />
 							</Grid>
 						))}
+					</Grid>
+					<Grid container style={{ position: 'relative' }}>
+						<Box sx={{ width: '100%', bottom: '2em', right: '2em', position: 'fixed' }} display='flex' justifyContent='flex-end'>
+							<ShortcutMenuButton />
+						</Box>
 					</Grid>
 				</Box>
 			</Grid>
