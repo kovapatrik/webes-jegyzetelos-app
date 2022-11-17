@@ -12,13 +12,15 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
+import Layout from '../components/layout';
 
 const clientSideEmotionCache = createEmotionCache();
 
-interface MyAppProps extends AppProps {
+interface MyAppProps {
 	emotionCache?: EmotionCache;
 	initialSession: Session;
 }
+
 
 function getActiveTheme(themeMode: 'light' | 'dark') {
 	return themeMode === 'light' ? lightTheme : darkTheme;
@@ -26,8 +28,7 @@ function getActiveTheme(themeMode: 'light' | 'dark') {
 
 const PREFERENCE_COOKIE_NAME = 'theme-preference';
 
-export default function MyApp(props: MyAppProps) {
-	const { Component, emotionCache = clientSideEmotionCache, initialSession, pageProps } = props;
+export default function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache, initialSession }: AppProps & MyAppProps) {
 	const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
 	const userSystemThemePreferenceDark = useMediaQuery('(prefers-color-scheme: dark)');
@@ -40,22 +41,22 @@ export default function MyApp(props: MyAppProps) {
 
 	const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>(preferredTheme);
 
-	const toggleTheme: React.MouseEventHandler<HTMLAnchorElement> = () => {
+	const toggleTheme: React.MouseEventHandler<HTMLButtonElement> = () => {
 		const desiredTheme = selectedTheme === 'light' ? 'dark' : 'light';
 
 		setSelectedTheme(desiredTheme);
 		setCookieTheme(PREFERENCE_COOKIE_NAME, desiredTheme);
 	};
 
-	const [toggle, setToggle] = useState<boolean>();
-
-	const toggleSidebar: React.MouseEventHandler<HTMLAnchorElement> = () => {
-		setToggle(!toggle);
-	};
-
 	useEffect(() => {
 		setActiveTheme(getActiveTheme(selectedTheme));
 	}, [selectedTheme]);
+
+	const [toggle, setToggle] = useState<boolean>(false);
+
+	const toggleSidebar: React.MouseEventHandler<HTMLButtonElement> = () => {
+		setToggle(!toggle);
+	};
 
 	return (
 		<CacheProvider value={emotionCache}>
@@ -63,7 +64,9 @@ export default function MyApp(props: MyAppProps) {
 				<ThemeProvider theme={activeTheme}>
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
-						<Component {...pageProps} toggleTheme={toggleTheme} toggleSidebar={toggleSidebar} toggle={toggle}/>
+						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
+							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}/>
+						</Layout>
 					</SessionContextProvider>
 				</ThemeProvider>
 			</StyledEngineProvider>

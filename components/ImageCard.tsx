@@ -4,7 +4,6 @@ import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { MoreVert } from '@mui/icons-material';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {

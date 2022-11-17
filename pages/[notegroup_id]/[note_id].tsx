@@ -14,7 +14,7 @@ const Note: NextPage = () => {
 	const session = useSession();
 
 	const { data } = useSwr<Database['public']['Tables']['note']['Row']>(`/api/note/${note_id}`, fetcher);
-	console.log(data);
+
 	return (
 		<Grid>
 			{session!.user.email}
