@@ -3,6 +3,7 @@ import { Sidebar } from './sidebar/sidebar';
 import { Navbar } from './navbar/navbar';
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
+import ShortcutMenuButton from './floatingMenuButton';
 
 interface LayoutProps {
 	children?: ReactNode;
@@ -36,6 +37,11 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar } 
 						<Grid item>
 							{children}
 						</Grid>
+						<Grid container style={{ position: 'relative' }}>
+							<Box sx={{ width: '100%', bottom: '2em', right: '2em', position: 'fixed' }} display='flex' justifyContent='flex-end'>
+								<ShortcutMenuButton />
+							</Box>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Box>
@@ -43,6 +49,5 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar } 
 		<>
 		{children}
 		</>
-		
 	);
 }
