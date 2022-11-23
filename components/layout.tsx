@@ -16,7 +16,7 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar } 
 	const router = useRouter()
 
 	return (
-		router.pathname !== '/' ?
+		router.pathname !== '/' && router.pathname !== '/register' ?
 			<Box sx={{ height: '100vh' }}>
 				<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
 					{toggle && (
