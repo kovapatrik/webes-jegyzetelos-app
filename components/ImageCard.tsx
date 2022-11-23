@@ -3,6 +3,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { MoreVert } from '@mui/icons-material';
+import Link from 'next/link';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
@@ -14,7 +15,14 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	},
 };
 
-export default function ImageCard() {
+interface ImageProps {
+	title: string;
+	href: string;
+	href_as: string;
+}
+
+export default function ImageCard({ title, href, href_as} : ImageProps) {
+
 	return (
 		<Box
 			id='imageCard'
@@ -23,36 +31,38 @@ export default function ImageCard() {
 			}}
 			p={1}
 		>
-			<Grid container flexDirection={'column'} spacing={1}>
-				<Grid item>
-					<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
-						<img src={itemData[0].img} loading='lazy' />
-					</ImageListItem>
-				</Grid>
-				<Grid item>
-					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-						<Grid item>
-							<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+			<Link href={href} as={href_as}>
+				<Grid container flexDirection={'column'} spacing={1}>
+					<Grid item>
+						<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
+							<img src={itemData[0].img} loading='lazy' />
+						</ImageListItem>
+					</Grid>
+					<Grid item>
+						<Grid container flexDirection={'row'} justifyContent={'space-between'}>
 								<Grid item>
-									<PictureAsPdfIcon sx={{ color: '#de5246' }} />
+									<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+										<Grid item>
+											<PictureAsPdfIcon sx={{ color: '#de5246' }} />
+										</Grid>
+										<Grid item>
+											<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
+										</Grid>
+									</Grid>
 								</Grid>
-								<Grid item>
-									<Typography sx={{ color: '#ffffff' }}>Image title</Typography>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid item>
-							<Grid container>
-								<Grid item>
-									<IconButton>
-										<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
-									</IconButton>
+							<Grid item>
+								<Grid container>
+									<Grid item>
+										<IconButton>
+											<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
+										</IconButton>
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			</Link>
 		</Box>
 	);
 }

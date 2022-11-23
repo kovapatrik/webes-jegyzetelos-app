@@ -11,6 +11,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 import { CustomMenuItem } from './customMenuItem';
 import BackgroundLetterAvatars from './backgroundLetterAvatar';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;
@@ -22,6 +24,14 @@ export const Sidebar = (props: SidebarProps) => {
 
 	const theme = useTheme();
 	const small = useMediaQuery(theme.breakpoints.down('md'));
+
+	const supabaseClient = useSupabaseClient();
+	const router = useRouter();
+
+	async function signOut() {
+		await supabaseClient.auth.signOut()
+		router.push('/')
+	}
 
 	return (
 		<Grid
@@ -69,7 +79,7 @@ export const Sidebar = (props: SidebarProps) => {
 					<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
 						<CustomMenuItem Icon={<Settings fontSize='medium' />} label={'Settings'} position={'left'} />
 						<Divider />
-						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} />
+						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} onClick={async () => await signOut()} />
 					</MenuList>
 				</Grid>
 			</Grid>

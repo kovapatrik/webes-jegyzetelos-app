@@ -2,6 +2,7 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Database } from '../../../lib/database.types'
+import { GetNote } from '../../../lib/note'
 
 export default async function Note(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -13,9 +14,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
         data: { user },
         } = await supabaseServerClient.auth.getUser()
 
-        const { data } = await supabaseServerClient.auth.getSession()
-
-        if (!data.session) {
+        if (!user) {
             return res.status(401).json({
               error: 'not_authenticated',
               description: 'The user does not have an active session or is not authenticated',
@@ -26,19 +25,9 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
         if (req.method === "GET") {
             
             const { id }  = req.query as Database['public']['Tables']['note']['Row']
-       
-            const note  = (await supabaseServerClient.from("note")
-                                                     .select('title, data, created_at, last_modify')
-                                                     .eq('id', id)
-                                                     .single())
-                                                     .data
-            const perms = (await supabaseServerClient.from("note_perm")
-                                                     .select('user_id, view_perm, edit_perm')
-                                                     .eq('note_id', id)
-                                                     .neq('user_id', user?.id))
-                                                     .data
-            console.log(note, perms)
-
+            
+            const {note, perms} = await GetNote({id, user, supabaseServerClient})
+            
             res.status(200).json(note)
         // Create
         } else if (req.method === "POST") {
@@ -58,7 +47,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                                             note_group_id: note_group_id, 
                                                             title: title
                                                         })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note with the same title already exists in this note group.',
@@ -67,7 +56,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
     
            await supabaseServerClient.from("note")
                                      .insert({
-                                             user_id: user!.id,
+                                             user_id: user.id,
                                              title: title,
                                              note_group_id: note_group_id,
                                              data: data
@@ -91,7 +80,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                                             title: title,
                                                             note_group_id: note_group_id, 
                                                         })
-            if (count! > 0) {
+            if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
                     description: 'A note with the same title already exists in this note group.',
