@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSupabaseClient} from '@supabase/auth-helpers-react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconButton, Link } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -12,7 +12,7 @@ const Register = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
-
+	const pattern = /.*@.*(elte\.hu)$/;
 
 	const [showPassword, setShowPassword] = useState(false);
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -22,28 +22,32 @@ const Register = () => {
 	const handleSignUp = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const { error } = await supaBaseClient.auth.signUp({
-			email,
-			password,
-			options: {
-				data: {
-					name,
+		if (pattern.test(email)) {
+			const { error } = await supaBaseClient.auth.signUp({
+				email,
+				password,
+				options: {
+					data: {
+						name,
+					}
+				}
+			});
+			if (error) {
+				if (error.message == "Password should be at least 6 characters") {
+					alert(JSON.stringify("A jelszónak legalább 6 karakterből kell állnia"));
+				}
+				else {
+					alert(JSON.stringify("Az e-mail cím nem ellenőrizhető: érvénytelen formátum"));
 				}
 			}
-		});
-
-		if (error) {
-			if (error.message == "Password should be at least 6 characters")
-			{
-				alert(JSON.stringify("A jelszónak legalább 6 karakterből kell állnia"));
+			else {
+				router.push('/');
 			}
-			else 
-			{
-				alert(JSON.stringify("Az e-mail cím nem ellenőrizhető: érvénytelen formátum"));
-			}
-		} else {
-			router.push('/');
 		}
+		else {
+			alert(JSON.stringify("Sajnos csak Eötvös Loránd Tudományegyetemi e-mail címet fogadunk el."));
+		}
+
 	};
 
 	return (
@@ -72,7 +76,7 @@ const Register = () => {
 							<TextField sx={{ padding: '0px', width: '300px', margin: '20px', "& label": { color: '#052029' } }}
 								id="name"
 								label="Név"
-								onChange={(e) => setName(e.target.value)} 
+								onChange={(e) => setName(e.target.value)}
 								InputProps={{
 									style: {
 										borderRadius: '10px',
@@ -83,7 +87,7 @@ const Register = () => {
 							<TextField sx={{ padding: '0px', width: '300px', margin: '20px', "& label": { color: '#052029' }, marginTop: '10px' }}
 								id="email"
 								label="E-mail cím"
-								onChange={(e) => setEmail(e.target.value)} 
+								onChange={(e) => setEmail(e.target.value)}
 								InputProps={{
 									style: {
 										borderRadius: '10px',
@@ -114,10 +118,10 @@ const Register = () => {
 									)
 								}}
 							/>
-							<Button onClick={handleSignUp} sx={{borderRadius: '10px', width: '300px', margin: '20px', marginTop: '10px' }}>
+							<Button onClick={handleSignUp} sx={{ borderRadius: '10px', width: '300px', margin: '20px', marginTop: '10px' }}>
 								Regisztráció
 							</Button>
-                            <Link href="/" underline="none" sx={{ padding: '0px', width: '300px', margin: '20px',  marginTop: '0px'  }} >Van már fiókom</Link>
+							<Link href="/" underline="none" sx={{ padding: '0px', width: '300px', margin: '20px', marginTop: '0px' }} >Van már fiókom</Link>
 						</FormControl>
 					</Grid>
 				</Grid>

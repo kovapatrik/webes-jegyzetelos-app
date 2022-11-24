@@ -35,15 +35,14 @@ const Home: NextPage = () => {
 		if (user) getData();
 
 	}, [supaBaseClient.auth, user])
-
+	
 	const handleSignIn = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const { error, data } = await supaBaseClient.auth.signInWithPassword({
+		const { error} = await supaBaseClient.auth.signInWithPassword({
 			email,
 			password,
 		});
-		console.log(data);
 		if (error) {
 			alert(JSON.stringify("Hibás e-mail cím vagy jelszó. Próbálja újra, vagy kattintson az Elfelejtett jelszó linkre a jelszó visszaállításához."));
 		}
