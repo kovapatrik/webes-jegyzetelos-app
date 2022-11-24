@@ -14,6 +14,8 @@ import BackgroundLetterAvatars from './backgroundLetterAvatar';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 
+import { deleteCookie } from 'cookies-next';
+
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;
 	toggle?: boolean;
@@ -30,6 +32,7 @@ export const Sidebar = (props: SidebarProps) => {
 
 	async function signOut() {
 		await supabaseClient.auth.signOut()
+		deleteCookie('supabase-auth-token');
 		router.push('/')
 	}
 
