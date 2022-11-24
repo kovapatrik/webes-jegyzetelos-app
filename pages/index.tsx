@@ -8,7 +8,6 @@ import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconB
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-
 const Home: NextPage = () => {
 	const supaBaseClient = useSupabaseClient();
 	const user = useUser();
@@ -22,6 +21,11 @@ const Home: NextPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
 	const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+
+	if (baseId) {
+		router.push(`/${baseId}`)
+	}
 
 	useEffect(() => {
 		async function getData() {
@@ -42,10 +46,6 @@ const Home: NextPage = () => {
 		console.log(data);
 		if (error) {
 			alert(JSON.stringify("Hibás e-mail cím vagy jelszó. Próbálja újra, vagy kattintson az Elfelejtett jelszó linkre a jelszó visszaállításához."));
-		} else {
-			if (baseId) {
-				router.push(`/${baseId}`)
-			}
 		}
 	};
 
