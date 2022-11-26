@@ -14,6 +14,8 @@ import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
 import Layout from '../components/layout';
 
+import 'react-markdown-editor-lite/lib/index.css';
+
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps {
