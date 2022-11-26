@@ -1,13 +1,11 @@
-import type { GetServerSidePropsContext, NextPage } from 'next';
-import { Box, Grid } from '@mui/material';
+import type { NextPage } from 'next';
+import { Box } from '@mui/material';
 import useSwr from 'swr';
 import { Database } from '../../lib/database.types';
 import { useRouter } from 'next/router';
-import { useSession, useUser } from '@supabase/auth-helpers-react';
 import ReactMarkdown from 'react-markdown';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -15,13 +13,12 @@ const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
 });
 
-const Note = ({ data }: {data: any}) => {
+const Note: NextPage = () => {
 	const {
 		query: { notegroup_id, note_id },
 	} = useRouter();
 
-	console.log(data);
-	
+	const { data } = useSwr<Database['public']['Tables']['note']['Row']>(`/api/note/${note_id}`, fetcher);
 
 	const [value, setValue] = useState(data?.data);
 
@@ -30,11 +27,15 @@ const Note = ({ data }: {data: any}) => {
 		setValue(text);
 	}
 
+	if (!data?.data) {
+		return null;
+	}
+
 	return (
 		<Box sx={{ padding: '40px' }}>
 			<MdEditor
 				style={{ height: '500px' }}
-				value={value ?? undefined}
+				value={value ?? data.data}
 				renderHTML={text => <ReactMarkdown>{text}</ReactMarkdown>}
 				onChange={(data, event) => handleEditorChange(data.text, event)}
 			/>
@@ -43,31 +44,3 @@ const Note = ({ data }: {data: any}) => {
 };
 
 export default Note;
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-	// Create authenticated Supabase Client
-	const supabase = createServerSupabaseClient(ctx);
-	// Check if we have a session
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
-
-	if (!session)
-		return {
-			redirect: {
-				destination: '/',
-				permanent: false,
-			},
-		};
-
-	// Run queries with RLS on the server
-	const { data } = await supabase.from('note').select('title, data, created_at, last_modify').eq('id', session.user.id).single();
-
-	return {
-		props: {
-			initialSession: session,
-			user: session.user,
-			data: data ?? [],
-		},
-	};
-};
