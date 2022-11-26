@@ -12,7 +12,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
+import ViewProvider from '../context/toggleContext';
 import Layout from '../components/layout';
+import { weakTheme } from '../design/theme/weakTheme';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -20,7 +22,6 @@ interface MyAppProps {
 	emotionCache?: EmotionCache;
 	initialSession: Session;
 }
-
 
 function getActiveTheme(themeMode: 'light' | 'dark') {
 	return themeMode === 'light' ? lightTheme : darkTheme;
@@ -49,8 +50,12 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 	};
 
 	useEffect(() => {
-		setActiveTheme(getActiveTheme(selectedTheme));
-	}, [selectedTheme]);
+		if (cookieTheme['theme-preference'] === 'weak') {
+			setActiveTheme(weakTheme);
+		} else {
+			setActiveTheme(getActiveTheme(selectedTheme));
+		}
+	}, [selectedTheme, cookieTheme]);
 
 	const [toggle, setToggle] = useState<boolean>(false);
 
@@ -61,14 +66,16 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 	return (
 		<CacheProvider value={emotionCache}>
 			<StyledEngineProvider injectFirst>
-				<ThemeProvider theme={activeTheme}>
-					<CssBaseline />
-					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
-						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
-							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}/>
-						</Layout>
-					</SessionContextProvider>
-				</ThemeProvider>
+				<ViewProvider>
+					<ThemeProvider theme={activeTheme}>
+						<CssBaseline />
+						<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
+							<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
+								<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
+							</Layout>
+						</SessionContextProvider>
+					</ThemeProvider>
+				</ViewProvider>
 			</StyledEngineProvider>
 		</CacheProvider>
 	);
