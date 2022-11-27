@@ -31,15 +31,15 @@ const Home: NextPage = () => {
 
         supaBaseClient.auth.onAuthStateChange(async (event, session) => {
             if (event == "PASSWORD_RECOVERY") {
-              const newPassword = prompt("What would you like your new password to be?");
+              const newPassword = prompt("Kérlek írd be az új jleszót!");
               if (newPassword) {
                 const { data, error } = await supaBaseClient.auth.updateUser({
                     password: newPassword,
                   })
-                if (data) alert("Password updated successfully!")
-                if (error) alert("There was an error updating your password.")
+                if (data) alert("A jelszó frissítése sikeres volt!")
+                if (error) alert("Hiba történt a jelszó frissítése közben.")
               } else {
-                alert("Password is empty")
+                alert("A jelszó üres")
               }
             }
           })
