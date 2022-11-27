@@ -44,7 +44,7 @@ function Note() {
 
 	function setView(perms: Database['public']['Tables']['note_perm']['Row']) {
 		if (!perms.edit_perm) {
-			return {...mdOptions, menu: false, md: false};
+			return { ...mdOptions, menu: false, md: false };
 		} else {
 			return mdOptions;
 		}
@@ -61,7 +61,9 @@ function Note() {
 				renderHTML={text => Promise.resolve(converter.makeHtml(text))}
 				onChange={(data, event) => handleEditorChange(data.text, event)}
 			/>
-			<Button disabled={!data.perms.edit_perm} sx={{ marginTop: '10px' }} variant='contained'>Save changes</Button>
+			<Button disabled={!data.perms.edit_perm} sx={{ marginTop: '10px' }} variant='contained'>
+				Save changes
+			</Button>
 		</Box>
 	);
 }
