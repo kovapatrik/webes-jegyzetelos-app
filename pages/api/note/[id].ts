@@ -28,7 +28,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             
             const {note, perms} = await GetNote({id, user, supabaseServerClient})
             
-            res.status(200).json(note)
+            res.status(200).json({ note, perms })
         // Create
         } else if (req.method === "POST") {
 

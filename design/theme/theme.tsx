@@ -81,8 +81,8 @@ export const lightTheme = createTheme({
 	palette: {
 		mode: 'light',
 		text: {
-			primary: '#e9fcf2',
-			secondary: '#1C5E2E',
+			primary: '#348c5e',
+			secondary: '#348c5e',
 		},
 	},
 	components: {
