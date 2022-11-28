@@ -16,9 +16,9 @@ export async function GetNoteGroup({id, user, supabaseServerClient} : {id: strin
 
 export async function GetBaseNoteGroup({user, supabaseServerClient} : { user: User | null, supabaseServerClient: SupabaseClient<Database, "public">}) {
     const baseNoteGroup = (await supabaseServerClient.from("note_group")
-                                                     .select("id, note_perm!inner ( owner_user_id )")
+                                                     .select("id")
                                                      .is("base_note_group_id", null)
-                                                     .eq('note_perm.owner_user_id', user?.id) // not showing shared files yet
+                                                     .eq('user_id', user?.id) // not showing shared files yet
                                                      .single())
                                                      .data
     return baseNoteGroup;
