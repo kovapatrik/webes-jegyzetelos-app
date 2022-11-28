@@ -1,22 +1,23 @@
+
 import { createTheme } from '@mui/material';
 
 export const weakTheme = createTheme({
 	palette: {
 		mode: 'dark',
-		// text: {
-		// 	primary: '#FF0000',
-		// 	secondary: '#FF0000',
-		// },
+		text: {
+			primary: '#FFFF00',
+			secondary: '#FFFF00',
+		},
 	},
 	components: {
 		MuiGrid: {
 			styleOverrides: {
 				root: {
-					// Some CSS
-					borderBottom: `0.5px solid #FFFF00`,
-					backgroundColor: '#1b1b1b',
-				},
-				'& #sidebar': {
+					'& #composition-button': {
+						color: '#FFFF00',
+						backgroundColor: '#1b1b1b',
+					},
+					'& #sidebar': {
 						backgroundColor: '#FF0000',
 						' ul li svg': {
 							color: '#FFFF00',
@@ -26,7 +27,7 @@ export const weakTheme = createTheme({
 						},
 						'& #avatarName': {
 							'& p': {
-								color: '	#000000',
+								color: '#000000',
 							},
 						},
 					},
@@ -75,4 +76,4 @@ export const weakTheme = createTheme({
 			},
 		},
 	},
-);
+});
