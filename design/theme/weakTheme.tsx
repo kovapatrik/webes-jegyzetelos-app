@@ -16,7 +16,7 @@ export const weakTheme = createTheme({
 					borderBottom: `0.5px solid #FFFF00`,
 					backgroundColor: '#1b1b1b',
 				},
-					'& #sidebar': {
+				'& #sidebar': {
 						backgroundColor: '#FF0000',
 						' ul li svg': {
 							color: '#FFFF00',
@@ -75,4 +75,4 @@ export const weakTheme = createTheme({
 			},
 		},
 	},
-});
+);
