@@ -2,31 +2,31 @@ import { createTheme } from '@mui/material';
 
 export const weakTheme = createTheme({
 	palette: {
-		mode: 'light',
-		text: {
-			primary: '#FF0000',
-			secondary: '#FF0000',
-		},
+		mode: 'dark',
+		// text: {
+		// 	primary: '#FF0000',
+		// 	secondary: '#FF0000',
+		// },
 	},
 	components: {
 		MuiGrid: {
 			styleOverrides: {
 				root: {
-					'& #composition-button': {
-						color: '#20DF7F',
-						backgroundColor: '#1e1e1e',
-					},
+					// Some CSS
+					borderBottom: `0.5px solid #FFFF00`,
+					backgroundColor: '#1b1b1b',
+				},
 					'& #sidebar': {
 						backgroundColor: '#FF0000',
 						' ul li svg': {
-							color: '#ffffff',
+							color: '#FFFF00',
 						},
 						' ul li p': {
-							color: '#ffffff',
+							color: '#FFFF00',
 						},
 						'& #avatarName': {
 							'& p': {
-								color: '#1C5E2E',
+								color: '	#000000',
 							},
 						},
 					},
@@ -38,7 +38,7 @@ export const weakTheme = createTheme({
 							color: '#093545',
 						},
 						'& #imageCard': {
-							backgroundColor: '#ffffff',
+							backgroundColor: '#FFFF00',
 							border: '0.5px solid #707070',
 						},
 						'& #smallMenuItem': {
@@ -54,7 +54,7 @@ export const weakTheme = createTheme({
 				root: {
 					// Some CSS
 					borderBottom: `0.5px solid #2e2e2e`,
-					backgroundColor: '#3ab27b',
+					backgroundColor: '#FFFF00',
 				},
 			},
 		},
@@ -63,13 +63,13 @@ export const weakTheme = createTheme({
 				// Name of the slot
 				root: {
 					// Some CSS
-					backgroundColor: '#052029',
-					color: '#20DF7F',
+					backgroundColor: '#FFFF00',
+					color: '#1b1b1b',
 					'&:hover': {
-						backgroundColor: '#093545',
+						backgroundColor: '#FFFF00',
 					},
 					'&:active': {
-						backgroundColor: '#093545',
+						backgroundColor: '#FFFF00',
 					},
 				},
 			},
