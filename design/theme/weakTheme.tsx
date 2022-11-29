@@ -10,17 +10,47 @@ export const weakTheme = createTheme({
 		},
 	},
 	components: {
+		// MuiList: {
+		// 	styleOverrides: {
+		// 		// Name of the slot
+		// 		root:{
+		// 			backgroundColor: '#FFFF00',
+		// 			color: '#000000',
+		// 			fontSize: '55px',
+		// 		    borderBottom: `0.5px solid #000000`,
+		// 		},
+		// 	},
+		// },
+		MuiPaper: {
+			styleOverrides:{
+				root:{
+					"& .MuiButtonBase-root": {
+						color: '#000000',
+						backgroundColor: '#FFFF00',
+						fontSize: '55px',
+					},
+					"& .MuiList-padding": {
+						color: '#000000',
+						backgroundColor: '#FFFF00',
+					},
+
+				},
+			},
+		},
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					"& .MuiTypography-root": {
+						color: '#FFFF00',
+						fontSize: '55px',
+					},
 					'& #composition-button': {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
-						fontSize: '60px',
+						fontSize: '50px',
 					},
 					'& #sidebar': {
 						backgroundColor: '#000000',
-						fontSize: '55px',
 						' ul li svg': {
 							color: '#FFFF00',
 							fontSize: '55px',
