@@ -40,6 +40,11 @@ export const weakTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					"& .MuiSvgIcon-root": {
+						// color: '#FFFF00',
+						fontSize: '55px',
+					},
+
 					"& .MuiTypography-root": {
 						color: '#FFFF00',
 						fontSize: '55px',
@@ -53,7 +58,6 @@ export const weakTheme = createTheme({
 						backgroundColor: '#000000',
 						' ul li svg': {
 							color: '#FFFF00',
-							fontSize: '55px',
 						},
 						' ul li p': {
 							color: '#FFFF00',
@@ -95,7 +99,6 @@ export const weakTheme = createTheme({
 					// Some CSS
 					borderBottom: `0.5px solid #000000`,
 					backgroundColor: '#FFFF00',
-					fontSize: '55px',
 				},
 			},
 		},
