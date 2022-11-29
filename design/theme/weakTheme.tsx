@@ -14,36 +14,45 @@ export const weakTheme = createTheme({
 			styleOverrides: {
 				root: {
 					'& #composition-button': {
-						color: '#FFFF00',
-						backgroundColor: '#1b1b1b',
+						color: '#000000',
+						backgroundColor: '#FFFF00',
+						fontSize: '60px',
 					},
 					'& #sidebar': {
-						backgroundColor: '#FF0000',
+						backgroundColor: '#000000',
+						fontSize: '55px',
 						' ul li svg': {
 							color: '#FFFF00',
+							fontSize: '55px',
 						},
 						' ul li p': {
 							color: '#FFFF00',
+							fontSize: '55px',
 						},
 						'& #avatarName': {
 							'& p': {
 								color: '#000000',
+								fontSize: '55px',
 							},
 						},
 					},
 					'& #mainContainer': {
 						'& p': {
-							color: '#093545',
+							color: '#000000',
+							fontSize: '55px',
 						},
 						'& li a': {
-							color: '#093545',
+							color: '#000000',
+							fontSize: '55px',
 						},
 						'& #imageCard': {
 							backgroundColor: '#FFFF00',
-							border: '0.5px solid #707070',
+							border: '0.5px solid #000000',
+							fontSize: '55px',
 						},
 						'& #smallMenuItem': {
-							color: '#707070',
+							color: '#000000',
+							fontSize: '55px',
 						},
 					},
 				},
@@ -54,8 +63,9 @@ export const weakTheme = createTheme({
 				// Name of the slot
 				root: {
 					// Some CSS
-					borderBottom: `0.5px solid #2e2e2e`,
+					borderBottom: `0.5px solid #000000`,
 					backgroundColor: '#FFFF00',
+					fontSize: '55px',
 				},
 			},
 		},
@@ -65,12 +75,15 @@ export const weakTheme = createTheme({
 				root: {
 					// Some CSS
 					backgroundColor: '#FFFF00',
-					color: '#1b1b1b',
+					color: '#000000',
+					fontSize: '55px',
 					'&:hover': {
 						backgroundColor: '#FFFF00',
+						fontSize: '55px',
 					},
 					'&:active': {
 						backgroundColor: '#FFFF00',
+						fontSize: '55px',
 					},
 				},
 			},
