@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Toolbar } from '@mui/material/';
+import { IconButton, Toolbar } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
 import { PanoramaFishEye, ViewSidebarOutlined } from '@mui/icons-material';
@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
 import { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+
 
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;
@@ -45,7 +46,9 @@ export const Navbar = (props: NavbarProps) => {
 							<NavButton Icon={<ContrastIcon />} disabled={view === 'weak'} onClick={toggleTheme} />
 						</Box>
 						<Box px={1}>
-							<NavButton Icon={<PanoramaFishEye />} onClick={() => changeTheme(view === 'normal' ? 'weak' : 'normal')} />
+							<IconButton onClick={() => changeTheme(view === 'normal' ? 'weak' : 'normal')}>
+								<img className={classes.imageIcon} src="../graphics/high-contrast-icon-1.svg"/>
+							</IconButton>
 						</Box>
 					</Grid>
 				</Grid>

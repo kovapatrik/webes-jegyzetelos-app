@@ -42,6 +42,7 @@ export const weakTheme = createTheme({
 				root: {
 					"& .MuiSvgIcon-root": {
 						// color: '#FFFF00',
+						// backgroundColor: '#000000',
 						fontSize: '55px',
 					},
 
