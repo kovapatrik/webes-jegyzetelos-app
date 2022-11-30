@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
 import { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-
+import BlindLogo from '../assets/BlindLogo';
 
 type NavbarProps = {
 	onToggle: React.MouseEventHandler<HTMLButtonElement>;
@@ -46,9 +46,9 @@ export const Navbar = (props: NavbarProps) => {
 							<NavButton Icon={<ContrastIcon />} disabled={view === 'weak'} onClick={toggleTheme} />
 						</Box>
 						<Box px={1}>
-							<IconButton onClick={() => changeTheme(view === 'normal' ? 'weak' : 'normal')}>
-								<img className={classes.imageIcon} src="../graphics/high-contrast-icon-1.svg"/>
-							</IconButton>
+							<NavButton onClick={() => changeTheme(view === 'normal' ? 'weak' : 'normal')}>
+								<BlindLogo />
+							</NavButton>
 						</Box>
 					</Grid>
 				</Grid>
