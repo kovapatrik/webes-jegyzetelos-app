@@ -3,12 +3,12 @@ export default function BlindLogo() {
 		<svg
 			version='1.0'
 			xmlns='http://www.w3.org/2000/svg'
-			width='1440.000000pt'
-			height='700.000000pt'
+			width='37.000000pt'
+			height='18.000000pt'
 			viewBox='0 0 1440.000000 700.000000'
 			preserveAspectRatio='xMidYMid meet'
 		>
-			<g transform='translate(0.000000,700.000000) scale(0.100000,-0.100000)' fill='#000000' stroke='none'>
+			<g transform='translate(0.000000,700.000000) scale(0.100000,-0.100000)' fill='#20DF7F' stroke='none'>
 				<path
 					d='M7005 5894 c-600 -63 -1094 -293 -1500 -699 -475 -475 -726 -1110
 -702 -1775 7 -186 17 -263 53 -435 137 -641 557 -1219 1129 -1556 253 -149
