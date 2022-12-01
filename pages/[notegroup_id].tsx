@@ -4,6 +4,7 @@ import { Database } from '../lib/database.types';
 import { useRouter } from 'next/router';
 import ImageCard from '../components/ImageCard';
 import { NextPage } from 'next';
+import { Breadcrumbs, Grid } from '@mui/material';
 
 interface GetNoteGroupRes {
 	notes: Database['public']['Tables']['note']['Row'][];
@@ -21,14 +22,22 @@ const NoteGroup: NextPage = () => {
 	const { data } = useSwr<GetNoteGroupRes>(`/api/note-group/${notegroup_id}`, fetcher);
 
 	return (
-		<>
-			{data?.noteGroups?.map(n => (
-					<ImageCard key={n.id} title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`}/>
+		<Grid container id='noteGroupView'>
+			{/* <Grid item>
+				<Breadcrumbs maxItems={3}>
+				</Breadcrumbs>
+			</Grid> */}
+			{data?.noteGroups?.sort((a,b) => a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1).map(n => (
+				<Grid key={n.id} item>
+					<ImageCard key={n.id} title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`} is_note_group={true}/>
+				</Grid>
 			))}
-			{data?.notes?.map(n => (
-				<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${notegroup_id}/${n.id}`}/>
+			{data?.notes?.sort((a,b) => a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1).map(n => (
+				<Grid key={n.id} item>
+					<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${notegroup_id}/${n.id}`} is_note_group={false}/>
+				</Grid>
 			))}
-		</>
+		</Grid>
 	)
 };
 

@@ -65,7 +65,7 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
 						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
-							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}/>
+							<Component {...pageProps}/>
 						</Layout>
 					</SessionContextProvider>
 				</ThemeProvider>
