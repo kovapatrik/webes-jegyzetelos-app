@@ -41,7 +41,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         // Create
         } else if (req.method === "POST") {
 
-            const { title, base_note_group_id } = req.query as Database['public']['Tables']['note_group']['Insert']
+            const { title, base_note_group_id } = req.body as Database['public']['Tables']['note_group']['Insert']
 
             if (title === undefined) {
                 return res.status(400).json({
@@ -73,7 +73,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         // Update                                                             
         } else if (req.method === 'PATCH') {
 
-            const { id, title, base_note_group_id } = req.query as Database['public']['Tables']['note_group']['Update']
+            const { id, title, base_note_group_id } = req.body as Database['public']['Tables']['note_group']['Update']
 
             if (title === undefined) {
                 return res.status(400).json({
@@ -84,6 +84,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
     
             const { count } = await supabaseServerClient.from('note_group')
                                                         .select('*', { count: "exact", head: true })
+                                                        .neq('id', id)
                                                         .match({ 
                                                             title: title,
                                                             base_note_group_id: base_note_group_id || null, 

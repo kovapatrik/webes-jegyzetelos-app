@@ -26,13 +26,13 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             
             const { id }  = req.query as Database['public']['Tables']['note']['Row']
             
-            const {note, perms} = await GetNote({id, user, supabaseServerClient})
+            const { note, userPerm, allPerms } = await GetNote({id, user, supabaseServerClient})
             
-            res.status(200).json({ note, perms })
+            res.status(200).json({ note, userPerm, allPerms })
         // Create
         } else if (req.method === "POST") {
 
-            const { title, data, note_group_id } = req.query as Database['public']['Tables']['note']['Insert']
+            const { title, data, note_group_id } = req.body as Database['public']['Tables']['note']['Insert']
 
             if (title === undefined || note_group_id === undefined) {
                 return res.status(400).json({
@@ -65,7 +65,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
         // Update                                                             
         } else if (req.method === 'PATCH') {
 
-            const { id, title, note_group_id, data } = req.query as Database['public']['Tables']['note']['Update']
+            const { id, title, note_group_id, data } = req.body as Database['public']['Tables']['note']['Update']
 
             if (title === undefined || note_group_id === undefined) {
                 return res.status(400).json({
@@ -73,13 +73,16 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                     description: 'Title or note_group_id is undefined.',
                   })
             }
+
     
             const { count } = await supabaseServerClient.from('note')
                                                         .select('*', { count: "exact", head: true })
+                                                        .neq('id', id)
                                                         .match({ 
                                                             title: title,
                                                             note_group_id: note_group_id, 
                                                         })
+
             if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
@@ -87,15 +90,17 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                   })
             }
 
-            await supabaseServerClient.from("note")
-                                      .update({
-                                          title: title,
-                                          note_group_id: note_group_id,
-                                          data: data
-                                      })
-                                      .eq('id', id)
+            const newNote = await supabaseServerClient.from("note")
+                                                      .update({
+                                                          title: title,
+                                                          note_group_id: note_group_id,
+                                                          data: data
+                                                      })
+                                                      .eq('id', id)
+                                                      .select()
+                                                      .single()
 
-            res.status(200)
+            res.status(200).json(newNote)
 
         } else if (req.method === 'DELETE') {
 

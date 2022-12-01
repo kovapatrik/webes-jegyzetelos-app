@@ -1,12 +1,12 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
-import useSwr from 'swr';
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { Database, NoteWithPerms } from '../../lib/database.types';
-import { useRouter } from 'next/router';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Showdown from 'showdown';
+import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import { GetNote } from '../../lib/note';
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
@@ -25,12 +25,18 @@ const mdOptions = {
 	html: true,
 };
 
-function Note() {
-	const {
-		query: { note_id },
-	} = useRouter();
+interface ParsedUrlQuery {
+	[key: string]: string;
+	note_id: string;
+}
 
-	const { data } = useSwr<NoteWithPerms>(`/api/note/${note_id}`, fetcher);
+interface NoteProps {
+	data: NoteWithPerms,
+	user: User,
+	initialSession: Session
+}
+
+function Note({ data } : NoteProps ) {
 
 	const [value, setValue] = useState(data?.note.data);
 	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
@@ -41,18 +47,6 @@ function Note() {
 		event?.preventDefault();
 		setValue(text);
 		setIsSaveAvailable(true);
-	}
-
-	if (!data?.note.data || !data.perms) {
-		return null;
-	}
-
-	function setView(perms: Database['public']['Tables']['note_perm']['Row']) {
-		if (!perms.edit_perm) {
-			return { ...mdOptions, menu: false, md: false };
-		} else {
-			return mdOptions;
-		}
 	}
 
 	const handleSaveClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -69,20 +63,46 @@ function Note() {
 		setNoteTitle(event.target.value);
 	};
 
+	const handleSave = async () => {
+		const res = await fetch(`/api/note/${data.note.id}`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				...data.note,
+				title: noteTitle,
+				data: value,
+			}),
+			headers: { "Content-Type": "application/json" },
+		})
+
+		const { data: newNote } : { data: Database['public']['Tables']['note']['Row']} = await res.json()
+		
+		setNoteTitle(newNote.title)
+		setValue(newNote.data)
+		
+	}
+
+	if (!data?.note || !data?.allPerms || !data?.userPerm || !data.note.data) {
+		return <CircularProgress/>;
+	}
+
 	return (
 		<>
 			<Box sx={{ padding: '40px' }}>
 				<Typography variant='h3'>{data.note.title}</Typography>
 				<MdEditor
-					view={setView(data.perms)}
-					readOnly={!data.perms.edit_perm}
+					view={{
+						html: true,
+						menu: data.userPerm.edit_perm ? true : false,
+						md: data.userPerm.edit_perm ? true : false
+					}}
+					readOnly={!data.userPerm.edit_perm}
 					style={{ height: '500px' }}
 					value={value ?? data.note.data}
 					renderHTML={text => Promise.resolve(converter.makeHtml(text))}
 					onChange={(data, event) => handleEditorChange(data.text, event)}
 				/>
 				<Button
-					disabled={!data.perms.edit_perm || !isSaveAvailable}
+					disabled={!data.userPerm.edit_perm || !isSaveAvailable}
 					sx={{ marginTop: '10px' }}
 					onClick={e => handleSaveClick(e)}
 					variant='contained'
@@ -106,7 +126,7 @@ function Note() {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button type='button'>Save</Button>
+					<Button type='button' onClick={handleSave}>Save</Button>
 				</DialogActions>
 			</Dialog>
 		</>
@@ -114,3 +134,31 @@ function Note() {
 }
 
 export default Note;
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
+	
+	const supabase = createServerSupabaseClient(ctx)
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+	
+	// This is optional, middleware does this in the background
+	if (!session)
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		}
+	
+	const data = await GetNote({id: ctx.query['note_id'] as string, user: session.user, supabaseServerClient: supabase})
+  
+	return {
+		props: {
+			initialSession: session,
+			user: session.user,
+			data: data,
+		},
+	}
+  }

@@ -102,5 +102,6 @@ export interface Database {
 
 export interface NoteWithPerms {
 	note: Database['public']['Tables']['note']['Row'];
-	perms: Database['public']['Tables']['note_perm']['Row'];
+	userPerm: Database['public']['Tables']['note_perm']['Row'];
+	allPerms: Database['public']['Tables']['note_perm']['Row'][];
 }
