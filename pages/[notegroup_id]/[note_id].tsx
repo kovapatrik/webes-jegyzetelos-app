@@ -4,9 +4,8 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Showdown from 'showdown';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
-import { GetServerSidePropsContext, NextPage } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { GetNote } from '../../lib/note';
-
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
@@ -19,25 +18,18 @@ const converter = new Showdown.Converter({
 	tasklists: true,
 });
 
-const mdOptions = {
-	menu: true,
-	md: true,
-	html: true,
-};
-
 interface ParsedUrlQuery {
 	[key: string]: string;
 	note_id: string;
 }
 
 interface NoteProps {
-	data: NoteWithPerms,
-	user: User,
-	initialSession: Session
+	data: NoteWithPerms;
+	user: User;
+	initialSession: Session;
 }
 
-function Note({ data } : NoteProps ) {
-
+function Note({ data }: NoteProps) {
 	const [value, setValue] = useState(data?.note.data);
 	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
@@ -71,33 +63,33 @@ function Note({ data } : NoteProps ) {
 				title: noteTitle,
 				data: value,
 			}),
-			headers: { "Content-Type": "application/json" },
-		})
+			headers: { 'Content-Type': 'application/json' },
+		});
 
-		const { data: newNote } : { data: Database['public']['Tables']['note']['Row']} = await res.json()
-		
-		setNoteTitle(newNote.title)
-		setValue(newNote.data)
-		
-	}
+		const { data: newNote }: { data: Database['public']['Tables']['note']['Row'] } = await res.json();
+		setOpenModal(false);
+		setIsSaveAvailable(false);		
+		setNoteTitle(newNote.title);
+		setValue(newNote.data);
+	};
 
 	if (!data?.note || !data?.allPerms || !data?.userPerm || !data.note.data) {
-		return <CircularProgress/>;
+		return <CircularProgress />;
 	}
 
 	return (
 		<>
 			<Box sx={{ padding: '40px' }}>
-				<Typography variant='h3'>{data.note.title}</Typography>
+				<Typography variant='h3'>{noteTitle}</Typography>
 				<MdEditor
 					view={{
 						html: true,
 						menu: data.userPerm.edit_perm ? true : false,
-						md: data.userPerm.edit_perm ? true : false
+						md: data.userPerm.edit_perm ? true : false,
 					}}
 					readOnly={!data.userPerm.edit_perm}
 					style={{ height: '500px' }}
-					value={value ?? data.note.data}
+					value={value ?? undefined}
 					renderHTML={text => Promise.resolve(converter.makeHtml(text))}
 					onChange={(data, event) => handleEditorChange(data.text, event)}
 				/>
@@ -114,7 +106,7 @@ function Note({ data } : NoteProps ) {
 				<DialogTitle>Save note changes</DialogTitle>
 				<DialogContent>
 					<TextField
-						value={noteTitle ?? data.note.title}
+						value={noteTitle}
 						autoFocus
 						margin='normal'
 						id='title'
@@ -126,7 +118,9 @@ function Note({ data } : NoteProps ) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button type='button' onClick={handleSave}>Save</Button>
+					<Button type='button' onClick={handleSave}>
+						Save
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</>
@@ -136,13 +130,12 @@ function Note({ data } : NoteProps ) {
 export default Note;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
-	
-	const supabase = createServerSupabaseClient(ctx)
+	const supabase = createServerSupabaseClient(ctx);
 
 	const {
 		data: { session },
-	} = await supabase.auth.getSession()
-	
+	} = await supabase.auth.getSession();
+
 	// This is optional, middleware does this in the background
 	if (!session)
 		return {
@@ -150,15 +143,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 				destination: '/',
 				permanent: false,
 			},
-		}
-	
-	const data = await GetNote({id: ctx.query['note_id'] as string, user: session.user, supabaseServerClient: supabase})
-  
+		};
+
+	const data = await GetNote({ id: ctx.query['note_id'] as string, user: session.user, supabaseServerClient: supabase });
+
 	return {
 		props: {
 			initialSession: session,
 			user: session.user,
 			data: data,
 		},
-	}
-  }
+	};
+};
