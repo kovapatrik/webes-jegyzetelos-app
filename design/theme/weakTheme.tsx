@@ -10,17 +10,6 @@ export const weakTheme = createTheme({
 		},
 	},
 	components: {
-		// MuiList: {
-		// 	styleOverrides: {
-		// 		// Name of the slot
-		// 		root:{
-		// 			backgroundColor: '#FFFF00',
-		// 			color: '#000000',
-		// 			fontSize: '55px',
-		// 		    borderBottom: `0.5px solid #000000`,
-		// 		},
-		// 	},
-		// },
 		MuiPaper: {
 			styleOverrides:{
 				root:{
