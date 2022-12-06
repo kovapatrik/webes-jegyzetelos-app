@@ -14,6 +14,8 @@ import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
 import Layout from '../components/layout';
 
+import 'react-markdown-editor-lite/lib/index.css';
+
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps {
@@ -26,7 +28,7 @@ function getActiveTheme(themeMode: 'light' | 'dark') {
 	return themeMode === 'light' ? lightTheme : darkTheme;
 }
 
-const PREFERENCE_COOKIE_NAME = 'theme-preference';
+export const PREFERENCE_COOKIE_NAME = 'theme-preference';
 
 export default function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache, initialSession }: AppProps & MyAppProps) {
 	const [supabaseClient] = useState(() => createBrowserSupabaseClient());
@@ -65,7 +67,7 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
 						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
-							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}/>
+							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
 						</Layout>
 					</SessionContextProvider>
 				</ThemeProvider>
