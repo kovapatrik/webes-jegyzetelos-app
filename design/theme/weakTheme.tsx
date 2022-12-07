@@ -10,17 +10,6 @@ export const weakTheme = createTheme({
 		},
 	},
 	components: {
-		// MuiList: {
-		// 	styleOverrides: {
-		// 		// Name of the slot
-		// 		root:{
-		// 			backgroundColor: '#FFFF00',
-		// 			color: '#000000',
-		// 			fontSize: '55px',
-		// 		    borderBottom: `0.5px solid #000000`,
-		// 		},
-		// 	},
-		// },
 		MuiPaper: {
 			styleOverrides:{
 				root:{
@@ -40,12 +29,12 @@ export const weakTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
-					"& .MuiSvgIcon-root": {
-						// color: '#FFFF00',
-						// backgroundColor: '#000000',
-						fontSize: '55px',
+					'& #weakButton': {
+						fill: '#000000',
+						backgroundColor: '#FFFF00',
+						width: '55px',
+						height: '55px',
 					},
-
 					"& .MuiTypography-root": {
 						color: '#FFFF00',
 						fontSize: '55px',
@@ -111,6 +100,8 @@ export const weakTheme = createTheme({
 					backgroundColor: '#FFFF00',
 					color: '#000000',
 					fontSize: '55px',
+					height: '55px',
+					width: '55px',
 					'&:hover': {
 						backgroundColor: '#FFFF00',
 						fontSize: '55px',
