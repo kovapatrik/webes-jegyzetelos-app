@@ -1,5 +1,4 @@
 import { Database } from '../lib/database.types';
-import { useRouter } from 'next/router';
 import ImageCard from '../components/ImageCard';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
