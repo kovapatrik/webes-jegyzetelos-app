@@ -5,7 +5,7 @@ import * as React from 'react';
 import MenuList from '@mui/material/MenuList';
 
 import Divider from '@mui/material/Divider';
-import { Close, Folder, Groups2, Logout, Note, Settings } from '@mui/icons-material';
+import { Close, Folder, Logout, Note, Settings } from '@mui/icons-material';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
@@ -15,6 +15,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 
 import { deleteCookie } from 'cookies-next';
+import { colors } from '../../design/theme/themeColors';
 
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;
@@ -31,9 +32,9 @@ export const Sidebar = (props: SidebarProps) => {
 	const router = useRouter();
 
 	async function signOut() {
-		await supabaseClient.auth.signOut()
+		await supabaseClient.auth.signOut();
 		deleteCookie('supabase-auth-token');
-		router.push('/')
+		router.push('/');
 	}
 
 	return (
@@ -42,6 +43,8 @@ export const Sidebar = (props: SidebarProps) => {
 			sx={{
 				minHeight: small ? '20vh' : '100vh',
 				width: '100%',
+				position: 'sticky',
+				top: '0px',
 			}}
 			flexDirection={'column'}
 			justifyContent={'space-between'}
@@ -61,7 +64,7 @@ export const Sidebar = (props: SidebarProps) => {
 									<BackgroundLetterAvatars username={'John Doe'} />
 								</Grid>
 								<Grid item>
-									<Typography id='avatarName' variant={'h4'}>
+									<Typography color={colors.dark.main.m100} id='avatarName' variant={'h4'}>
 										John Doe
 									</Typography>
 								</Grid>
@@ -71,10 +74,9 @@ export const Sidebar = (props: SidebarProps) => {
 				</Grid>
 			</Grid>
 			<Grid item>
-				<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
-					<CustomMenuItem Icon={<Note fontSize='medium' />} label={'Notes'} position={'left'} />
-					<CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Files'} position={'left'} />
-					<CustomMenuItem Icon={<Groups2 fontSize='medium' />} label={'Groups'} position={'left'} />
+				<MenuList sx={{ width: '100%' }}>
+					<CustomMenuItem Icon={<Note fontSize='medium' />} label={'My Notes'} position={'left'} />
+					<CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Shared With Me'} position={'left'} />
 				</MenuList>
 			</Grid>
 			<Grid item>
