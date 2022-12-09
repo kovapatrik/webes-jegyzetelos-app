@@ -73,7 +73,7 @@ function Note({ data }: NoteProps) {
 		setValue(newNote.data);
 	};
 
-	if (!data?.note || !data?.allPerms || !data?.userPerm || !data.note.data) {
+	if (!data?.note || !data?.allPerms || !data?.userPerm) {
 		return <CircularProgress />;
 	}
 

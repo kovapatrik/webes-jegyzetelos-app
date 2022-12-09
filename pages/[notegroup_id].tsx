@@ -4,6 +4,7 @@ import ImageCard from '../components/ImageCard';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetNoteGroup } from '../lib/note_group';
+import { Grid } from '@mui/material';
 
 interface GetNoteGroupRes {
 	notes: Database['public']['Tables']['note']['Row'][];
@@ -24,14 +25,14 @@ interface ParsedUrlQuery {
 function NoteGroup({ data } : NoteGroupProps) {
 
 	return (
-		<>
+		<Grid container>
 			{data?.noteGroups?.map(n => (
 				<ImageCard key={n.id} title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`}/>
 			))}
 			{data?.notes?.map(n => (
 				<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${n.note_group_id}/${n.id}`}/>
 			))}
-		</>
+		</Grid>
 	)
 }
 
