@@ -12,6 +12,7 @@ import NewNoteDialog from './NewNoteDialog';
 import { Snackbar, Alert } from '@mui/material';
 import { CrudResponse } from '../lib/database.types';
 import ShareNoteDialog from './ShareNoteDialog';
+import DeleteNoteDialog from './DeleteNoteDialog';
 
 export default function ShortcutMenuButton() {
 	const [open, setOpen] = useState(false);
@@ -27,6 +28,25 @@ export default function ShortcutMenuButton() {
 	const [openShareNote, setOpenShareNote] = useState(false);
 	const [email, setEmail] = useState('');
 	// ---------------- //
+
+	// -- Delete note -- //
+	const [openDeleteNote, setOpenDeleteNote] = useState(false);
+
+	async function handleDeleteConfirm() {
+		const res = await fetch(`/api/note/${note_id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+		});
+
+		setOpenDeleteNote(false)
+		if (res.status === 200) {
+			router.replace(`/${notegroup_id}`)
+		}
+	}
+
+	// ---------------- //
+
+	const router = useRouter();
 
 	const {
 		query: { note_id, notegroup_id },
@@ -60,7 +80,7 @@ export default function ShortcutMenuButton() {
 	};
 
 	const handleCreate = async () => {
-		const res = await fetch(`/api/note/${notegroup_id}`, {
+		const res = await fetch(`/api/note/`, {
 			method: 'POST',
 			body: JSON.stringify({
 				title: newNoteTitle,
@@ -68,11 +88,20 @@ export default function ShortcutMenuButton() {
 			}),
 			headers: { 'Content-Type': 'application/json' },
 		});
-		const data: CrudResponse = await res.json();
+		
+		const data = await res.json()
 		setNewNoteResponse(data);
 		setOpenNewNoteSnackbar(true);
 		setNewNoteTitle('');
 		setOpenNewNote(false);
+
+		if (res.status === 200) {
+			router.replace(router.asPath)
+		}
+
+		// if (data.id) {
+		// 	router.push(`/${data.note_group_id}/${data.id}`)
+		// }
 	};
 	// ------ //
 
@@ -117,7 +146,7 @@ export default function ShortcutMenuButton() {
 											<MenuItem key='share' onClick={handleShareNote}>
 												Share note
 											</MenuItem>
-											<MenuItem key='delete' onClick={handleClose}>
+											<MenuItem key='delete' onClick={() => setOpenDeleteNote(true)}>
 												Delete
 											</MenuItem>
 										</div>
@@ -140,6 +169,7 @@ export default function ShortcutMenuButton() {
 				open={openNewNote}
 			/>
 			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} />
+			<DeleteNoteDialog open={openDeleteNote} onClose={() => setOpenDeleteNote(false)} onConfirm={handleDeleteConfirm}/>
 			{newNoteResponse && (
 				<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
 					<Alert

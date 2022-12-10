@@ -26,10 +26,10 @@ function NoteGroup({ data } : NoteGroupProps) {
 	return (
 		<Grid container>
 			{data?.noteGroups?.map(n => (
-				<ImageCard key={n.id} title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`}/>
+				<ImageCard key={n.id} title={n.title} uid={n.id} href='/[notegroup_id]' href_as={`/${n.id}`} is_note_group={true}/>
 			))}
 			{data?.notes?.map(n => (
-				<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${n.note_group_id}/${n.id}`}/>
+				<ImageCard key={n.id} title={n.title} uid={n.id} href='/[notegroup_id]/[note_id]' href_as={`/${n.note_group_id}/${n.id}`} is_note_group={false}/>
 			))}
 		</Grid>
 	)

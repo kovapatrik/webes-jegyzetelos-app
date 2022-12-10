@@ -11,7 +11,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { Database, NoteWithPerms } from '../../lib/database.types';
+import { Database } from '../../lib/database.types';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Showdown from 'showdown';
@@ -35,6 +35,12 @@ interface ParsedUrlQuery {
 	note_id: string;
 }
 
+interface NoteWithPerms {
+	note: Database['public']['Tables']['note']['Row'];
+	userPerm: Database['public']['Tables']['note_perm']['Row']
+	allPerms:  Database['public']['Tables']['note_perm']['Row'][]
+}
+
 interface NoteProps {
 	data: NoteWithPerms;
 	user: User;
@@ -42,6 +48,11 @@ interface NoteProps {
 }
 
 function Note({ data }: NoteProps) {
+
+	if (!data?.note || !data?.allPerms || !data?.userPerm) {
+		return <CircularProgress />;
+	}
+
 	const [value, setValue] = useState(data?.note.data);
 	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
@@ -88,10 +99,6 @@ function Note({ data }: NoteProps) {
 		setOpenNewNoteSnackbar(true);
 	};
 
-	if (!data?.note || !data?.allPerms || !data?.userPerm) {
-		return <CircularProgress />;
-	}
-
 	return (
 		<>
 			<Box sx={{ padding: '40px' }}>
@@ -99,8 +106,8 @@ function Note({ data }: NoteProps) {
 				<MdEditor
 					view={{
 						html: true,
-						menu: data.userPerm.edit_perm ? true : false,
-						md: data.userPerm.edit_perm ? true : false,
+						menu: data.userPerm.edit_perm || false,
+						md: data.userPerm.edit_perm || false,
 					}}
 					readOnly={!data.userPerm.edit_perm}
 					style={{ height: '500px' }}

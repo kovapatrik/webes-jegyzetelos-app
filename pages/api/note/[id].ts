@@ -29,42 +29,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             const { note, userPerm, allPerms } = await GetNote({id, user, supabaseServerClient})
             
             res.status(200).json({ note, userPerm, allPerms })
-        // Create
-        } else if (req.method === "POST") {
-
-            const { title, data, note_group_id } = req.body as Database['public']['Tables']['note']['Insert']
-
-            if (title === undefined || note_group_id === undefined) {
-                return res.status(400).json({
-                    error: 'invalid_input',
-                    description: 'Title or note_group_id is undefined!',
-                  })
-            }
-    
-            const { count } = await supabaseServerClient.from('note')
-                                                        .select('*', { count: "exact", head: true })
-                                                        .match({ 
-                                                            note_group_id: note_group_id, 
-                                                            title: title
-                                                        })
-            if (count !== null && count > 0) {
-                return res.status(400).json({
-                    error: 'title_exists',
-                    description: 'A note with the same title already exists in this note group!',
-                  })
-            }
-    
-           await supabaseServerClient.from("note")
-                                     .insert({
-                                             user_id: user.id,
-                                             title: title,
-                                             note_group_id: note_group_id,
-                                             data: data
-                                         })
-            return res.status(201).json({
-                error: null,
-                description: 'Successfully created new note!',
-            });
+        // Create in index.ts
         // Update                                                             
         } else if (req.method === 'PATCH') {
 
@@ -124,7 +89,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                       .delete()
                                       .eq('id', id)
 
-            res.status(200)
+            res.status(200).json({ message: "success" })
 
         } else {
             res.status(400).json({error: 'Not a GET, POST, PATCH or DELETE request!'})
