@@ -1,25 +1,29 @@
-import { useSession } from '@supabase/auth-helpers-react';
-import useSwr from 'swr';
 import { Database } from '../lib/database.types';
 import { useRouter } from 'next/router';
 import ImageCard from '../components/ImageCard';
 import { NextPage } from 'next';
 import { Breadcrumbs, Grid } from '@mui/material';
+import { GetServerSidePropsContext } from 'next';
+import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
+import { GetNoteGroup } from '../lib/note_group';
 
 interface GetNoteGroupRes {
 	notes: Database['public']['Tables']['note']['Row'][];
 	noteGroups: Database['public']['Tables']['note_group']['Row'][];
 }
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+interface NoteGroupProps {
+	data: GetNoteGroupRes,
+	user: User,
+	initialSession: Session
+}
 
-const NoteGroup: NextPage = () => {
-	const {
-		query: { notegroup_id },
-	} = useRouter();
-	const session = useSession();
+interface ParsedUrlQuery {
+	[key: string]: string;
+	notegroup_id: string;
+}
 
-	const { data } = useSwr<GetNoteGroupRes>(`/api/note-group/${notegroup_id}`, fetcher);
+function NoteGroup({ data } : NoteGroupProps) {
 
 	return (
 		<Grid container id='noteGroupView'>
@@ -39,6 +43,35 @@ const NoteGroup: NextPage = () => {
 			))}
 		</Grid>
 	)
-};
+}
 
 export default NoteGroup;
+
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
+	
+	const supabase = createServerSupabaseClient(ctx)
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+	
+	// This is optional, middleware does this in the background
+	if (!session)
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		}
+
+	const data = await GetNoteGroup({id: ctx.query['notegroup_id'] as string, user: session.user, supabaseServerClient: supabase})
+  
+	return {
+		props: {
+			initialSession: session,
+			user: session.user,
+			data: data,
+		},
+	}
+  }

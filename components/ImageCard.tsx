@@ -51,7 +51,7 @@ export default function ImageCard({ title, href, href_as, is_note_group} : Image
 								<Grid container>
 									<Grid item>
 										<IconButton>
-											<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
+											<MoreVert id='smallMenuItem' />
 										</IconButton>
 									</Grid>
 								</Grid>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
@@ -9,52 +8,49 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Home: NextPage = () => {
-    const supaBaseClient = useSupabaseClient();
-    const user = useUser();
-    const router = useRouter();
+	const supaBaseClient = useSupabaseClient();
+	const user = useUser();
+	const router = useRouter();
 
-    const [baseId, setBaseId] = useState<string | null | undefined>(null)
+	const [baseId, setBaseId] = useState<string | null | undefined>(null);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+	const [showPassword, setShowPassword] = useState(false);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
+	const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
+	if (baseId) {
+		router.push(`/${baseId}`);
+	}
 
-    if (baseId) {
-        router.push(`/${baseId}`)
-    }
+	useEffect(() => {
+		supaBaseClient.auth.onAuthStateChange(async (event, session) => {
+			if (event == 'PASSWORD_RECOVERY') {
+				const newPassword = prompt('What would you like your new password to be?');
+				if (newPassword) {
+					const { data, error } = await supaBaseClient.auth.updateUser({
+						password: newPassword,
+					});
+					if (data) alert('Password updated successfully!');
+					if (error) alert('There was an error updating your password.');
+				} else {
+					alert('Password is empty');
+				}
+			}
+		});
 
-    useEffect(() => {
+		async function getData() {
+			const data = await GetBaseNoteGroup({ user, supabaseServerClient: supaBaseClient });
+			setBaseId(data?.id);
+		}
 
-        supaBaseClient.auth.onAuthStateChange(async (event, session) => {
-            if (event == "PASSWORD_RECOVERY") {
-              const newPassword = prompt("What would you like your new password to be?");
-              if (newPassword) {
-                const { data, error } = await supaBaseClient.auth.updateUser({
-                    password: newPassword,
-                  })
-                if (data) alert("Password updated successfully!")
-                if (error) alert("There was an error updating your password.")
-              } else {
-                alert("Password is empty")
-              }
-            }
-          })
+		if (user) getData();
+	}, [supaBaseClient.auth, user]);
 
-        async function getData() {
-            const data = await GetBaseNoteGroup({ user, supabaseServerClient: supaBaseClient });
-            setBaseId(data?.id);
-        }
-        if (user) getData();
-
-    }, [supaBaseClient.auth, user])
-
-    
-    const handleSignIn = async (e: React.FormEvent) => {
-        e.preventDefault();
+	const handleSignIn = async (e: React.FormEvent) => {
+		e.preventDefault();
 
         const { error} = await supaBaseClient.auth.signInWithPassword({
             email,
