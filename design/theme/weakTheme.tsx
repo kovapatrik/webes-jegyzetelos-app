@@ -16,7 +16,7 @@ export const weakTheme = createTheme({
 					"& .MuiButtonBase-root": {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
-						fontSize: '55px',
+						fontSize: '30px',
 					},
 					"& .MuiList-padding": {
 						color: '#000000',
@@ -32,17 +32,17 @@ export const weakTheme = createTheme({
 					'& #weakButton': {
 						fill: '#000000',
 						backgroundColor: '#FFFF00',
-						width: '55px',
-						height: '55px',
+						width: '50px',
+						height: '50px',
 					},
 					"& .MuiTypography-root": {
 						color: '#FFFF00',
-						fontSize: '55px',
+						fontSize: '30px',
 					},
 					'& #composition-button': {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
-						fontSize: '50px',
+						fontSize: '30px',
 					},
 					'& #sidebar': {
 						backgroundColor: '#000000',
@@ -51,32 +51,32 @@ export const weakTheme = createTheme({
 						},
 						' ul li p': {
 							color: '#FFFF00',
-							fontSize: '55px',
+							fontSize: '30px',
 						},
 						'& #avatarName': {
 							'& p': {
 								color: '#000000',
-								fontSize: '55px',
+								fontSize: '30px',
 							},
 						},
 					},
 					'& #mainContainer': {
 						'& p': {
 							color: '#000000',
-							fontSize: '55px',
+							fontSize: '30px',
 						},
 						'& li a': {
 							color: '#000000',
-							fontSize: '55px',
+							fontSize: '30px',
 						},
 						'& #imageCard': {
 							backgroundColor: '#FFFF00',
 							border: '0.5px solid #000000',
-							fontSize: '55px',
+							fontSize: '30px',
 						},
 						'& #smallMenuItem': {
 							color: '#000000',
-							fontSize: '55px',
+							fontSize: '30px',
 						},
 					},
 				},
@@ -99,16 +99,16 @@ export const weakTheme = createTheme({
 					// Some CSS
 					backgroundColor: '#FFFF00',
 					color: '#000000',
-					fontSize: '55px',
-					height: '55px',
-					width: '55px',
+					fontSize: '30px',
+					height: '30px',
+					width: '30px',
 					'&:hover': {
 						backgroundColor: '#FFFF00',
-						fontSize: '55px',
+						fontSize: '30px',
 					},
 					'&:active': {
 						backgroundColor: '#FFFF00',
-						fontSize: '55px',
+						fontSize: '30px',
 					},
 				},
 			},
