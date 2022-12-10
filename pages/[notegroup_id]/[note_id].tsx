@@ -18,6 +18,8 @@ import Showdown from 'showdown';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetServerSidePropsContext } from 'next';
 import { GetNote } from '../../lib/note';
+import Layout from '../../components/layout';
+import { SharedAppProps } from '../../lib/app.types';
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
@@ -41,13 +43,13 @@ interface NoteWithPerms {
 	allPerms:  Database['public']['Tables']['note_perm']['Row'][]
 }
 
-interface NoteProps {
+interface NoteProps extends SharedAppProps {
 	data: NoteWithPerms;
 	user: User;
 	initialSession: Session;
 }
 
-function Note({ data }: NoteProps) {
+function Note({ data, toggle, toggleSidebar, toggleTheme }: NoteProps) {
 
 	if (!data?.note || !data?.allPerms || !data?.userPerm) {
 		return <CircularProgress />;
@@ -100,7 +102,7 @@ function Note({ data }: NoteProps) {
 	};
 
 	return (
-		<>
+		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms}>
 			<Box sx={{ padding: '40px' }}>
 				<Typography variant='h3'>{noteTitle}</Typography>
 				<MdEditor
@@ -150,7 +152,7 @@ function Note({ data }: NoteProps) {
 					Note successfully updated!
 				</Alert>
 			</Snackbar>
-		</>
+		</Layout>
 	);
 }
 

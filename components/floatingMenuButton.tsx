@@ -10,11 +10,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useRef, SyntheticEvent, ChangeEvent } from 'react';
 import NewNoteDialog from './NewNoteDialog';
 import { Snackbar, Alert } from '@mui/material';
-import { CrudResponse } from '../lib/database.types';
+import { CrudResponse, Database } from '../lib/database.types';
 import ShareNoteDialog from './ShareNoteDialog';
 import DeleteNoteDialog from './DeleteNoteDialog';
 
-export default function ShortcutMenuButton() {
+interface ShortcutProps {
+	allPerms?: Database["public"]["Tables"]["note_perm"]['Row'][]
+}
+
+export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
 	// -- New note -- //
