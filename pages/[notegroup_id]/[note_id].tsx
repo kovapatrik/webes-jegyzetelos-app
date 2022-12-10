@@ -1,4 +1,16 @@
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import {
+	Alert,
+	Box,
+	Button,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Snackbar,
+	TextField,
+	Typography,
+} from '@mui/material';
 import { Database, NoteWithPerms } from '../../lib/database.types';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -35,6 +47,8 @@ function Note({ data }: NoteProps) {
 	const [openModal, setOpenModal] = useState(false);
 	const [noteTitle, setNoteTitle] = useState(data?.note.title);
 
+	const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
+
 	function handleEditorChange(text: string, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
 		event?.preventDefault();
 		setValue(text);
@@ -68,9 +82,10 @@ function Note({ data }: NoteProps) {
 
 		const { data: newNote }: { data: Database['public']['Tables']['note']['Row'] } = await res.json();
 		setOpenModal(false);
-		setIsSaveAvailable(false);		
+		setIsSaveAvailable(false);
 		setNoteTitle(newNote.title);
 		setValue(newNote.data);
+		setOpenNewNoteSnackbar(true);
 	};
 
 	if (!data?.note || !data?.allPerms || !data?.userPerm) {
@@ -117,12 +132,17 @@ function Note({ data }: NoteProps) {
 						onChange={e => onTitleChange(e)}
 					/>
 				</DialogContent>
-				<DialogActions>
+				<DialogActions sx={{ justifyContent: 'center' }}>
 					<Button type='button' onClick={handleSave}>
 						Save
 					</Button>
 				</DialogActions>
 			</Dialog>
+			<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
+				<Alert onClose={() => setOpenNewNoteSnackbar(false)} severity={'success'} sx={{ width: '100%' }}>
+					Note successfully updated!
+				</Alert>
+			</Snackbar>
 		</>
 	);
 }

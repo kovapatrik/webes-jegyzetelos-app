@@ -8,18 +8,29 @@ import Fab from '@mui/material/Fab';
 import { useRouter } from 'next/router';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useRef, SyntheticEvent, ChangeEvent } from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
+import NewNoteDialog from './NewNoteDialog';
+import { Snackbar, Alert } from '@mui/material';
+import { CrudResponse } from '../lib/database.types';
+import ShareNoteDialog from './ShareNoteDialog';
 
 export default function ShortcutMenuButton() {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
+	// -- New note -- //
 	const [openNewNote, setOpenNewNote] = useState(false);
 	const [newNoteTitle, setNewNoteTitle] = useState('');
+	const [newNoteResponse, setNewNoteResponse] = useState<CrudResponse | null>(null);
+	const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
+	// ------------- //
+
+	// -- Share note -- //
+	const [openShareNote, setOpenShareNote] = useState(false);
+	const [email, setEmail] = useState('');
+	// ---------------- //
 
 	const {
 		query: { note_id, notegroup_id },
 	} = useRouter();
-	
 
 	const handleToggle = () => {
 		setOpen(prevOpen => !prevOpen);
@@ -33,6 +44,7 @@ export default function ShortcutMenuButton() {
 		setOpen(false);
 	};
 
+	// --- New Note Dialog functions --- //
 	const handleNewNote = (event: Event | SyntheticEvent) => {
 		event.preventDefault();
 		setOpenNewNote(true);
@@ -45,21 +57,40 @@ export default function ShortcutMenuButton() {
 	const handleCloseNewNoteDialog = () => {
 		setOpenNewNote(false);
 		setNewNoteTitle('');
-	}
+	};
 
 	const handleCreate = async () => {
 		const res = await fetch(`/api/note/${notegroup_id}`, {
 			method: 'POST',
 			body: JSON.stringify({
 				title: newNoteTitle,
-				note_group_id: notegroup_id
+				note_group_id: notegroup_id,
 			}),
 			headers: { 'Content-Type': 'application/json' },
 		});
-		const data = await res.json();
+		const data: CrudResponse = await res.json();
+		setNewNoteResponse(data);
+		setOpenNewNoteSnackbar(true);
 		setNewNoteTitle('');
-		setOpenNewNote(false);	
+		setOpenNewNote(false);
 	};
+	// ------ //
+
+	// --- Share note Dialog functions --- //
+	const handleShareNote = (event: Event | SyntheticEvent) => {
+		event.preventDefault();
+		setOpenShareNote(true);
+	};
+
+	const onEmailChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+		setEmail(event.target.value);
+	};
+
+	const handleCloseShareNoteDialog = () => {
+		setOpenShareNote(false);
+		setEmail('');
+	};
+	// ------ //
 
 	return (
 		<div>
@@ -82,12 +113,18 @@ export default function ShortcutMenuButton() {
 							<ClickAwayListener onClickAway={handleClose}>
 								<MenuList autoFocusItem={open} id='composition-menu' aria-labelledby='composition-button'>
 									{note_id ? (
-										<>
-											<MenuItem onClick={handleClose}>Share note</MenuItem>
-											<MenuItem onClick={handleClose}>Delete</MenuItem>
-										</>
+										<div>
+											<MenuItem key='share' onClick={handleShareNote}>
+												Share note
+											</MenuItem>
+											<MenuItem key='delete' onClick={handleClose}>
+												Delete
+											</MenuItem>
+										</div>
 									) : (
-										<MenuItem onClick={handleNewNote}>New note</MenuItem>
+										<MenuItem key='new' onClick={handleNewNote}>
+											New note
+										</MenuItem>
 									)}
 								</MenuList>
 							</ClickAwayListener>
@@ -95,27 +132,25 @@ export default function ShortcutMenuButton() {
 					</Grow>
 				)}
 			</Popper>
-			<Dialog open={openNewNote} onClose={handleCloseNewNoteDialog}>
-				<DialogTitle>New note</DialogTitle>
-				<DialogContent>
-					<TextField
-						value={newNoteTitle}
-						autoFocus
-						margin='normal'
-						id='title'
-						label='New note title'
-						type='text'
-						fullWidth
-						variant='outlined'
-						onChange={e => onTitleChange(e)}
-					/>
-				</DialogContent>
-				<DialogActions sx={{ justifyContent: 'center' }}>
-					<Button disabled={newNoteTitle === ''} type='button' onClick={handleCreate}>
-						Create
-					</Button>
-				</DialogActions>
-			</Dialog>
+			<NewNoteDialog
+				dialogValue={newNoteTitle}
+				handleCreate={handleCreate}
+				onClose={handleCloseNewNoteDialog}
+				onTitleChange={onTitleChange}
+				open={openNewNote}
+			/>
+			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} />
+			{newNoteResponse && (
+				<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
+					<Alert
+						onClose={() => setOpenNewNoteSnackbar(false)}
+						severity={newNoteResponse.error ? 'error' : 'success'}
+						sx={{ width: '100%' }}
+					>
+						{newNoteResponse.description}
+					</Alert>
+				</Snackbar>
+			)}
 		</div>
 	);
 }

@@ -105,3 +105,8 @@ export interface NoteWithPerms {
 	userPerm: Database['public']['Tables']['note_perm']['Row'];
 	allPerms: Database['public']['Tables']['note_perm']['Row'][];
 }
+
+export interface CrudResponse {
+	error: string | null;
+	description: string;
+}

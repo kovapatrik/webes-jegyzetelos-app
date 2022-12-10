@@ -37,7 +37,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             if (title === undefined || note_group_id === undefined) {
                 return res.status(400).json({
                     error: 'invalid_input',
-                    description: 'Title or note_group_id is undefined.',
+                    description: 'Title or note_group_id is undefined!',
                   })
             }
     
@@ -50,7 +50,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
-                    description: 'A note with the same title already exists in this note group.',
+                    description: 'A note with the same title already exists in this note group!',
                   })
             }
     
@@ -61,7 +61,10 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
                                              note_group_id: note_group_id,
                                              data: data
                                          })
-            res.status(201)
+            return res.status(201).json({
+                error: null,
+                description: 'Successfully created new note!',
+            });
         // Update                                                             
         } else if (req.method === 'PATCH') {
 
