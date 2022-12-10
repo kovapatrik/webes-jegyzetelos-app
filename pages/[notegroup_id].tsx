@@ -38,7 +38,7 @@ function NoteGroup({ data } : NoteGroupProps) {
 			))}
 			{data?.notes?.sort((a,b) => a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1).map(n => (
 				<Grid key={n.id} item>
-					<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${notegroup_id}/${n.id}`} is_note_group={false}/>
+					<ImageCard key={n.id} title={n.title} href='/[notegroup_id]/[note_id]' href_as={`/${n.note_group_id}/${n.id}`} is_note_group={false}/>
 				</Grid>
 			))}
 		</Grid>
