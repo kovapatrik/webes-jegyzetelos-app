@@ -27,6 +27,10 @@ export default function ImageCard({ title, href, href_as }: ImageProps) {
 			id='imageCard'
 			sx={{
 				width: '180px',
+				'&:hover': {
+					backgroundColor: '#4DE599',
+					cursor: 'pointer'
+				}
 			}}
 			p={1}
 		>
