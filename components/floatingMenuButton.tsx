@@ -15,10 +15,10 @@ import ShareNoteDialog from './ShareNoteDialog';
 import DeleteNoteDialog from './DeleteNoteDialog';
 
 interface ShortcutProps {
-	allPerms?: Database["public"]["Tables"]["note_perm"]['Row'][]
+	allPerms?: Database['public']['Tables']['note_perm']['Row'][];
 }
 
-export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
+export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
 	// -- New note -- //
@@ -42,12 +42,11 @@ export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		setOpenDeleteNote(false)
+		setOpenDeleteNote(false);
 		if (res.status === 200) {
-			router.replace(`/${notegroup_id}`)
+			router.replace(`/${notegroup_id}`);
 		}
 	}
-
 	// ---------------- //
 
 	const router = useRouter();
@@ -68,6 +67,7 @@ export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 		setOpen(false);
 	};
 
+	console.log(allPerms);
 	// --- New Note Dialog functions --- //
 	const handleNewNote = (event: Event | SyntheticEvent) => {
 		event.preventDefault();
@@ -92,15 +92,15 @@ export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 			}),
 			headers: { 'Content-Type': 'application/json' },
 		});
-		
-		const data = await res.json()
+
+		const data = await res.json();
 		setNewNoteResponse(data);
 		setOpenNewNoteSnackbar(true);
 		setNewNoteTitle('');
 		setOpenNewNote(false);
 
 		if (res.status === 200) {
-			router.replace(router.asPath)
+			router.replace(router.asPath);
 		}
 
 		// if (data.id) {
@@ -173,7 +173,7 @@ export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 				open={openNewNote}
 			/>
 			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} />
-			<DeleteNoteDialog open={openDeleteNote} onClose={() => setOpenDeleteNote(false)} onConfirm={handleDeleteConfirm}/>
+			<DeleteNoteDialog open={openDeleteNote} onClose={() => setOpenDeleteNote(false)} onConfirm={handleDeleteConfirm} />
 			{newNoteResponse && (
 				<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
 					<Alert
@@ -181,7 +181,7 @@ export default function ShortcutMenuButton({ allPerms } : ShortcutProps) {
 						severity={newNoteResponse.error ? 'error' : 'success'}
 						sx={{ width: '100%' }}
 					>
-						{newNoteResponse.description}
+						{newNoteResponse.description ?? 'Note successfully created!'}
 					</Alert>
 				</Snackbar>
 			)}

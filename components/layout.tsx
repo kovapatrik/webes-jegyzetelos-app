@@ -2,7 +2,6 @@ import { Grid, Box } from '@mui/material';
 import { Sidebar } from './sidebar/sidebar';
 import { Navbar } from './navbar/navbar';
 import { ReactNode } from 'react';
-import { useRouter } from 'next/router';
 import ShortcutMenuButton from './floatingMenuButton';
 import { Database } from '../lib/database.types';
 
@@ -11,19 +10,16 @@ interface LayoutProps {
 	toggle: boolean;
 	toggleTheme: React.MouseEventHandler<HTMLButtonElement>;
 	toggleSidebar: React.MouseEventHandler<HTMLButtonElement>;
-	allPerms?: Database["public"]["Tables"]["note_perm"]['Row'][]
+	allPerms?: Database['public']['Tables']['note_perm']['Row'][];
 }
 
-export default function Layout({ children, toggle, toggleTheme, toggleSidebar, allPerms } : LayoutProps) {
-
-	const router = useRouter()
-
+export default function Layout({ children, toggle, toggleTheme, toggleSidebar, allPerms }: LayoutProps) {
 	return (
 		<Box sx={{ height: '100vh' }}>
 			<Grid container sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
 				{toggle && (
 					<Grid item md={3} xl={2} display={{ xs: 'none', md: 'block' }}>
-						<Sidebar onToggle={toggleSidebar} toggle={toggle}/>
+						<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
 				)}
 				<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
@@ -35,12 +31,10 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 						</Grid>
 					)}
-					<Grid item>
-						{children}
-					</Grid>
+					<Grid item>{children}</Grid>
 					<Grid container style={{ position: 'relative' }}>
 						<Box sx={{ width: '100%', bottom: '2em', right: '2em', position: 'fixed' }} display='flex' justifyContent='flex-end'>
-							<ShortcutMenuButton allPerms={allPerms}/>
+							<ShortcutMenuButton allPerms={allPerms} />
 						</Box>
 					</Grid>
 				</Grid>

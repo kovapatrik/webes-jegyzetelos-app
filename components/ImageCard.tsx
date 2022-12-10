@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, SxProps, TextField, Theme, Typography } from '@mui/material';
+import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
@@ -27,9 +27,8 @@ interface ImageProps {
 }
 
 export default function ImageCard({ title, href, href_as, uid, is_note_group }: ImageProps) {
-
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-	const router = useRouter()
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const router = useRouter();
 
 	async function handleDeleteConfirm() {
 		const res = await fetch(`/api/${is_note_group ? 'note_group' : 'note'}/${uid}`, {
@@ -37,12 +36,10 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		console.log(res)
-		setDeleteDialogOpen(false)
+		setDeleteDialogOpen(false);
 		if (res.status === 200) {
-			router.replace(router.asPath)
+			router.replace(router.asPath);
 		}
-		
 	}
 
 	return (
@@ -52,8 +49,8 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 				width: '180px',
 				'&:hover': {
 					backgroundColor: '#4DE599',
-					cursor: 'pointer'
-				}
+					cursor: 'pointer',
+				},
 			}}
 			p={1}
 		>
@@ -95,7 +92,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 					</Grid>
 				</Grid>
 			</Grid>
-			<DeleteNoteDialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} onConfirm={handleDeleteConfirm}/>
+			<DeleteNoteDialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} onConfirm={handleDeleteConfirm} />
 		</Box>
 	);
 }

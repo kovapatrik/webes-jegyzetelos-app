@@ -54,7 +54,7 @@ export default async function Note(req: NextApiRequest, res: NextApiResponse) {
             if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
-                    description: 'A note with the same title already exists in this note group.',
+                    description: 'A note with the same title already exists in this note group!',
                   })
             }
 

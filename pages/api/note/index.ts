@@ -41,7 +41,7 @@ export default async function NoteIndex(req: NextApiRequest, res: NextApiRespons
             if (count !== null && count > 0) {
                 return res.status(400).json({
                     error: 'title_exists',
-                    description: 'A note with the same title already exists in this note group.',
+                    description: 'A note with the same title already exists in this note group!',
                 })
             }
             const newNote = (await supabaseServerClient.from("note")

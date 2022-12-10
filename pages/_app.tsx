@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
 import ViewProvider from '../context/toggleContext';
-import Layout from '../components/layout';
 import { weakTheme } from '../design/theme/weakTheme';
 
 import 'react-markdown-editor-lite/lib/index.css';

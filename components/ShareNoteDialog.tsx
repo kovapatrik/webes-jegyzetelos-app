@@ -2,14 +2,14 @@ import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } 
 import { ChangeEvent } from 'react';
 
 type NewNoteDialogProps = {
-    open: boolean;
-    onClose: () => void;
-    dialogValue: string;
-    onEmailChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
-}
+	open: boolean;
+	onClose: () => void;
+	dialogValue: string;
+	onEmailChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+};
 
 function ShareNoteDialog(props: NewNoteDialogProps) {
-    const { open, onClose, dialogValue, onEmailChange} = props;
+	const { open, onClose, dialogValue, onEmailChange } = props;
 
 	return (
 		<Dialog open={open} onClose={onClose}>
@@ -28,7 +28,7 @@ function ShareNoteDialog(props: NewNoteDialogProps) {
 				/>
 			</DialogContent>
 			<DialogActions sx={{ justifyContent: 'center' }}>
-				<Button disabled={dialogValue === ''} type='button' onClick={onClose}>
+				<Button variant='contained' disabled={dialogValue === ''} type='button' onClick={onClose}>
 					Share
 				</Button>
 			</DialogActions>

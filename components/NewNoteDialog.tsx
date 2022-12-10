@@ -29,7 +29,7 @@ function NewNoteDialog(props: NewNoteDialogProps) {
 				/>
 			</DialogContent>
 			<DialogActions sx={{ justifyContent: 'center' }}>
-				<Button disabled={dialogValue === ''} type='button' onClick={handleCreate}>
+				<Button disabled={dialogValue === ''} variant='contained' type='button' onClick={handleCreate}>
 					Create
 				</Button>
 			</DialogActions>
