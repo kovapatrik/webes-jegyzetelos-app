@@ -8,7 +8,7 @@ import Fab from '@mui/material/Fab';
 import { useRouter } from 'next/router';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useRef, SyntheticEvent, ChangeEvent } from 'react';
-import NewNoteDialog from './NewNoteDialog';
+import NewNoteOrNoteGroupDialog from './NewNoteOrNoteGroupDialog';
 import { Snackbar, Alert } from '@mui/material';
 import { CrudResponse, Database } from '../lib/database.types';
 import ShareNoteDialog from './ShareNoteDialog';
@@ -21,6 +21,7 @@ interface ShortcutProps {
 export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
+	const [groupNoteModal, setGroupNoteModal] = useState(false);
 	// -- New note -- //
 	const [openNewNote, setOpenNewNote] = useState(false);
 	const [newNoteTitle, setNewNoteTitle] = useState('');
@@ -69,8 +70,11 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 
 	console.log(allPerms);
 	// --- New Note Dialog functions --- //
-	const handleNewNote = (event: Event | SyntheticEvent) => {
+	const handleNewNote = (event: Event | SyntheticEvent, isGroup: boolean) => {
 		event.preventDefault();
+		if (isGroup) {
+			setGroupNoteModal(true);
+		}
 		setOpenNewNote(true);
 	};
 
@@ -80,32 +84,41 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 
 	const handleCloseNewNoteDialog = () => {
 		setOpenNewNote(false);
+		setGroupNoteModal(false);
 		setNewNoteTitle('');
 	};
 
 	const handleCreate = async () => {
-		const res = await fetch(`/api/note/`, {
-			method: 'POST',
-			body: JSON.stringify({
-				title: newNoteTitle,
-				note_group_id: notegroup_id,
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+		if (!groupNoteModal) {
+			//new note
+			const res = await fetch(`/api/note/`, {
+				method: 'POST',
+				body: JSON.stringify({
+					title: newNoteTitle,
+					note_group_id: notegroup_id,
+				}),
+				headers: { 'Content-Type': 'application/json' },
+			});
 
-		const data = await res.json();
-		setNewNoteResponse(data);
-		setOpenNewNoteSnackbar(true);
-		setNewNoteTitle('');
-		setOpenNewNote(false);
+			const data = await res.json();
+			setNewNoteResponse(data);
+			setOpenNewNoteSnackbar(true);
+			setNewNoteTitle('');
+			setOpenNewNote(false);
 
-		if (res.status === 200) {
-			router.replace(router.asPath);
+			if (res.status === 200) {
+				router.replace(router.asPath);
+			}
+
+			// if (data.id) {
+			// 	router.push(`/${data.note_group_id}/${data.id}`)
+			// }
+		} else {
+			// new note group
+			setNewNoteTitle('');
+			setOpenNewNote(false);
+			setGroupNoteModal(false);
 		}
-
-		// if (data.id) {
-		// 	router.push(`/${data.note_group_id}/${data.id}`)
-		// }
 	};
 	// ------ //
 
@@ -155,9 +168,14 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 											</MenuItem>
 										</div>
 									) : (
-										<MenuItem key='new' onClick={handleNewNote}>
-											New note
-										</MenuItem>
+										<div>
+											<MenuItem key='new' onClick={e => handleNewNote(e, false)}>
+												New note
+											</MenuItem>
+											<MenuItem key='new-group' onClick={e => handleNewNote(e, true)}>
+												New note group
+											</MenuItem>
+										</div>
 									)}
 								</MenuList>
 							</ClickAwayListener>
@@ -165,7 +183,8 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 					</Grow>
 				)}
 			</Popper>
-			<NewNoteDialog
+			<NewNoteOrNoteGroupDialog
+				groupNoteModal={groupNoteModal}
 				dialogValue={newNoteTitle}
 				handleCreate={handleCreate}
 				onClose={handleCloseNewNoteDialog}
