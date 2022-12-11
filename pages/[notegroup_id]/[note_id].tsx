@@ -1,11 +1,25 @@
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
-import { Database, NoteWithPerms } from '../../lib/database.types';
+import {
+	Alert,
+	Box,
+	Button,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Snackbar,
+	TextField,
+	Typography,
+} from '@mui/material';
+import { Database } from '../../lib/database.types';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Showdown from 'showdown';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetServerSidePropsContext } from 'next';
 import { GetNote } from '../../lib/note';
+import Layout from '../../components/layout';
+import { SharedAppProps } from '../../lib/app.types';
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
@@ -23,17 +37,30 @@ interface ParsedUrlQuery {
 	note_id: string;
 }
 
-interface NoteProps {
+interface NoteWithPerms {
+	note: Database['public']['Tables']['note']['Row'];
+	userPerm: Database['public']['Tables']['note_perm']['Row']
+	allPerms:  Database['public']['Tables']['note_perm']['Row'][]
+}
+
+interface NoteProps extends SharedAppProps {
 	data: NoteWithPerms;
 	user: User;
 	initialSession: Session;
 }
 
-function Note({ data }: NoteProps) {
+function Note({ data, toggle, toggleSidebar, toggleTheme }: NoteProps) {
+
+	if (!data?.note || !data?.allPerms || !data?.userPerm) {
+		return <CircularProgress />;
+	}
+
 	const [value, setValue] = useState(data?.note.data);
 	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [noteTitle, setNoteTitle] = useState(data?.note.title);
+
+	const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
 
 	function handleEditorChange(text: string, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
 		event?.preventDefault();
@@ -68,24 +95,21 @@ function Note({ data }: NoteProps) {
 
 		const { data: newNote }: { data: Database['public']['Tables']['note']['Row'] } = await res.json();
 		setOpenModal(false);
-		setIsSaveAvailable(false);		
+		setIsSaveAvailable(false);
 		setNoteTitle(newNote.title);
 		setValue(newNote.data);
+		setOpenNewNoteSnackbar(true);
 	};
 
-	if (!data?.note || !data?.allPerms || !data?.userPerm || !data.note.data) {
-		return <CircularProgress />;
-	}
-
 	return (
-		<>
+		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms}>
 			<Box sx={{ padding: '40px' }}>
 				<Typography variant='h3'>{noteTitle}</Typography>
 				<MdEditor
 					view={{
 						html: true,
-						menu: data.userPerm.edit_perm ? true : false,
-						md: data.userPerm.edit_perm ? true : false,
+						menu: data.userPerm.edit_perm || false,
+						md: data.userPerm.edit_perm || false,
 					}}
 					readOnly={!data.userPerm.edit_perm}
 					style={{ height: '500px' }}
@@ -117,13 +141,18 @@ function Note({ data }: NoteProps) {
 						onChange={e => onTitleChange(e)}
 					/>
 				</DialogContent>
-				<DialogActions>
+				<DialogActions sx={{ justifyContent: 'center' }}>
 					<Button type='button' onClick={handleSave}>
 						Save
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</>
+			<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
+				<Alert onClose={() => setOpenNewNoteSnackbar(false)} severity={'success'} sx={{ width: '100%' }}>
+					Note successfully updated!
+				</Alert>
+			</Snackbar>
+		</Layout>
 	);
 }
 

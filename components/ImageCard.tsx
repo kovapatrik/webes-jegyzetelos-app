@@ -2,8 +2,11 @@ import * as React from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { MoreVert } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import DeleteNoteDialog from './DeleteNoteDialog';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
@@ -16,53 +19,80 @@ const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 };
 
 interface ImageProps {
+	uid: string;
 	title: string;
 	href: string;
 	href_as: string;
+	is_note_group: boolean;
 }
 
-export default function ImageCard({ title, href, href_as} : ImageProps) {
+export default function ImageCard({ title, href, href_as, uid, is_note_group }: ImageProps) {
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const router = useRouter();
+
+	async function handleDeleteConfirm() {
+		const res = await fetch(`/api/${is_note_group ? 'note_group' : 'note'}/${uid}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+		});
+
+		setDeleteDialogOpen(false);
+		if (res.status === 200) {
+			router.replace(router.asPath);
+		}
+	}
 
 	return (
 		<Box
 			id='imageCard'
 			sx={{
 				width: '180px',
+				'&:hover': {
+					backgroundColor: '#4DE599',
+					cursor: 'pointer',
+				},
 			}}
 			p={1}
 		>
-			<Link href={href} as={href_as}>
-				<Grid container flexDirection={'column'} spacing={1}>
+			<Grid container flexDirection={'column'} spacing={1}>
+				<Link href={href} as={href_as}>
 					<Grid item>
 						<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
 							<img src={itemData[0].img} loading='lazy' />
 						</ImageListItem>
 					</Grid>
-					<Grid item>
-						<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-								<Grid item>
-									<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-										<Grid item>
-											<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-										</Grid>
-										<Grid item>
-											<Typography>{title}</Typography>
-										</Grid>
-									</Grid>
-								</Grid>
+				</Link>
+				<Grid item>
+					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
+						<Link href={href} as={href_as}>
 							<Grid item>
-								<Grid container>
+								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
 									<Grid item>
-										<IconButton>
-											<MoreVert id='smallMenuItem' />
-										</IconButton>
+										<PictureAsPdfIcon sx={{ color: '#de5246' }} />
+									</Grid>
+									<Grid item>
+										<Typography
+											sx={{
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												width: '90px',
+											}}
+										>
+											{title}
+										</Typography>
 									</Grid>
 								</Grid>
 							</Grid>
+						</Link>
+						<Grid item>
+							<IconButton onClick={() => setDeleteDialogOpen(true)}>
+								<DeleteIcon id='smallMenuItem' />
+							</IconButton>
 						</Grid>
 					</Grid>
 				</Grid>
-			</Link>
+			</Grid>
+			<DeleteNoteDialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} onConfirm={handleDeleteConfirm} />
 		</Box>
 	);
 }
