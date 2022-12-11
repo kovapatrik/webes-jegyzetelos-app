@@ -22,13 +22,77 @@ export const weakTheme = createTheme({
 						color: '#000000',
 						backgroundColor: '#FFFF00',
 					},
-
+					"& .MuiDialogTitle-root+.css-ypiqx9-MuiDialogContent-root": {
+						backgroundColor: '#000000',
+					},
+					"& .css-g41feg-MuiDialogActions-root": {
+						backgroundColor: '#000000',
+					},
+					"& .css-bdhsul-MuiTypography-root-MuiDialogTitle-root": {
+						backgroundColor: '#000000',
+					},
+					"& .css-oqak2i-MuiButtonBase-root-MuiButton-root":{
+						fontSize: '20px',
+						height: '45px',
+						width: '100px',
+					},
+					"& .css-oqak2i-MuiButtonBase-root-MuiButton-root:hover":{
+						backgroundColor: '#FFFF00',
+						fontSize: '20px',
+					},
+					"& .css-g41feg-MuiDialogActions-root>:not(:first-of-type)":{
+						fontSize: '20px',
+						height: '45px',
+						width: '100px',
+					},
+					
+					"&  .css-11rkxlr-MuiButtonBase-root-MuiButton-root":{
+						fontSize: '20px',
+						height: '45px',
+						width: '100px',
+					},
+					"& .css-11rkxlr-MuiButtonBase-root-MuiButton-root:hover":{
+						fontSize: '20px',
+					},
+					
+					"& .css-11rkxlr-MuiButtonBase-root-MuiButton-root.Mui-disabled":{
+						fontSize: '20px',
+						height: '45px',
+						width: '100px',
+					},
 				},
 			},
 		},
 		MuiGrid: {
 			styleOverrides: {
-				root: {
+				root: {					
+					"&  .rc-md-editor .rc-md-navigation": {
+						backgroundColor: '#000000',
+					},
+					"& .rc-md-editor .rc-md-navigation .button-wrap": {
+						backgroundColor: '#FFFF00',
+					},
+					"& .rc-md-editor .editor-container .sec-md .input": {
+						backgroundColor: '#FFFF00',	
+					},	
+
+					"&  .rc-md-editor .editor-container": {
+						fill: '#000000',
+						color: '#000000',
+						backgroundColor: '#FFFF00',
+						fontSize: '15px',
+					},
+
+					"& .css-1udq3mp-MuiButtonBase-root-MuiButton-root.Mui-disabled" :{
+						fontSize: '15px',
+						height: '45px',
+						width: '150px',
+					},
+					"& .css-1udq3mp-MuiButtonBase-root-MuiButton-root" :{
+						fontSize: '15px',
+						height: '45px',
+						width: '150px',
+					},
 					'& #weakButton': {
 						fill: '#000000',
 						backgroundColor: '#FFFF00',
@@ -99,7 +163,7 @@ export const weakTheme = createTheme({
 					// Some CSS
 					backgroundColor: '#FFFF00',
 					color: '#000000',
-					fontSize: '30px',
+					// fontSize: '30px',
 					height: '30px',
 					width: '30px',
 					'&:hover': {
