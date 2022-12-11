@@ -19,7 +19,7 @@ import { createServerSupabaseClient, Session, User } from '@supabase/auth-helper
 import { GetServerSidePropsContext } from 'next';
 import { GetNote } from '../../lib/note';
 import Layout from '../../components/layout';
-import { SharedAppProps } from '../../lib/app.types';
+import { AllPerms, SharedAppProps } from '../../lib/app.types';
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
 	ssr: false,
@@ -37,14 +37,10 @@ interface ParsedUrlQuery {
 	note_id: string;
 }
 
-type AllPerms = Database['public']['Tables']['note_perm']['Row'] & {
-	users:  Database['public']['Tables']['users']['Row']
-}
-
 interface NoteWithPerms {
 	note: Database['public']['Tables']['note']['Row'];
 	userPerm: Database['public']['Tables']['note_perm']['Row']
-	allPerms: AllPerms[];
+	allPerms?: AllPerms[];
 }
 
 interface NoteProps extends SharedAppProps {

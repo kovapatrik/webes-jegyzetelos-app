@@ -11,11 +11,8 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { Database } from '../lib/database.types';
+import { AllPerms } from '../lib/app.types';
 
-type AllPerms = Database['public']['Tables']['note_perm']['Row'] & {
-	users:  Database['public']['Tables']['users']['Row']
-}
 type NewNoteDialogProps = {
 	open: boolean;
 	onClose: () => void;

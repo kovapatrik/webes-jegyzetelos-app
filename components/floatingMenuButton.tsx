@@ -10,13 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useRef, SyntheticEvent, ChangeEvent } from 'react';
 import NewNoteOrNoteGroupDialog from './NewNoteOrNoteGroupDialog';
 import { Snackbar, Alert } from '@mui/material';
-import { Database } from '../lib/database.types';
 import ShareNoteDialog from './ShareNoteDialog';
 import DeleteNoteDialog from './DeleteNoteDialog';
-
-type AllPerms = Database['public']['Tables']['note_perm']['Row'] & {
-	users:  Database['public']['Tables']['users']['Row']
-}
+import { AllPerms } from '../lib/app.types';
 
 interface ShortcutProps {
 	allPerms?: AllPerms[];

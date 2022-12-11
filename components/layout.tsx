@@ -3,14 +3,14 @@ import { Sidebar } from './sidebar/sidebar';
 import { Navbar } from './navbar/navbar';
 import { ReactNode } from 'react';
 import ShortcutMenuButton from './floatingMenuButton';
-import { Database } from '../lib/database.types';
+import { AllPerms } from '../lib/app.types';
 
 interface LayoutProps {
 	children?: ReactNode;
 	toggle: boolean;
 	toggleTheme: React.MouseEventHandler<HTMLButtonElement>;
 	toggleSidebar: React.MouseEventHandler<HTMLButtonElement>;
-	allPerms?: Database['public']['Tables']['note_perm']['Row'][];
+	allPerms?: AllPerms[];
 }
 
 export default function Layout({ children, toggle, toggleTheme, toggleSidebar, allPerms }: LayoutProps) {
