@@ -16,8 +16,10 @@ export async function GetNote({id, user, supabaseServerClient} : {id: string, us
                                               .data
 
     const allPerms = (await supabaseServerClient.from("note_perm")
-                                                  .select()
-                                                  .eq('note_id', id))
-                                                  .data
+                                                .select('*, users!note_perm_user_id_fkey (email)')
+                                                .eq('note_id', id)
+                                                .neq('user_id', user?.id))
+                                                .data
+                                                
     return { note, userPerm, allPerms }
 }

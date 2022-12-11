@@ -11,12 +11,17 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import { Database } from '../lib/database.types';
 
+type AllPerms = Database['public']['Tables']['note_perm']['Row'] & {
+	users:  Database['public']['Tables']['users']['Row']
+}
 type NewNoteDialogProps = {
 	open: boolean;
 	onClose: () => void;
 	dialogValue: string;
 	onEmailChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+	allPerms?: AllPerms[]
 };
 
 function ShareNoteDialog(props: NewNoteDialogProps) {
@@ -45,16 +50,6 @@ function ShareNoteDialog(props: NewNoteDialogProps) {
 		}
 	}
 
-	const dummyUserEmails = [
-		'asd123@gmail.com',
-		'asd456@gmail.com',
-		'asd789@gmail.com',
-		'asd101@gmail.com',
-		'asd123@gmail.com',
-		'asd456@gmail.com',
-		'asd789@gmail.com',
-		'asd101@gmail.com',
-	];
 	return (
 		<Dialog open={open} onClose={onClose}>
 			<DialogTitle>Share note</DialogTitle>
@@ -71,7 +66,7 @@ function ShareNoteDialog(props: NewNoteDialogProps) {
 					onChange={onEmailChange}
 				/>
 				<List sx={{ height: '200px' }}>
-					{dummyUserEmails.map((elem, key) => {
+					{props.allPerms?.map((elem, key) => {
 						return (
 							<ListItem
 								key={key}
@@ -127,7 +122,7 @@ function ShareNoteDialog(props: NewNoteDialogProps) {
 									</div>
 								}
 							>
-								<ListItemText primary={elem} />
+								<ListItemText primary={elem.users.email} />
 							</ListItem>
 						);
 					})}

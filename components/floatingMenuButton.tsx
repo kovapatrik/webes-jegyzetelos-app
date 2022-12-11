@@ -10,12 +10,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useRef, SyntheticEvent, ChangeEvent } from 'react';
 import NewNoteOrNoteGroupDialog from './NewNoteOrNoteGroupDialog';
 import { Snackbar, Alert } from '@mui/material';
-import { CrudResponse, Database } from '../lib/database.types';
+import { Database } from '../lib/database.types';
 import ShareNoteDialog from './ShareNoteDialog';
 import DeleteNoteDialog from './DeleteNoteDialog';
 
+type AllPerms = Database['public']['Tables']['note_perm']['Row'] & {
+	users:  Database['public']['Tables']['users']['Row']
+}
+
 interface ShortcutProps {
-	allPerms?: Database['public']['Tables']['note_perm']['Row'][];
+	allPerms?: AllPerms[];
+}
+
+export interface CrudResponse {
+	error: string | null;
+	description: string;
 }
 
 export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
@@ -68,7 +77,6 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 		setOpen(false);
 	};
 
-	console.log(allPerms);
 	// --- New Note Dialog functions --- //
 	const handleNewNote = (event: Event | SyntheticEvent, isGroup: boolean) => {
 		event.preventDefault();
@@ -169,11 +177,11 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 										</div>
 									) : (
 										<div>
-											<MenuItem key='new' onClick={e => handleNewNote(e, false)}>
-												New note
-											</MenuItem>
 											<MenuItem key='new-group' onClick={e => handleNewNote(e, true)}>
 												New note group
+											</MenuItem>
+											<MenuItem key='new' onClick={e => handleNewNote(e, false)}>
+												New note
 											</MenuItem>
 										</div>
 									)}
@@ -191,7 +199,7 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 				onTitleChange={onTitleChange}
 				open={openNewNote}
 			/>
-			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} />
+			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} allPerms={allPerms} />
 			<DeleteNoteDialog open={openDeleteNote} onClose={() => setOpenDeleteNote(false)} onConfirm={handleDeleteConfirm} />
 			{newNoteResponse && (
 				<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
