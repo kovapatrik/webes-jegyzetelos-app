@@ -1,5 +1,6 @@
 import { Database } from '../lib/database.types';
 import ImageCard from '../components/ImageCard';
+import { Grid } from '@mui/material';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetNoteGroup } from '../lib/note_group';
@@ -19,8 +20,9 @@ interface NoteGroupProps extends SharedAppProps {
 }
 
 interface ParsedUrlQuery {
-	[key: string]: string;
 	notegroup_id: string;
+
+	[key: string]: string;
 }
 
 function NoteGroup({ data, toggle, toggleSidebar, toggleTheme } : NoteGroupProps) {
@@ -41,15 +43,13 @@ function NoteGroup({ data, toggle, toggleSidebar, toggleTheme } : NoteGroupProps
 
 export default NoteGroup;
 
-
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
-	
-	const supabase = createServerSupabaseClient(ctx)
+	const supabase = createServerSupabaseClient(ctx);
 
 	const {
 		data: { session },
-	} = await supabase.auth.getSession()
-	
+	} = await supabase.auth.getSession();
+
 	// This is optional, middleware does this in the background
 	if (!session)
 		return {
@@ -57,15 +57,19 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 				destination: '/',
 				permanent: false,
 			},
-		}
+		};
 
-	const data = await GetNoteGroup({id: ctx.query['notegroup_id'] as string, user: session.user, supabaseServerClient: supabase})
-  
+	const data = await GetNoteGroup({
+		id: ctx.query['notegroup_id'] as string,
+		user: session.user,
+		supabaseServerClient: supabase,
+	});
+
 	return {
 		props: {
 			initialSession: session,
 			user: session.user,
 			data: data,
 		},
-	}
-  }
+	};
+};
