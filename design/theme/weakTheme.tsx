@@ -16,7 +16,7 @@ export const weakTheme = createTheme({
 					"& .MuiButtonBase-root": {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
-						fontSize: '30px',
+						fontSize: '20px',
 					},
 					"& .MuiList-padding": {
 						color: '#000000',
@@ -36,9 +36,9 @@ export const weakTheme = createTheme({
 						height: '45px',
 						width: '100px',
 					},
-					"& .css-oqak2i-MuiButtonBase-root-MuiButton-root:hover":{
+					"& .MuiButtonBase-root-MuiButton-root:hover":{
 						backgroundColor: '#FFFF00',
-						fontSize: '20px',
+						fontSize: '1px',
 					},
 					"& .css-g41feg-MuiDialogActions-root>:not(:first-of-type)":{
 						fontSize: '20px',
@@ -51,8 +51,10 @@ export const weakTheme = createTheme({
 						height: '45px',
 						width: '100px',
 					},
-					"& .css-11rkxlr-MuiButtonBase-root-MuiButton-root:hover":{
-						fontSize: '20px',
+					"& .MuiTouchRipple-root:hover":{
+						height: '30px',
+						width: '30px',
+						fontSize: '1px',
 					},
 					
 					"& .css-11rkxlr-MuiButtonBase-root-MuiButton-root.Mui-disabled":{
@@ -69,22 +71,30 @@ export const weakTheme = createTheme({
 					"&  #searchicon": {
 						backgroundColor: '#000000',
 					},
-
+					"&  #searchlist": {
+						backgroundColor: '#000000',
+					},
 					"&  .css-mfzy4c:hover": {
 						backgroundColor: '#000000',
 					},
-
 					"& .w-md-editor-toolbar": {
 						backgroundColor: '#FFFF00',	
 					},
 					"& .w-md-editor-preview": {
 						backgroundColor: '#FFFF00',	
 					},
-					"& .css-12k03in-MuiGrid-root .w-md-editor-text-pre, .css-12k03in-MuiGrid-root .w-md-editor-text-input": {
+					"& .w-md-editor-text-input": {
 						backgroundColor: '#FFFF00',	
 						color: '#000000',
 						'-webkit-text-fill-color':  '#000000',
 					},
+
+					"& .MuiGrid-spacing-xs-1 ": {
+						backgroundColor: '#FFFF00',	
+						color: '#000000',
+						'-webkit-text-fill-color':  '#000000',
+					},
+					
 					"& .css-1adr7mr-MuiGrid-root .w-md-editor-text-pre>code": {
 						color: '#000000',
 					},
@@ -92,6 +102,9 @@ export const weakTheme = createTheme({
 					"& [data-color-mode*='light'] .wmde-markdown, [data-color-mode*='light'] .wmde-markdown-var, .wmde-markdown-var[data-color-mode*='light'], .wmde-markdown[data-color-mode*='light'], body[data-color-mode*='light']": {
 						backgroundColor: '#FFFF00',	
 						color: '#000000',
+					},
+					"& .wmde-markdown-color " : {
+						backgroundColor: '#FFFF00'
 					},
 					"& .css-1udq3mp-MuiButtonBase-root-MuiButton-root.Mui-disabled" :{
 						fontSize: '15px',
@@ -137,14 +150,14 @@ export const weakTheme = createTheme({
 					'& #mainContainer': {
 						'& p': {
 							color: '#000000',
-							fontSize: '30px',
+							fontSize: '18px',
 						},
 						'& li a': {
 							color: '#000000',
 							fontSize: '30px',
 						},
 						'& #imageCard': {
-							backgroundColor: '#FFFF00',
+							backgroundColor: '#000000',
 							border: '0.5px solid #000000',
 							fontSize: '30px',
 						},
@@ -174,15 +187,14 @@ export const weakTheme = createTheme({
 					backgroundColor: '#FFFF00',
 					color: '#000000',
 					// fontSize: '30px',
-					height: '30px',
-					width: '30px',
+					height: '45px',
 					'&:hover': {
 						backgroundColor: '#FFFF00',
-						fontSize: '30px',
+						fontSize: '20px',
 					},
 					'&:active': {
 						backgroundColor: '#FFFF00',
-						fontSize: '30px',
+						fontSize: '20px',
 					},
 				},
 			},

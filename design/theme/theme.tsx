@@ -161,6 +161,7 @@ export const lightTheme = createTheme({
 						},
 						'& #smallMenuItem': {
 							color: '#707070',
+							right: '0'
 						},
 					},
 				},

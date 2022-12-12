@@ -82,7 +82,6 @@ export const Sidebar = (props: SidebarProps) => {
 			<Grid item>
 				<Grid container>
 					<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
-						<CustomMenuItem Icon={<Settings fontSize='medium' />} label={'Settings'} position={'left'} />
 						<Divider />
 						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} onClick={async () => await signOut()} />
 					</MenuList>
