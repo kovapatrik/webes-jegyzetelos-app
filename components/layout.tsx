@@ -22,15 +22,6 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 						<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
 				)}
-				<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
-					<Grid item>
-						<Navbar onToggle={toggleSidebar} toggle={toggle} toggleTheme={toggleTheme} />
-					</Grid>
-					{toggle && (
-						<Grid item xs={12} md={2} lg={1} display={{ xs: 'block', md: 'none' }}>
-							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
-						</Grid>
-					)}
 					<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
 						<Grid item>
 							<Navbar onToggle={toggleSidebar} toggle={toggle} toggleTheme={toggleTheme} />
@@ -50,7 +41,6 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
 		</Box>
 	);
 }
