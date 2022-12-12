@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { GetSearchResult } from '../../lib/search';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { IconButton, InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemButton, ListItemText, ListItem, Autocomplete, TextField } from '@mui/material/';
+import { InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemText, ListItem } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
-import { PanoramaFishEye, ViewSidebarOutlined } from '@mui/icons-material';
+import { ViewSidebarOutlined } from '@mui/icons-material';
 import NavButton from './navButton';
 import Link from 'next/link';
 import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
 import { useCookies } from 'react-cookie';
 import BlindLogo from '../assets/BlindLogo';
-
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -58,6 +57,7 @@ type NavbarProps = {
 	toggle?: boolean;
 	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
 };
+
 interface resdata {
 	id: string;
 	user_id: string;
@@ -83,16 +83,17 @@ export const Navbar = (props: NavbarProps) => {
 			const results = await GetSearchResult({ searchTerm, supabaseServerClient: supaBaseClient });
 			setResultsData(results);
 		}
+
 		if (searchTerm) {
 			getData();
-		}
-		else {
+		} else {
 			setResultsData(null);
 		}
-
 	}, [searchTerm]);
 
-	const handleSelectItem = () => { setSearchTerm(''); }
+	const handleSelectItem = () => {
+		setSearchTerm('');
+	};
 
 	const { view, changeTheme } = useContext<ToggleContextType>(ToggleContext);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -118,23 +119,21 @@ export const Navbar = (props: NavbarProps) => {
 									<SearchIcon />
 								</SearchIconWrapper>
 								<StyledInputBase
-									onChange={(serachVal) => setSearchTerm(serachVal.target.value)}
-									placeholder="Search…"
+									onChange={serachVal => setSearchTerm(serachVal.target.value)}
+									placeholder='Search…'
 									inputProps={{ 'aria-label': 'search' }}
 									value={searchTerm}
 								/>
 							</Search>
 							<List>
-								{resultdata && resultdata.map((item: resdata) => (
-									<Link href={`/${item.note_group_id}/${item.id}`} passHref key={item.id}>
-										<ListItem button
-											onClick={handleSelectItem}
-										>
-											<ListItemText primary={item.title} />
-										</ListItem>
-									</Link>
-
-								))}
+								{resultdata &&
+									resultdata.map((item: resdata) => (
+										<Link href={`/${item.note_group_id}/${item.id}`} passHref key={item.id}>
+											<ListItem button onClick={handleSelectItem}>
+												<ListItemText primary={item.title} />
+											</ListItem>
+										</Link>
+									))}
 							</List>
 						</Box>
 						<Box px={1}>
