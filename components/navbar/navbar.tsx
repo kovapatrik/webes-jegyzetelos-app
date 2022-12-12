@@ -66,7 +66,7 @@ interface resdata {
 	title: string;
 	last_modify: string;
 	note_group_id: string;
-};
+}
 
 const PREFERENCE_COOKIE_NAME = 'theme-preference';
 
