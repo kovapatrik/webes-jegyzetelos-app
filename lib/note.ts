@@ -23,3 +23,11 @@ export async function GetNote({id, user, supabaseServerClient} : {id: string, us
                                                 
     return { note, userPerm, allPerms }
 }
+
+export async function GetSharedNotes({ user, supabaseServerClient} : {user: User | null, supabaseServerClient: SupabaseClient<Database, "public">}) {
+    const notes = (await supabaseServerClient.from('note')
+                                             .select()
+                                             .neq('user_id', user?.id))
+                                             .data
+    return { notes }
+}

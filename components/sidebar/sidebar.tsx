@@ -93,7 +93,7 @@ export const Sidebar = (props: SidebarProps) => {
             <Grid item>
                 <MenuList sx={{ width: '100%' }}>
                     <CustomMenuItem Icon={<Note fontSize='medium' />} label={'My Notes'} position={'left'} onClick={() => router.replace('/')}/>
-                    {/* <CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Shared With Me'} position={'left'} /> */}
+                    <CustomMenuItem Icon={<Folder fontSize='medium' />} label={'Shared With Me'} position={'left'} onClick={() => router.replace('/shared')}/>
                 </MenuList>
             </Grid>
             <Grid item>

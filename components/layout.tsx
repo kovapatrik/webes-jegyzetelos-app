@@ -38,6 +38,7 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 					</Grid>
 					<Grid container style={{ position: 'relative' }}>
 						<Box sx={{ width: '100%', bottom: '2em', right: '2em', position: 'fixed' }} display='flex' justifyContent='flex-end'>
+							
 							<ShortcutMenuButton allPerms={allPerms} ownerId={ownerId}/>
 						</Box>
 					</Grid>

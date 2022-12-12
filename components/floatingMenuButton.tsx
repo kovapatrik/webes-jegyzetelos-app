@@ -140,6 +140,7 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 	// ------ //
 
 	return (
+		(note_id && user?.id === ownerId) || (notegroup_id && !note_id) ?
 		<div>
 			<Fab ref={anchorRef} id='composition-button' onClick={handleToggle}>
 				<MenuIcon />
@@ -168,7 +169,7 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 												Delete
 											</MenuItem>
 										</div>
-									) : (
+									) :
 										<div>
 											<MenuItem key='new-group' onClick={e => handleNewNote(e, true)}>
 												New note group
@@ -177,7 +178,7 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 												New note
 											</MenuItem>
 										</div>
-									)}
+									}
 								</MenuList>
 							</ClickAwayListener>
 						</Paper>
@@ -206,5 +207,7 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 				</Snackbar>
 			)}
 		</div>
+		:
+		null
 	);
 }
