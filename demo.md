@@ -5,8 +5,7 @@ A nagyító a jegyzetek közti keresésben segíti a felhasználót. A keresést
 Bármelyik jegyzetet ki tudjuk választani és szerkeszteni, valamint új jegyzetet is tudunk létrehozni .md (Markodown) fromátumban. Az új jegyzet létrehozását egy lebegő menü gyorsítja a képernyő jobb alsó sarkában. A menüre kattintva a lebegőmenü opciói láthatóak lesznek számunkra: új jegyzet, jegyzet megosztása, jegyzet törlése, attól függően, hogy milyen nézetben vagyunk (jegyzet csoport/egy jegyzet). Jegyzet törlése esetén egy megerősítést is kér tőlünk a felület, hogy véletlen törlés semmiképpen ne fordulhasson elő.
 ***Hogy lehet feltölteni még anyagokat? Hol lehet létrehozni új fájlokat, csoportokat? 
 Jobban kifejteni a lebegőmenüt!!!!***
-A jegyzeteket e-mail cím alapján tudjuk megosztani másokkal és csakis a jegyzet tulajdonosa képes erre. Lehetősége van, kiválasztani azt, hogy akivel megosztja a jegyzetet milyen jogosultságokat ad hozzá: megtekintés, szerkeztés.  Egy link kiküldésekor beállítható, hogy a megosztani kívánt anyaghoz milyen jogosultsága legyen a másik felhasználónak. Lehetséges jogosultságok: olvasás (read-only), olvasás és szerkesztés (read and write).
-***Hogy jelenik meg a jogosultság állítása? Van lehetőség később megváltoztatni a fájl láthatóságát a csoportban, vagy csak egy személlyel szemben?***
+A jegyzeteket e-mail cím alapján tudjuk megosztani másokkal és csakis a jegyzet tulajdonosa képes erre. Lehetősége van, kiválasztani azt, hogy akivel megosztja a jegyzetet milyen jogosultságokat ad hozzá: megtekintés, szerkeztés.
 
 
 
