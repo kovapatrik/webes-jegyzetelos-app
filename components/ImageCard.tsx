@@ -31,7 +31,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 	const router = useRouter();
 
 	async function handleDeleteConfirm() {
-		const res = await fetch(`/api/${is_note_group ? 'note_group' : 'note'}/${uid}`, {
+		const res = await fetch(`/api/${is_note_group ? 'note-group' : 'note'}/${uid}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 		});
