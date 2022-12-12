@@ -120,6 +120,7 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 		setOpenNewNoteSnackbar(true);
 		setNewNoteTitle('');
 		setOpenNewNote(false);
+		setGroupNoteModal(false);
 
 		router.replace(router.asPath)
 	};
