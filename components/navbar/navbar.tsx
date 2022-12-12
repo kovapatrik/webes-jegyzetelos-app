@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { GetSearchResult } from '../../lib/search';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { IconButton, InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemButton, ListItemText, ListItem, Autocomplete, TextField } from '@mui/material/';
+import { InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemText, ListItem } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
-import { PanoramaFishEye, ViewSidebarOutlined } from '@mui/icons-material';
+import ViewSidebarOutlined from '@mui/icons-material/ViewSidebarOutlined';
 import NavButton from './navButton';
 import Link from 'next/link';
 import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
