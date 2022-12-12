@@ -77,10 +77,6 @@ export const weakTheme = createTheme({
 					"& .w-md-editor-preview": {
 						backgroundColor: '#FFFF00',	
 					},
-					// "& .w-md-editor-text-pre, .w-md-editor-text-input": {
-					// 	backgroundColor: '#FFFF00',	
-					// 	// color: '#000000 !important',
-					// },
 					"& .css-12k03in-MuiGrid-root .w-md-editor-text-pre, .css-12k03in-MuiGrid-root .w-md-editor-text-input": {
 						backgroundColor: '#FFFF00',	
 						color: '#000000',
@@ -94,30 +90,6 @@ export const weakTheme = createTheme({
 						backgroundColor: '#FFFF00',	
 						color: '#000000',
 					},
-					// "& .w-md-editor-text-pre > code": {
-					// 	color: '#FFFF00',	
-					// },
-
-
-					// "&  .rc-md-editor .rc-md-navigation": {
-					// 	backgroundColor: '#000000',
-					// },
-					// "& .rc-md-editor .rc-md-navigation .button-wrap": {
-					// 	backgroundColor: '#FFFF00',
-					// },
-					// "& .rc-md-editor .editor-container .sec-md .input": {
-					// 	backgroundColor: '#FFFF00',	
-					// },	
-					// "&  .rc-md-editor .editor-container": {
-					// 	fill: '#000000',
-					// 	color: '#000000',
-					// 	backgroundColor: '#FFFF00',
-					// 	fontSize: '15px',
-					// },
-
-
-
-
 					"& .css-1udq3mp-MuiButtonBase-root-MuiButton-root.Mui-disabled" :{
 						fontSize: '15px',
 						height: '45px',
