@@ -4,8 +4,7 @@ import * as React from 'react';
 
 import MenuList from '@mui/material/MenuList';
 
-import Divider from '@mui/material/Divider';
-import { Close, Folder, Logout, Note, Settings } from '@mui/icons-material';
+import { Close, Folder, Logout, Note } from '@mui/icons-material';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
@@ -82,7 +81,6 @@ export const Sidebar = (props: SidebarProps) => {
 			<Grid item>
 				<Grid container>
 					<MenuList id='sidebarMenuItems' sx={{ width: '100%' }}>
-						<Divider />
 						<CustomMenuItem Icon={<Logout fontSize='medium' />} label={'Logout'} position={'left'} onClick={async () => await signOut()} />
 					</MenuList>
 				</Grid>
