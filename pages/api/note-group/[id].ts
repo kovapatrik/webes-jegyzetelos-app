@@ -42,7 +42,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
         } else if (req.method === "POST") {
 
             const { title, base_note_group_id } = req.body as Database['public']['Tables']['note_group']['Insert']
-
+            console.log(title, base_note_group_id)
             if (title === undefined) {
                 return res.status(400).json({
                     error: 'invalid_input',
@@ -70,7 +70,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
                                           base_note_group_id: base_note_group_id || null
                                       })
             res.status(201).json({ message: "success" })
-            // Update                                                             
+        // Update                                                             
         } else if (req.method === 'PATCH') {
 
             const { id, title, base_note_group_id } = req.body as Database['public']['Tables']['note_group']['Update']
@@ -104,7 +104,8 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
                                       .eq('id', id)
 
             res.status(200).json({ message: "success" })
-
+            
+        // Delete
         } else if (req.method === 'DELETE') {
 
             const { id } = req.query as Database['public']['Tables']['note_group']['Row']
@@ -131,7 +132,7 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
             res.status(200).json({ message: "success" })
 
         } else {
-            res.status(400).json({ error: 'Not a GET, POST, PATCH or DELETE request!' })
+            res.status(400).json({ error: 'Not a GET, PATCH or DELETE request!' })
         }
 
     } catch (error) {

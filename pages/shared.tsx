@@ -1,11 +1,12 @@
 import { Database } from '../lib/database.types';
 import ImageCard from '../components/ImageCard';
+import { Grid } from '@mui/material';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetNoteGroup } from '../lib/note_group';
-import { Grid } from '@mui/material';
 import Layout from '../components/layout';
 import { SharedAppProps } from "../lib/app.types"
+import { GetSharedNotes } from '../lib/note';
 
 interface GetNoteGroupRes {
 	notes: Database['public']['Tables']['note']['Row'][];
@@ -24,22 +25,11 @@ interface ParsedUrlQuery {
 	[key: string]: string;
 }
 
-function NoteGroup({ data, toggle, toggleSidebar, toggleTheme } : NoteGroupProps) {
+function Shared({ data, toggle, toggleSidebar, toggleTheme } : NoteGroupProps) {
 
 	return (
 		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
 			<Grid container id='noteGroupView' spacing={2} p={2}>
-				{/* <Grid item>
-					<Breadcrumbs maxItems={3}>
-					</Breadcrumbs>
-				</Grid> */}
-				{data?.noteGroups
-					?.sort((a, b) => (a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1))
-					.map(n => (
-						<Grid key={n.id} item>
-							<ImageCard key={n.id} uid={n.id} title={n.title} href='/[notegroup_id]' href_as={`/${n.id}`} is_note_group={true} />
-						</Grid>
-					))}
 				{data?.notes
 					?.sort((a, b) => (a.title.toUpperCase() < b.title.toUpperCase() ? -1 : 1))
 					.map(n => (
@@ -59,7 +49,7 @@ function NoteGroup({ data, toggle, toggleSidebar, toggleTheme } : NoteGroupProps
 	)
 }
 
-export default NoteGroup;
+export default Shared;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
 	const supabase = createServerSupabaseClient(ctx);
@@ -77,8 +67,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 			},
 		};
 
-	const data = await GetNoteGroup({
-		id: ctx.query['notegroup_id'] as string,
+	const data = await GetSharedNotes({
 		user: session.user,
 		supabaseServerClient: supabase,
 	});

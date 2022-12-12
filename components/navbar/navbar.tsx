@@ -4,13 +4,12 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemText, ListItem } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
-import ViewSidebarOutlined from '@mui/icons-material/ViewSidebarOutlined';
+import { ViewSidebarOutlined } from '@mui/icons-material';
 import NavButton from './navButton';
 import Link from 'next/link';
 import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
 import { useCookies } from 'react-cookie';
 import BlindLogo from '../assets/BlindLogo';
-
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -58,6 +57,7 @@ type NavbarProps = {
 	toggle?: boolean;
 	toggleTheme?: React.MouseEventHandler<HTMLButtonElement>;
 };
+
 interface resdata {
 	id: string;
 	user_id: string;
@@ -83,16 +83,17 @@ export const Navbar = (props: NavbarProps) => {
 			const results = await GetSearchResult({ searchTerm, supabaseServerClient: supaBaseClient });
 			setResultsData(results);
 		}
+
 		if (searchTerm) {
 			getData();
-		}
-		else {
+		} else {
 			setResultsData(null);
 		}
-
 	}, [searchTerm]);
 
-	const handleSelectItem = () => { setSearchTerm(''); }
+	const handleSelectItem = () => {
+		setSearchTerm('');
+	};
 
 	const { view, changeTheme } = useContext<ToggleContextType>(ToggleContext);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

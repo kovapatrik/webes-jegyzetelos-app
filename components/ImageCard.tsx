@@ -31,7 +31,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 	const router = useRouter();
 
 	async function handleDeleteConfirm() {
-		const res = await fetch(`/api/${is_note_group ? 'note_group' : 'note'}/${uid}`, {
+		const res = await fetch(`/api/${is_note_group ? 'note-group' : 'note'}/${uid}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 		});
@@ -44,7 +44,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 
 	return (
 		<Box
-			className='imageCard'
+			id='imageCard'
 			sx={{
 				width: '180px',
 				'&:hover': {
@@ -57,35 +57,26 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 			<Grid container flexDirection={'column'} spacing={1}>
 				<Link href={href} as={href_as}>
 					<Grid item>
-						{is_note_group ? <FolderRounded className='imageCardIcon'/> : <TextSnippetRounded className='imageCardIcon'/>}
+						{is_note_group ? <FolderRounded className='imageCardIcon' /> : <TextSnippetRounded className='imageCardIcon' />}
 					</Grid>
 				</Link>
 				<Grid item className="imageCardTitle">
-						<Grid container flexDirection={'row'} justifyContent={'space-between'}>
+					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
+						<Grid item>
+							<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
 								<Grid item>
-									<Grid container spacing={1} sx={{ paddingTop: '8px', paddingRight: '70px' }}>
-										<Grid item>
-											<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
-										</Grid>
-									</Grid>
-								</Grid>
-							<Grid item>
-								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-									<Grid item>
-										<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-									</Grid>
-									<Grid item>
-										<Typography
-											sx={{
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												width: '90px',
-											}}
-										>
-										</Typography>
-									</Grid>
+									<Typography
+										sx={{
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											width: '90px',
+										}}
+									>
+										{title}
+									</Typography>
 								</Grid>
 							</Grid>
+						</Grid>
 						<Grid item>
 							<IconButton onClick={() => setDeleteDialogOpen(true)}>
 								<DeleteIcon id='smallMenuItem' />

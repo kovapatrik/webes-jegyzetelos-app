@@ -19,7 +19,6 @@ export async function GetBaseNoteGroup({user, supabaseServerClient} : { user: Us
                                                      .select("id")
                                                      .is("base_note_group_id", null)
                                                      .eq('user_id', user?.id) // not showing shared files yet
-                                                     .single())
-                                                     .data
+                                                     .single()).data
     return baseNoteGroup;
 }

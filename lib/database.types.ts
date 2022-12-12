@@ -73,6 +73,7 @@ export interface Database {
           view_perm: boolean
           edit_perm: boolean
           owner_user_id: string
+          id: string
         }
         Insert: {
           created_at?: string
@@ -82,6 +83,7 @@ export interface Database {
           view_perm?: boolean
           edit_perm?: boolean
           owner_user_id: string
+          id?: string
         }
         Update: {
           created_at?: string
@@ -91,6 +93,24 @@ export interface Database {
           view_perm?: boolean
           edit_perm?: boolean
           owner_user_id?: string
+          id?: string
+        }
+      }
+      users: {
+        Row: {
+          id: string
+          email: string
+          name: string
+        }
+        Insert: {
+          id: string
+          email: string
+          name: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string
         }
       }
     }
@@ -104,9 +124,4 @@ export interface Database {
       [_ in never]: never
     }
   }
-}
-
-export interface CrudResponse {
-	error: string | null;
-	description: string;
 }
