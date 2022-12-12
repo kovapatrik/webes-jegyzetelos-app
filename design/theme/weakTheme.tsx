@@ -1,4 +1,3 @@
-
 import { createTheme } from '@mui/material';
 
 export const weakTheme = createTheme({
@@ -11,18 +10,17 @@ export const weakTheme = createTheme({
 	},
 	components: {
 		MuiPaper: {
-			styleOverrides:{
-				root:{
-					"& .MuiButtonBase-root": {
+			styleOverrides: {
+				root: {
+					'& .MuiButtonBase-root': {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
 						fontSize: '55px',
 					},
-					"& .MuiList-padding": {
+					'& .MuiList-padding': {
 						color: '#000000',
 						backgroundColor: '#FFFF00',
 					},
-
 				},
 			},
 		},
@@ -35,7 +33,7 @@ export const weakTheme = createTheme({
 						width: '55px',
 						height: '55px',
 					},
-					"& .MuiTypography-root": {
+					'& .MuiTypography-root': {
 						color: '#FFFF00',
 						fontSize: '55px',
 					},
@@ -44,6 +42,10 @@ export const weakTheme = createTheme({
 						backgroundColor: '#FFFF00',
 						fontSize: '50px',
 					},
+					'& input': {
+						backgroundColor: 'black',
+					},
+
 					'& #sidebar': {
 						backgroundColor: '#000000',
 						' ul li svg': {
