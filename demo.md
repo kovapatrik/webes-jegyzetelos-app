@@ -9,9 +9,3 @@ A jegyzeteket e-mail cím alapján tudjuk megosztani másokkal és csakis a jegy
 
 
 
-
-Termék URL: https://webes-jegyzetelos-app.vercel.app/
-GitHub: https://github.com/kovapatrik/webes-jegyzetelos-app
-
-
-
