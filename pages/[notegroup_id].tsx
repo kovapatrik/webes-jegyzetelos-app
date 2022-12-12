@@ -1,6 +1,5 @@
 import { Database } from '../lib/database.types';
 import ImageCard from '../components/ImageCard';
-import { Grid } from '@mui/material';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetNoteGroup } from '../lib/note_group';
