@@ -12,7 +12,11 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
+import ViewProvider from '../context/toggleContext';
 import Layout from '../components/layout';
+import { weakTheme } from '../design/theme/weakTheme';
+
+import 'react-markdown-editor-lite/lib/index.css';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -21,12 +25,11 @@ interface MyAppProps {
 	initialSession: Session;
 }
 
-
 function getActiveTheme(themeMode: 'light' | 'dark') {
 	return themeMode === 'light' ? lightTheme : darkTheme;
 }
 
-const PREFERENCE_COOKIE_NAME = 'theme-preference';
+export const PREFERENCE_COOKIE_NAME = 'theme-preference';
 
 export default function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache, initialSession }: AppProps & MyAppProps) {
 	const [supabaseClient] = useState(() => createBrowserSupabaseClient());
@@ -49,8 +52,12 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 	};
 
 	useEffect(() => {
-		setActiveTheme(getActiveTheme(selectedTheme));
-	}, [selectedTheme]);
+		if (cookieTheme['theme-preference'] === 'weak') {
+			setActiveTheme(weakTheme);
+		} else {
+			setActiveTheme(getActiveTheme(selectedTheme));
+		}
+	}, [selectedTheme, cookieTheme]);
 
 	const [toggle, setToggle] = useState<boolean>(false);
 
@@ -61,14 +68,16 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 	return (
 		<CacheProvider value={emotionCache}>
 			<StyledEngineProvider injectFirst>
+				<ViewProvider>
 				<ThemeProvider theme={activeTheme}>
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
 						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
-							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}/>
+							<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
 						</Layout>
 					</SessionContextProvider>
 				</ThemeProvider>
+				</ViewProvider>
 			</StyledEngineProvider>
 		</CacheProvider>
 	);

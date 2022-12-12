@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { GetSearchResult } from '../../lib/search';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemButton, ListItemText, ListItem, Autocomplete, TextField } from '@mui/material/';
+import { IconButton, InputBase, Toolbar, styled, alpha, Box, Grid, List, ListItemButton, ListItemText, ListItem, Autocomplete, TextField } from '@mui/material/';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SearchIcon from '@mui/icons-material/Search';
-import { ViewSidebarOutlined } from '@mui/icons-material';
+import { PanoramaFishEye, ViewSidebarOutlined } from '@mui/icons-material';
 import NavButton from './navButton';
 import Link from 'next/link';
+import { ToggleContext, ToggleContextType } from '../../context/toggleContext';
+import { useCookies } from 'react-cookie';
+import BlindLogo from '../assets/BlindLogo';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -65,6 +68,8 @@ interface resdata {
 	note_group_id: string;
 };
 
+const PREFERENCE_COOKIE_NAME = 'theme-preference';
+
 export const Navbar = (props: NavbarProps) => {
 	const supaBaseClient = useSupabaseClient();
 
@@ -72,6 +77,7 @@ export const Navbar = (props: NavbarProps) => {
 	const [resultdata, setResultsData] = useState<Array<resdata> | null>([]);
 
 	const { onToggle, toggle, toggleTheme } = props;
+
 	useEffect(() => {
 		async function getData() {
 			const results = await GetSearchResult({ searchTerm, supabaseServerClient: supaBaseClient });
@@ -87,6 +93,18 @@ export const Navbar = (props: NavbarProps) => {
 	}, [searchTerm]);
 
 	const handleSelectItem = () => { setSearchTerm(''); }
+
+	const { view, changeTheme } = useContext<ToggleContextType>(ToggleContext);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [cookieTheme, setCookieTheme] = useCookies([PREFERENCE_COOKIE_NAME]);
+
+	useEffect(() => {
+		if (view === 'weak') {
+			setCookieTheme(PREFERENCE_COOKIE_NAME, 'weak');
+		} else {
+			setCookieTheme(PREFERENCE_COOKIE_NAME, 'light');
+		}
+	}, [view]);
 
 	return (
 		<Toolbar>
@@ -120,7 +138,12 @@ export const Navbar = (props: NavbarProps) => {
 							</List>
 						</Box>
 						<Box px={1}>
-							<NavButton Icon={<ContrastIcon />} onClick={toggleTheme} />
+							<NavButton Icon={<ContrastIcon />} disabled={view === 'weak'} onClick={toggleTheme} />
+						</Box>
+						<Box px={1}>
+							<NavButton onClick={() => changeTheme(view === 'normal' ? 'weak' : 'normal')}>
+								<BlindLogo />
+							</NavButton>
 						</Box>
 					</Grid>
 				</Grid>

@@ -34,6 +34,9 @@ export const darkTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #weakButton': {
+						fill: '#1b1b1b',
+					},
 					'& #composition-button': {
 						color: '#2e2e2e',
 						backgroundColor: '#e9fcf2',
@@ -81,14 +84,17 @@ export const lightTheme = createTheme({
 	palette: {
 		mode: 'light',
 		text: {
-			primary: '#e9fcf2',
-			secondary: '#1C5E2E',
+			primary: '#348c5e',
+			secondary: '#348c5e',
 		},
 	},
 	components: {
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #weakButton': {
+						fill: '#3ab27b',
+					},
 					'& #composition-button': {
 						color: '#20DF7F',
 						backgroundColor: '#1e1e1e',

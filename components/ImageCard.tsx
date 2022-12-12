@@ -46,7 +46,7 @@ export default function ImageCard({ title, href, href_as} : ImageProps) {
 											<PictureAsPdfIcon sx={{ color: '#de5246' }} />
 										</Grid>
 										<Grid item>
-											<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
+											<Typography>{title}</Typography>
 										</Grid>
 									</Grid>
 								</Grid>
@@ -54,7 +54,7 @@ export default function ImageCard({ title, href, href_as} : ImageProps) {
 								<Grid container>
 									<Grid item>
 										<IconButton>
-											<MoreVert id='smallMenuItem' sx={{ color: '#ffffff' }} />
+											<MoreVert id='smallMenuItem' />
 										</IconButton>
 									</Grid>
 								</Grid>

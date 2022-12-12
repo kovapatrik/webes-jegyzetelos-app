@@ -3,12 +3,12 @@ import { Database } from "./database.types";
 
 export async function GetNoteGroup({id, user, supabaseServerClient} : {id: string, user: User | null, supabaseServerClient: SupabaseClient<Database, "public">}) {
     const notes  = (await supabaseServerClient.from("note")
-                                                    .select('id, title')
-                                                    .match({ note_group_id: id}))
-                                                    .data
+                                              .select()
+                                              .eq('note_group_id', id))
+                                              .data
             
     const noteGroups = (await supabaseServerClient.from("note_group")
-                                                .select("id, title")
+                                                .select()
                                                 .eq("base_note_group_id", id))
                                                 .data
     return { notes, noteGroups }

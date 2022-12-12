@@ -46,6 +46,18 @@ export const colors = {
 			p120: '#20DF7F',
 		},
 	},
+	blind: {
+		main: {
+			yellow: '#FAFA33',
+			m60: '#707070',
+			m80: '#2e2e2e',
+			m100: '#1b1b1b',
+		},
+		primary: {
+			p100: '#3ab27b',
+			p120: '#20DF7F',
+		},
+	},
 };
 
 export const ThemeContext = createContext<ThemeContextProps>({
