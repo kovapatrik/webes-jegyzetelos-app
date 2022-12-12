@@ -65,23 +65,58 @@ export const weakTheme = createTheme({
 		},
 		MuiGrid: {
 			styleOverrides: {
-				root: {					
-					"&  .rc-md-editor .rc-md-navigation": {
+				root: {	
+					
+					"&  .css-mfzy4c:hover": {
 						backgroundColor: '#000000',
 					},
-					"& .rc-md-editor .rc-md-navigation .button-wrap": {
-						backgroundColor: '#FFFF00',
-					},
-					"& .rc-md-editor .editor-container .sec-md .input": {
-						backgroundColor: '#FFFF00',	
-					},	
 
-					"&  .rc-md-editor .editor-container": {
-						fill: '#000000',
-						color: '#000000',
-						backgroundColor: '#FFFF00',
-						fontSize: '15px',
+					"& .w-md-editor-toolbar": {
+						backgroundColor: '#FFFF00',	
 					},
+					"& .w-md-editor-preview": {
+						backgroundColor: '#FFFF00',	
+					},
+					// "& .w-md-editor-text-pre, .w-md-editor-text-input": {
+					// 	backgroundColor: '#FFFF00',	
+					// 	// color: '#000000 !important',
+					// },
+					"& .css-12k03in-MuiGrid-root .w-md-editor-text-pre, .css-12k03in-MuiGrid-root .w-md-editor-text-input": {
+						backgroundColor: '#FFFF00',	
+						color: '#000000',
+						'-webkit-text-fill-color':  '#000000',
+					},
+					"& .css-1adr7mr-MuiGrid-root .w-md-editor-text-pre>code": {
+						color: '#000000',
+					},
+
+					"& [data-color-mode*='light'] .wmde-markdown, [data-color-mode*='light'] .wmde-markdown-var, .wmde-markdown-var[data-color-mode*='light'], .wmde-markdown[data-color-mode*='light'], body[data-color-mode*='light']": {
+						backgroundColor: '#FFFF00',	
+						color: '#000000',
+					},
+					// "& .w-md-editor-text-pre > code": {
+					// 	color: '#FFFF00',	
+					// },
+
+
+					// "&  .rc-md-editor .rc-md-navigation": {
+					// 	backgroundColor: '#000000',
+					// },
+					// "& .rc-md-editor .rc-md-navigation .button-wrap": {
+					// 	backgroundColor: '#FFFF00',
+					// },
+					// "& .rc-md-editor .editor-container .sec-md .input": {
+					// 	backgroundColor: '#FFFF00',	
+					// },	
+					// "&  .rc-md-editor .editor-container": {
+					// 	fill: '#000000',
+					// 	color: '#000000',
+					// 	backgroundColor: '#FFFF00',
+					// 	fontSize: '15px',
+					// },
+
+
+
 
 					"& .css-1udq3mp-MuiButtonBase-root-MuiButton-root.Mui-disabled" :{
 						fontSize: '15px',
