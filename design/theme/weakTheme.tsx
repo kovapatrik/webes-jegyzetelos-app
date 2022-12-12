@@ -66,7 +66,10 @@ export const weakTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {	
-					
+					"&  #searchicon": {
+						backgroundColor: '#000000',
+					},
+
 					"&  .css-mfzy4c:hover": {
 						backgroundColor: '#000000',
 					},
