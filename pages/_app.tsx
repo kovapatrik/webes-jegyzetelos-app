@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useMediaQuery } from '@mui/material';
 import ViewProvider from '../context/toggleContext';
-import Layout from '../components/layout';
 import { weakTheme } from '../design/theme/weakTheme';
 
 import 'react-markdown-editor-lite/lib/index.css';
@@ -72,9 +71,7 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 				<ThemeProvider theme={activeTheme}>
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
-						<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme}>
-							<Component {...pageProps}/>
-						</Layout>
+						<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} selectedTheme={selectedTheme}/>
 					</SessionContextProvider>
 				</ThemeProvider>
 				</ViewProvider>
