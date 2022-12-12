@@ -34,7 +34,7 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar } 
 								<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 							</Grid>
 						)}
-						<Grid item>
+						<Grid id="mainContainer" item>
 							{children}
 						</Grid>
 						<Grid container style={{ position: 'relative' }}>

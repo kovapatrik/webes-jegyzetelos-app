@@ -3,7 +3,7 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { GetBaseNoteGroup } from '../lib/note_group';
-import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconButton, Link, Box } from '@mui/material';
+import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconButton, Link, Box, CircularProgress } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
 
     return (
         !user ?
-            <Grid sx={{ minHeight: '100vh' }} container direction='column' alignItems='center' justifyContent='center' spacing={4}>
+            <Grid sx={{ minHeight: '100vh' }} container direction='column' alignItems='center' justifyContent='center' spacing={4} >
                 <Grid item>
                     <Typography variant='h3' sx={{ color: '#1C5E2E' }}>
                         Bejelentkezés
@@ -136,7 +136,7 @@ const Home: NextPage = () => {
             </Grid>
             :
             <Grid>
-                PILL
+                <CircularProgress />
             </Grid>
     )
 }

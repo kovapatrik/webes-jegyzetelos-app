@@ -66,9 +66,22 @@ export const darkTheme = createTheme({
 						'& li a': {
 							color: '#e9fcf2',
 						},
-						'& #imageCard': {
+
+						'& .imageCard': {
 							backgroundColor: '#1b1b1b',
 							border: '0.5px solid #707070',
+							borderRadius: '6px',
+							margin: '7px',
+
+							'& .imageCardIcon': {
+								width: '100%',
+								height: '4em',
+								color: 'white',
+							},
+
+							'& .imageCardTitle': {
+								borderTop: '1px solid rgb(218,220,224)',
+							},
 						},
 						'& #smallMenuItem': {
 							color: '#707070',
@@ -120,9 +133,21 @@ export const lightTheme = createTheme({
 						'& li a': {
 							color: '#093545',
 						},
-						'& #imageCard': {
-							backgroundColor: '#ffffff',
-							border: '0.5px solid #707070',
+						'& .imageCard': {
+							backgroundColor: '#f8f8f8',
+							border: '1px solid rgb(218,220,224)',
+							borderRadius: '6px',
+							margin: '7px',
+
+							'& .imageCardIcon': {
+								width: '100%',
+								height: '4em',
+								color: 'black',
+							},
+
+							'& .imageCardTitle': {
+								borderTop: '1px solid rgb(218,220,224)',
+							},
 						},
 						'& #smallMenuItem': {
 							color: '#707070',
