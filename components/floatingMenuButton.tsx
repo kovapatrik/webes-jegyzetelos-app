@@ -68,7 +68,6 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 		setOpen(false);
 	};
 
-	console.log(allPerms);
 	// --- New Note Dialog functions --- //
 	const handleNewNote = (event: Event | SyntheticEvent, isGroup: boolean) => {
 		event.preventDefault();
