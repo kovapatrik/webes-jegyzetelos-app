@@ -18,6 +18,7 @@ const ResetPassword = () => {
             if (error) {
                 alert(JSON.stringify("Az e-mail cím nem ellenőrizhető: érvénytelen formátum"));
             } else {
+                alert(JSON.stringify("Ha helyes e-mail címét adta meg úgy kiküldtük a helyreállító linekt az alábbi címre: " + email));
                 router.push('/');
             }
         }
