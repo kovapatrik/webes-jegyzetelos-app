@@ -63,7 +63,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 				<Grid item className="imageCardTitle">
 						<Grid container flexDirection={'row'} justifyContent={'space-between'}>
 								<Grid item>
-									<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+									<Grid container spacing={1} sx={{ paddingTop: '8px', paddingRight: '70px' }}>
 										<Grid item>
 											<Typography sx={{ color: '#ffffff' }}>{title}</Typography>
 										</Grid>
@@ -82,7 +82,6 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 												width: '90px',
 											}}
 										>
-											{title}
 										</Typography>
 									</Grid>
 								</Grid>
