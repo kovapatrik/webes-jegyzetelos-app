@@ -105,7 +105,7 @@ function Note({ data, toggle, toggleSidebar, toggleTheme, selectedTheme }: NoteP
 		setOpenNewNoteSnackbar(true);
 	};
 	return (
-		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms}>
+		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms} ownerId={data.note.user_id}>
 			<Box sx={{ padding: '40px' }} data-color-mode={selectedTheme}>
 				<Typography variant='h3'>{noteTitle}</Typography>
 				{ data.userPerm.edit_perm ?

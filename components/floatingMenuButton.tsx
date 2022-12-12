@@ -13,9 +13,11 @@ import { Snackbar, Alert } from '@mui/material';
 import ShareNoteDialog from './ShareNoteDialog';
 import DeleteNoteDialog from './DeleteNoteDialog';
 import { AllPerms } from '../lib/app.types';
+import { useUser } from '@supabase/auth-helpers-react';
 
 interface ShortcutProps {
 	allPerms?: AllPerms[];
+	ownerId?: string;
 }
 
 export interface CrudResponse {
@@ -23,7 +25,7 @@ export interface CrudResponse {
 	description: string;
 }
 
-export default function ShortcutMenuButton({ allPerms}: ShortcutProps) {
+export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps) {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
 	const [groupNoteModal, setGroupNoteModal] = useState(false);
@@ -55,6 +57,7 @@ export default function ShortcutMenuButton({ allPerms}: ShortcutProps) {
 	// ---------------- //
 
 	const router = useRouter();
+	const user = useUser()
 
 	const {
 		query: { note_id, notegroup_id },
@@ -156,7 +159,7 @@ export default function ShortcutMenuButton({ allPerms}: ShortcutProps) {
 						<Paper>
 							<ClickAwayListener onClickAway={handleClose}>
 								<MenuList autoFocusItem={open} id='composition-menu' aria-labelledby='composition-button'>
-									{note_id ? (
+									{ note_id && user?.id === ownerId ? (
 										<div>
 											<MenuItem key='share' onClick={handleShareNote}>
 												Share note
