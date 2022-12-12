@@ -42,7 +42,7 @@ export default async function NotePerm(req: NextApiRequest, res: NextApiResponse
             await supabaseServerClient.from('note_perm')
                                       .delete()
                                       .eq('id', id)
-
+            
             res.status(200).json({ message: "success" })
         } else {
             res.status(400).json({ error: 'Not a PATCH or DELETE request!' })

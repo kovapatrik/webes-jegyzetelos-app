@@ -14,23 +14,25 @@ import {
 import { Database } from '../../lib/database.types';
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Showdown from 'showdown';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetServerSidePropsContext } from 'next';
 import { GetNote } from '../../lib/note';
 import Layout from '../../components/layout';
 import { AllPerms, SharedAppProps } from '../../lib/app.types';
 
-const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
-	ssr: false,
-});
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+import { useRouter } from 'next/router';
 
-const converter = new Showdown.Converter({
-	tables: true,
-	simplifiedAutoLink: true,
-	strikethrough: true,
-	tasklists: true,
-});
+const MDEditor = dynamic(
+	() => import("@uiw/react-md-editor"),
+	{ ssr: false }
+);
+
+const Preview = dynamic(
+	() => import("@uiw/react-markdown-preview"),
+	{ ssr: false }
+);
 
 interface ParsedUrlQuery {
 	[key: string]: string;
@@ -49,20 +51,22 @@ interface NoteProps extends SharedAppProps {
 	initialSession: Session;
 }
 
-function Note({ data, toggle, toggleSidebar, toggleTheme }: NoteProps) {
+function Note({ data, toggle, toggleSidebar, toggleTheme, selectedTheme }: NoteProps) {
 
 	if (!data?.note || !data?.userPerm) {
 		return <CircularProgress />;
 	}
 
-	const [value, setValue] = useState(data?.note.data);
+	const router = useRouter()
+
+	const [value, setValue] = useState<string | undefined>(data?.note.data);
 	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [noteTitle, setNoteTitle] = useState(data?.note.title);
 
 	const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
 
-	function handleEditorChange(text: string, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
+	function handleEditorChange(text: string | undefined, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
 		event?.preventDefault();
 		setValue(text);
 		setIsSaveAvailable(true);
@@ -100,23 +104,25 @@ function Note({ data, toggle, toggleSidebar, toggleTheme }: NoteProps) {
 		setValue(newNote.data);
 		setOpenNewNoteSnackbar(true);
 	};
-
 	return (
 		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms}>
-			<Box sx={{ padding: '40px' }}>
+			<Box sx={{ padding: '40px' }} data-color-mode={selectedTheme}>
 				<Typography variant='h3'>{noteTitle}</Typography>
-				<MdEditor
-					view={{
-						html: true,
-						menu: data.userPerm.edit_perm || false,
-						md: data.userPerm.edit_perm || false,
-					}}
-					readOnly={!data.userPerm.edit_perm}
-					style={{ height: '500px' }}
-					value={value ?? undefined}
-					renderHTML={text => Promise.resolve(converter.makeHtml(text))}
-					onChange={(data, event) => handleEditorChange(data.text, event)}
-				/>
+				{ data.userPerm.edit_perm ?
+					<MDEditor
+						value={value}
+						onChange={(data, event) => handleEditorChange(data, event)}
+						height={500}
+					/>
+				:
+					<Preview
+						source={value}
+						style={{
+							height: 500,
+							padding: "10px 15px 15px"
+						}}
+					/>
+				}
 				<Button
 					disabled={!data.userPerm.edit_perm || !isSaveAvailable}
 					sx={{ marginTop: '10px' }}

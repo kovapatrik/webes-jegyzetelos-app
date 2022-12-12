@@ -15,8 +15,6 @@ import { useMediaQuery } from '@mui/material';
 import ViewProvider from '../context/toggleContext';
 import { weakTheme } from '../design/theme/weakTheme';
 
-import 'react-markdown-editor-lite/lib/index.css';
-
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps {
@@ -71,7 +69,7 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
 				<ThemeProvider theme={activeTheme}>
 					<CssBaseline />
 					<SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
-						<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
+						<Component {...pageProps} toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} selectedTheme={selectedTheme} />
 					</SessionContextProvider>
 				</ThemeProvider>
 				</ViewProvider>

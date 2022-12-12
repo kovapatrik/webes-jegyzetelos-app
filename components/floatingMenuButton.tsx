@@ -23,7 +23,7 @@ export interface CrudResponse {
 	description: string;
 }
 
-export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
+export default function ShortcutMenuButton({ allPerms}: ShortcutProps) {
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef<HTMLButtonElement>(null);
 	const [groupNoteModal, setGroupNoteModal] = useState(false);
@@ -36,7 +36,6 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 
 	// -- Share note -- //
 	const [openShareNote, setOpenShareNote] = useState(false);
-	const [email, setEmail] = useState('');
 	// ---------------- //
 
 	// -- Delete note -- //
@@ -110,9 +109,9 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 			setNewNoteTitle('');
 			setOpenNewNote(false);
 
-			if (res.status === 200) {
-				router.replace(router.asPath);
-			}
+			// if (res.status === 200) {
+				
+			// }
 
 			// if (data.id) {
 			// 	router.push(`/${data.note_group_id}/${data.id}`)
@@ -132,13 +131,8 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 		setOpenShareNote(true);
 	};
 
-	const onEmailChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		setEmail(event.target.value);
-	};
-
 	const handleCloseShareNoteDialog = () => {
 		setOpenShareNote(false);
-		setEmail('');
 	};
 	// ------ //
 
@@ -195,7 +189,7 @@ export default function ShortcutMenuButton({ allPerms }: ShortcutProps) {
 				onTitleChange={onTitleChange}
 				open={openNewNote}
 			/>
-			<ShareNoteDialog dialogValue={email} onClose={handleCloseShareNoteDialog} onEmailChange={onEmailChange} open={openShareNote} allPerms={allPerms} />
+			<ShareNoteDialog open={openShareNote} setOpen={setOpenShareNote} onClose={handleCloseShareNoteDialog} allPerms={allPerms} note_group_id={notegroup_id as string} note_id={note_id as string} />
 			<DeleteNoteDialog open={openDeleteNote} onClose={() => setOpenDeleteNote(false)} onConfirm={handleDeleteConfirm} />
 			{newNoteResponse && (
 				<Snackbar open={openNewNoteSnackbar} autoHideDuration={4000} onClose={() => setOpenNewNoteSnackbar(false)}>
