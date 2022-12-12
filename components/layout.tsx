@@ -22,6 +22,7 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 						<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 					</Grid>
 				)}
+
 				<Grid item md={toggle ? 9 : 12} xl={toggle ? 10 : 12}>
 					<Grid item>
 						<Navbar onToggle={toggleSidebar} toggle={toggle} toggleTheme={toggleTheme} />
@@ -31,7 +32,9 @@ export default function Layout({ children, toggle, toggleTheme, toggleSidebar, a
 							<Sidebar onToggle={toggleSidebar} toggle={toggle} />
 						</Grid>
 					)}
-					<Grid item>{children}</Grid>
+					<Grid id="mainContainer" item>
+						{children}
+					</Grid>
 					<Grid container style={{ position: 'relative' }}>
 						<Box sx={{ width: '100%', bottom: '2em', right: '2em', position: 'fixed' }} display='flex' justifyContent='flex-end'>
 							<ShortcutMenuButton allPerms={allPerms} />

@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { GetBaseNoteGroup } from '../lib/note_group';
-import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconButton, Link, Box } from '@mui/material';
+import { Grid, Typography, TextField, FormControl, Button, InputAdornment, IconButton, Link, Box, CircularProgress } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -31,15 +30,15 @@ const Home: NextPage = () => {
 
         supaBaseClient.auth.onAuthStateChange(async (event, session) => {
             if (event == "PASSWORD_RECOVERY") {
-              const newPassword = prompt("What would you like your new password to be?");
+              const newPassword = prompt("Kérlek írd be az új jleszót!");
               if (newPassword) {
                 const { data, error } = await supaBaseClient.auth.updateUser({
                     password: newPassword,
                   })
-                if (data) alert("Password updated successfully!")
-                if (error) alert("There was an error updating your password.")
+                if (data) alert("A jelszó frissítése sikeres volt!")
+                if (error) alert("Hiba történt a jelszó frissítése közben.")
               } else {
-                alert("Password is empty")
+                alert("A jelszó üres")
               }
             }
           })
@@ -67,7 +66,7 @@ const Home: NextPage = () => {
 
     return (
         !user ?
-            <Grid sx={{ minHeight: '100vh' }} container direction='column' alignItems='center' justifyContent='center' spacing={4}>
+            <Grid sx={{ minHeight: '100vh' }} container direction='column' alignItems='center' justifyContent='center' spacing={4} >
                 <Grid item>
                     <Typography variant='h3' sx={{ color: '#1C5E2E' }}>
                         Bejelentkezés
@@ -137,7 +136,7 @@ const Home: NextPage = () => {
             </Grid>
             :
             <Grid>
-                PILL
+                <CircularProgress />
             </Grid>
     )
 }

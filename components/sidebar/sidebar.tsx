@@ -15,6 +15,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 
 import { deleteCookie } from 'cookies-next';
+import { colors } from '../../design/theme/themeColors';
 
 type SidebarProps = {
 	onToggle: MouseEventHandler<HTMLButtonElement>;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ImageListItem from '@mui/material/ImageListItem';
 import { Box, Grid, IconButton, SxProps, Theme, Typography } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,6 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import DeleteNoteDialog from './DeleteNoteDialog';
+import { FolderRounded, TextSnippetRounded } from '@mui/icons-material';
 
 const imageStyles: Record<string, SxProps<Theme> | undefined> = {
 	container: {
@@ -57,9 +57,7 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 			<Grid container flexDirection={'column'} spacing={1}>
 				<Link href={href} as={href_as}>
 					<Grid item>
-						<ImageListItem key={'1'} sx={imageStyles.imageContainer}>
-							<img src={itemData[0].img} loading='lazy' />
-						</ImageListItem>
+						{is_note_group ? <FolderRounded className='imageCardIcon'/> : <TextSnippetRounded className='imageCardIcon'/>}
 					</Grid>
 				</Link>
 				<Grid item>
@@ -67,9 +65,6 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 						<Link href={href} as={href_as}>
 							<Grid item>
 								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-									<Grid item>
-										<PictureAsPdfIcon sx={{ color: '#de5246' }} />
-									</Grid>
 									<Grid item>
 										<Typography
 											sx={{
@@ -96,11 +91,3 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 		</Box>
 	);
 }
-
-const itemData = [
-	{
-		img: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-		title: 'Breakfast',
-		author: '@bkristastucchio',
-	},
-];
