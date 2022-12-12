@@ -1,9 +1,9 @@
 import { Database } from '../lib/database.types';
 import ImageCard from '../components/ImageCard';
-import { Grid } from '@mui/material';
 import { GetServerSidePropsContext } from 'next';
 import { createServerSupabaseClient, Session, User } from '@supabase/auth-helpers-nextjs';
 import { GetNoteGroup } from '../lib/note_group';
+import { Grid } from '@mui/material';
 import Layout from '../components/layout';
 import { SharedAppProps } from "../lib/app.types"
 

@@ -38,11 +38,11 @@ export default async function NoteGroup(req: NextApiRequest, res: NextApiRespons
             const { notes, noteGroups } = await GetNoteGroup({ id, user, supabaseServerClient });
 
             res.status(200).json({ notes, noteGroups })
-        // Create
+            // Create
         } else if (req.method === "POST") {
 
             const { title, base_note_group_id } = req.body as Database['public']['Tables']['note_group']['Insert']
-
+            console.log(title, base_note_group_id)
             if (title === undefined) {
                 return res.status(400).json({
                     error: 'invalid_input',

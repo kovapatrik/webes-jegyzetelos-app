@@ -82,6 +82,8 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 			setGroupNoteModal(true);
 		}
 		setOpenNewNote(true);
+
+		router.replace(router.asPath)
 	};
 
 	const onTitleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -95,36 +97,31 @@ export default function ShortcutMenuButton({ allPerms, ownerId }: ShortcutProps)
 	};
 
 	const handleCreate = async () => {
-		if (!groupNoteModal) {
-			//new note
-			const res = await fetch(`/api/note/`, {
-				method: 'POST',
-				body: JSON.stringify({
-					title: newNoteTitle,
-					note_group_id: notegroup_id,
-				}),
-				headers: { 'Content-Type': 'application/json' },
-			});
+		const res = await fetch(`/api/${groupNoteModal ? 'note-group' : 'note'}/`, {
+			method: 'POST',
+			body: JSON.stringify(
+				groupNoteModal ?
+					{
+						title: newNoteTitle,
+						base_note_group_id: notegroup_id
+					}
+				:
+					{
+						title: newNoteTitle,
+						note_group_id: notegroup_id,
+					}
+			),
+			headers: { 'Content-Type': 'application/json' },
+		});
 
-			const data = await res.json();
-			setNewNoteResponse(data);
-			setOpenNewNoteSnackbar(true);
-			setNewNoteTitle('');
-			setOpenNewNote(false);
+		const data = await res.json();
+		console.log(data)
+		setNewNoteResponse(data);
+		setOpenNewNoteSnackbar(true);
+		setNewNoteTitle('');
+		setOpenNewNote(false);
 
-			// if (res.status === 200) {
-				
-			// }
-
-			// if (data.id) {
-			// 	router.push(`/${data.note_group_id}/${data.id}`)
-			// }
-		} else {
-			// new note group
-			setNewNoteTitle('');
-			setOpenNewNote(false);
-			setGroupNoteModal(false);
-		}
+		router.replace(router.asPath)
 	};
 	// ------ //
 

@@ -34,6 +34,10 @@ export const darkTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #searchinput': {
+						color: '#ffffff',
+					},
+
 					'& #weakButton': {
 						fill: '#1b1b1b',
 					},
@@ -105,6 +109,12 @@ export const lightTheme = createTheme({
 		MuiGrid: {
 			styleOverrides: {
 				root: {
+					'& #searchinput': {
+						color: '#000000',
+					},
+					'& #searchlist': {
+						color: '#000000',
+					},
 					'& #weakButton': {
 						fill: '#3ab27b',
 					},
@@ -151,6 +161,7 @@ export const lightTheme = createTheme({
 						},
 						'& #smallMenuItem': {
 							color: '#707070',
+							right: '0'
 						},
 					},
 				},

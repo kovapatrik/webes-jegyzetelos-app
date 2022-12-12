@@ -57,28 +57,26 @@ export default function ImageCard({ title, href, href_as, uid, is_note_group }: 
 			<Grid container flexDirection={'column'} spacing={1}>
 				<Link href={href} as={href_as}>
 					<Grid item>
-						{is_note_group ? <FolderRounded className='imageCardIcon'/> : <TextSnippetRounded className='imageCardIcon'/>}
+						{is_note_group ? <FolderRounded className='imageCardIcon' /> : <TextSnippetRounded className='imageCardIcon' />}
 					</Grid>
 				</Link>
-				<Grid item>
+				<Grid item className="imageCardTitle">
 					<Grid container flexDirection={'row'} justifyContent={'space-between'}>
-						<Link href={href} as={href_as}>
-							<Grid item>
-								<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
-									<Grid item>
-										<Typography
-											sx={{
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												width: '90px',
-											}}
-										>
-											{title}
-										</Typography>
-									</Grid>
+						<Grid item>
+							<Grid container spacing={1} sx={{ paddingTop: '8px' }}>
+								<Grid item>
+									<Typography
+										sx={{
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											width: '90px',
+										}}
+									>
+										{title}
+									</Typography>
 								</Grid>
 							</Grid>
-						</Link>
+						</Grid>
 						<Grid item>
 							<IconButton onClick={() => setDeleteDialogOpen(true)}>
 								<DeleteIcon id='smallMenuItem' />

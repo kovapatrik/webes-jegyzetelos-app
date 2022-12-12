@@ -114,26 +114,29 @@ export const Navbar = (props: NavbarProps) => {
 				<Grid item>
 					<Grid container>
 						<Box px={1}>
-							<Search>
+							<Search id="searchicon">
 								<SearchIconWrapper>
 									<SearchIcon />
 								</SearchIconWrapper>
 								<StyledInputBase
-									onChange={serachVal => setSearchTerm(serachVal.target.value)}
-									placeholder='Search…'
+									id="searchinput"
+									onChange={(serachVal) => setSearchTerm(serachVal.target.value)}
+									placeholder="Search…"
 									inputProps={{ 'aria-label': 'search' }}
 									value={searchTerm}
 								/>
 							</Search>
-							<List>
-								{resultdata &&
-									resultdata.map((item: resdata) => (
-										<Link href={`/${item.note_group_id}/${item.id}`} passHref key={item.id}>
-											<ListItem button onClick={handleSelectItem}>
-												<ListItemText primary={item.title} />
-											</ListItem>
-										</Link>
-									))}
+							<List >
+								{resultdata && resultdata.map((item: resdata) => (
+									<Link href={`/${item.note_group_id}/${item.id}`} passHref key={item.id}>
+										<ListItem button
+											onClick={handleSelectItem}
+										>
+											<ListItemText id="searchlist" primary={item.title} />
+										</ListItem>
+									</Link>
+
+								))}
 							</List>
 						</Box>
 						<Box px={1}>

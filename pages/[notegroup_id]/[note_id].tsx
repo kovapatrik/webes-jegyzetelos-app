@@ -35,8 +35,8 @@ const Preview = dynamic(
 );
 
 interface ParsedUrlQuery {
-	[key: string]: string;
-	note_id: string;
+    [key: string]: string;
+    note_id: string;
 }
 
 interface NoteWithPerms {
@@ -53,20 +53,18 @@ interface NoteProps extends SharedAppProps {
 
 function Note({ data, toggle, toggleSidebar, toggleTheme, selectedTheme }: NoteProps) {
 
-	if (!data?.note || !data?.userPerm) {
-		return <CircularProgress />;
-	}
+    if (!data?.note || !data?.allPerms || !data?.userPerm) {
+        return <CircularProgress />;
+    }
 
-	const router = useRouter()
+    const [value, setValue] = useState(data?.note.data || undefined);
+    const [isSaveAvailable, setIsSaveAvailable] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [noteTitle, setNoteTitle] = useState(data?.note.title);
 
-	const [value, setValue] = useState<string | undefined>(data?.note.data);
-	const [isSaveAvailable, setIsSaveAvailable] = useState(false);
-	const [openModal, setOpenModal] = useState(false);
-	const [noteTitle, setNoteTitle] = useState(data?.note.title);
+    const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
 
-	const [openNewNoteSnackbar, setOpenNewNoteSnackbar] = useState(false);
-
-	function handleEditorChange(text: string | undefined, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
+    function handleEditorChange(text: string | undefined, event: ChangeEvent<HTMLTextAreaElement> | undefined) {
 		event?.preventDefault();
 		setValue(text);
 		setIsSaveAvailable(true);
@@ -104,6 +102,7 @@ function Note({ data, toggle, toggleSidebar, toggleTheme, selectedTheme }: NoteP
 		setValue(newNote.data);
 		setOpenNewNoteSnackbar(true);
 	};
+    
 	return (
 		<Layout toggle={toggle} toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} allPerms={data.allPerms} ownerId={data.note.user_id}>
 			<Box sx={{ padding: '40px' }} data-color-mode={selectedTheme}>
@@ -165,28 +164,28 @@ function Note({ data, toggle, toggleSidebar, toggleTheme, selectedTheme }: NoteP
 export default Note;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery>) => {
-	const supabase = createServerSupabaseClient(ctx);
+    const supabase = createServerSupabaseClient(ctx);
 
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
 
-	// This is optional, middleware does this in the background
-	if (!session)
-		return {
-			redirect: {
-				destination: '/',
-				permanent: false,
-			},
-		};
+    // This is optional, middleware does this in the background
+    if (!session)
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
 
-	const data = await GetNote({ id: ctx.query['note_id'] as string, user: session.user, supabaseServerClient: supabase });
+    const data = await GetNote({ id: ctx.query['note_id'] as string, user: session.user, supabaseServerClient: supabase });
 
-	return {
-		props: {
-			initialSession: session,
-			user: session.user,
-			data: data,
-		},
-	};
+    return {
+        props: {
+            initialSession: session,
+            user: session.user,
+            data: data,
+        },
+    };
 };
